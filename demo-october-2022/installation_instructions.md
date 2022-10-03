@@ -20,6 +20,13 @@ pip install jupyterlab
 pip install anndata
 ```
 
+At the moment, one also needs to manually install this:
+``pip install imageio-ffmpeg``
+
+If you're on an M1 mac or get a message about missing PyQt5:
+`conda install pyqt`
+
+
 ## Advanced installation napari environment
 There are versions of the ome-zarr plugin and of core napari that improve the experience, but they are still in development. If you want to check out one of these branches, here are the instructions. Be careful though: The installation is more involved then the standard installation above and there may be bugs in those branches. Among other things, I can only get the napari async branch working in Python 3.10 at the moment.
 For today's demo, it doesn't add much to use this version, as it mostly helps with responsiveness when loading very large datasets. But it may be useful in the future.
