@@ -11,11 +11,14 @@ Make sure you have conda installed. In this tutorial, we will install python via
 
 ## Standard installation napari environment
 Use the terminal on Mac & Linux or the Anaconda Prompt on Windows.
-`conda create -y --name napari python=3.8`
-`conda activate napari`
-`pip install napari`
-`pip install napari-ome-zarr`
-`pip install jupyterlab`
+```
+conda create -y --name napari python=3.8
+conda activate napari
+pip install napari
+pip install napari-ome-zarr
+pip install jupyterlab
+pip install anndata
+```
 
 ## Advanced installation napari environment
 There are versions of the ome-zarr plugin and of core napari that improve the experience, but they are still in development. If you want to check out one of these branches, here are the instructions. Be careful though: The installation is more involved then the standard installation above and there may be bugs in those branches. Among other things, I can only get the napari async branch working in Python 3.10 at the moment.
