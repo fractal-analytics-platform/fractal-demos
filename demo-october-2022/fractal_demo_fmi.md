@@ -1,8 +1,8 @@
 # Fractal Demo October 2022
 
 Preparation:
-- You can ssh to the 1016
-- You have a napari environment installed (see [installation_instructions.md](https://github.com/jluethi/fractal-demos/blob/main/demo-october-2022/installation_instructions.md))
+- You can ssh to the 1016: `ssh username@vcl1016.fmi.ch` & log in with your credentials
+- You have a local napari environment installed on your laptop (see [installation_instructions.md](https://github.com/jluethi/fractal-demos/blob/main/demo-october-2022/installation_instructions.md))
 
 ## Step 1
 Run Fractal Workflow  
