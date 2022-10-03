@@ -2,7 +2,7 @@
 
 Preparation:
 - You can ssh to the 1016
-- You have a napari environment installed (see installation_instructions.md)
+- You have a napari environment installed (see [installation_instructions.md](https://github.com/jluethi/fractal-demos/blob/main/demo-october-2022/installation_instructions.md))
 
 ## Step 1
 Run Fractal Workflow  
