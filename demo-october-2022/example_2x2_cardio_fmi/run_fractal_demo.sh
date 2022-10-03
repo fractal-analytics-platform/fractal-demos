@@ -38,9 +38,9 @@ CMD_JSON="python aux_extract_from_simple_json.py $TMPJSON"
 fractal task list > $TMPTASKS
 
 # Create project
-fractal -j project new $PRJ_NAME $TMPDIR > $TMPJSON
-PRJ_ID=`$CMD_JSON id`
-DS_IN_ID=`$CMD_JSON id`
+$CMD -j project new $PRJ_NAME $TMPDIR > $TMPJSON
+PRJ_ID=`$CMD_JSON project_id`
+DS_IN_ID=`$CMD_JSON dataset_id "default"`
 echo "PRJ_ID: $PRJ_ID"
 echo "DS_IN_ID: $DS_IN_ID"
 
