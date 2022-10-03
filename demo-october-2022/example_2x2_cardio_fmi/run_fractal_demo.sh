@@ -8,7 +8,7 @@ echo
 USERNAME=''
 if [ "$USERNAME" = "" ];
 then
-    echo "Please define a username on line 7"
+    echo "Please define a username on line 8"
     exit 1
 fi
 
@@ -17,6 +17,7 @@ PRJ_NAME=$USERNAME"_myproj"
 DS_IN_NAME=$USERNAME"_input-ds"
 DS_OUT_NAME=$USERNAME"_output-ds"
 WF_NAME=$USERNAME"_WF-2x2"
+export FRACTAL_CACHE_PATH=`pwd`/".cache"
 
 # Define/initialize empty folder for temporary files
 TMPDIR=`pwd`/$PRJ_NAME
@@ -34,7 +35,6 @@ TMPTASKS=${TMPDIR}/core_tasks.json
 
 CMD="fractal"
 CMD_JSON="python aux_extract_from_simple_json.py $TMPJSON"
-CMD_CORE_TASKS="python aux_extract_id_for_core_task.py $TMPTASKS"
 fractal task list > $TMPTASKS
 
 # Create project
