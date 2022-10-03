@@ -2,19 +2,31 @@
 curl -d '{"email":"test@me.com", "password":"test"}' -H "Content-Type: application/json" -X POST localhost:8000/auth/register
 echo
 
+# Temporary: Set a unique name prefix to ensure all names are unique
+# This will not be necessary long-term, but is a workaround for some current constraints
+# Plus we use it in the demo to define unique output folders
+USERNAME=''
+if [ "$USERNAME" = "" ];
+then
+    echo "Please define a username on line 7"
+    exit 1
+fi
+
 # Set useful variables
-PRJ_NAME="myproj-zenodo-2x2_mip"
-DS_IN_NAME="input-ds2"
-DS_OUT_NAME="output-ds2"
-WF_NAME="WF zenodo 2x2_mip"
+PRJ_NAME=$USERNAME"_myproj"
+DS_IN_NAME=$USERNAME"_input-ds"
+DS_OUT_NAME=$USERNAME"_output-ds"
+WF_NAME=$USERNAME"_WF-2x2"
 
 # Define/initialize empty folder for temporary files
 TMPDIR=`pwd`/$PRJ_NAME
 rm -r $TMPDIR
 mkdir $TMPDIR
 
+# If the images have not been downloaded yet, use the `fetch_test_data_from_zenodo.sh` script
 INPUT_PATH=../images/10.5281_zenodo.7057076
-OUTPUT_PATH=/data/active/jluethi/Fractal/20220928_2x2_Zenodo
+# Define a unique output path that depends on the username
+OUTPUT_Path=../$USERNAME'_output'
 rm -rv $OUTPUT_PATH
 
 TMPJSON=${TMPDIR}/tmp.json
@@ -47,34 +59,27 @@ echo "WF_ID: $WF_ID"
 
 # Add subtasks
 
-SUBTASK_ID=`$CMD_CORE_TASKS "Create OME-ZARR structure"`
 echo "{\"num_levels\": 5, \"coarsening_xy\": 2, \"channel_parameters\": {\"A01_C01\": {\"label\": \"DAPI\",\"colormap\": \"00FFFF\",\"start\": 50,\"end\": 700 }, \"A01_C02\": {\"label\": \"nanog\",\"colormap\": \"FF00FF\",\"start\": 20,\"end\": 200 }, \"A02_C03\": {\"label\": \"Lamin B1\",\"colormap\": \"FFFF00\",\"start\": 50,\"end\": 1500 }}}" > ${TMPDIR}/args_create.json
-fractal task add-subtask $WF_ID $SUBTASK_ID --args-file ${TMPDIR}/args_create.json
+fractal task add-subtask $WF_ID "Create OME-ZARR structure" --args-file ${TMPDIR}/args_create.json
 
-SUBTASK_ID=`$CMD_CORE_TASKS "Yokogawa to Zarr"`
-fractal task add-subtask $WF_ID $SUBTASK_ID
+fractal task add-subtask $WF_ID "Yokogawa to Zarr"
 
-SUBTASK_ID=`$CMD_CORE_TASKS "Illumination correction"`
 # Paths of illumination correction images need to be accessible on the server.
 # This works if one runs the client from the same machine as the server. Otherwise, change `root_path_corr`
 echo "{\"overwrite\": true, \"executor\": \"cpu-mid\", \"dict_corr\": {\"root_path_corr\": \"$TMPDIR/../../illum_corr_images/\", \"A01_C01\": \"20220621_UZH_manual_illumcorr_40x_A01_C01.png\", \"A01_C02\": \"20220621_UZH_manual_illumcorr_40x_A01_C02.png\", \"A02_C03\": \"20220621_UZH_manual_illumcorr_40x_A02_C03.png\"}}" > ${TMPDIR}/args_illum.json
-fractal task add-subtask $WF_ID $SUBTASK_ID --args-file ${TMPDIR}/args_illum.json
+fractal task add-subtask $WF_ID "Illumination correction" --args-file ${TMPDIR}/args_illum.json
 
-SUBTASK_ID=`$CMD_CORE_TASKS "Replicate Zarr structure"`
 echo "{\"executor\": \"cpu-mid\"}" > ${TMPDIR}/args_replicate.json
-fractal task add-subtask $WF_ID $SUBTASK_ID --args-file ${TMPDIR}/args_replicate.json
+fractal task add-subtask $WF_ID "Replicate Zarr structure" --args-file ${TMPDIR}/args_replicate.json
 
-SUBTASK_ID=`$CMD_CORE_TASKS "Maximum Intensity Projection"`
 echo "{\"executor\": \"cpu-mid\"}" > ${TMPDIR}/args_mip.json
-fractal task add-subtask $WF_ID $SUBTASK_ID --args-file ${TMPDIR}/args_mip.json
+fractal task add-subtask $WF_ID "Maximum Intensity Projection" --args-file ${TMPDIR}/args_mip.json
 
-SUBTASK_ID=`$CMD_CORE_TASKS "Per-FOV image labeling"`
 echo "{\"labeling_level\": 2, \"executor\": \"cpu-mid\", \"ROI_table_name\": \"well_ROI_table\"}" > ${TMPDIR}/args_labeling.json
-fractal task add-subtask $WF_ID $SUBTASK_ID --args-file ${TMPDIR}/args_labeling.json
+fractal task add-subtask $WF_ID "Per-FOV image labeling" --args-file ${TMPDIR}/args_labeling.json
 
-SUBTASK_ID=`$CMD_CORE_TASKS "Measurement"`
 echo "{\"level\": 0, \"measurement_table_name\": \"nuclei\", \"executor\": \"cpu-mid\", \"ROI_table_name\": \"well_ROI_table\",\"workflow_file\": \"$TMPDIR/../regionprops_from_existing_labels_feature.yaml\"}" > ${TMPDIR}/args_measurement.json
-fractal task add-subtask $WF_ID $SUBTASK_ID --args-file ${TMPDIR}/args_measurement.json
+fractal task add-subtask $WF_ID "Measurement" --args-file ${TMPDIR}/args_measurement.json
 
 # Apply workflow
 fractal task apply $PRJ_ID $DS_IN_ID $DS_OUT_ID $WF_ID
