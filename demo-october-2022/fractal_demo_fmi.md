@@ -1,11 +1,15 @@
 # Fractal Demo October 2022
 
 Preparation:
-- You can ssh to 1016
+- You can ssh to the 1016
 - You have a napari environment installed (see installation_instructions.md)
 
 ## Step 1
-Run Fractal Workflow
+Run Fractal Workflow  
+
+Follow the instructions to run the example in `example_2x2_cardio_fmi`
+
+Details of how to activate the environment & submit the example TBD.
 
 ## Step 2
 Visualize OME-Zarr file

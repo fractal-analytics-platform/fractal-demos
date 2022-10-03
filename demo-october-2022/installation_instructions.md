@@ -73,9 +73,16 @@ Install manually using conda: `conda install imagecodecs`
 
 # Installation instructions Fractal client
 
-TBD how to install the client locally
+To install the fractal client, you can just:
 
+`pip install fractal-client`
+
+In the current setup, ports of the server aren't publicly exposed. Thus, if one wants to use a local client, port-forwarding from the server is necessary, e.g. 
+`ssh -L 8000:localhost:8000 cluster`
+(where cluster is the ssh host name for the machine running the server)
+
+See [here](https://github.com/fractal-analytics-platform/fractal#installation) for additional details about the client setup.
 
 # Installation instructions Fractal server
 
-TBD how to locally install a Fractal server
+Installation instructions for the server will change. Find current instructions here: https://github.com/fractal-analytics-platform/fractal-server#installation
