@@ -20,15 +20,18 @@ Follow the instructions to run the example in `example_2x2_cardio_fmi`
 4. Activate the fractal-client conda environment  
 `conda activate fractal-client`
 
-5. Follow instructions on how the client works / have a look at your own `run_fractal_demo.sh` file  
+5. Move into your own directory
+`cd luetjoel`
 
-6. Run your fractal demo file  
-`. joel_run_fractal_demo.sh`
+6. Follow instructions on how the client works / have a look at your own `run_fractal_demo.sh` file  
 
-7. To see what's running on the cluster, check squeue:  
+7. Run your fractal demo file  
+`. run_fractal_demo.sh`
+
+8. To see what's running on the cluster, check squeue:  
 `squeue --format "%.18i %.9P %.8j %.8u %.8T %.10M %.9l %.6D %R %C %m"`
 
-8. Once your job has finished running on the cluster, check your output folder (something like `joel_output`):  
+9. Once your job has finished running on the cluster, check your output folder (something like `joel_output`):  
 `cd ..`   
 `cd joel_output`  
 `ls`
