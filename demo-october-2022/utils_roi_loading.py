@@ -3,6 +3,7 @@ from typing import List
 
 import anndata as ad
 import dask.array as da
+import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import zarr
@@ -129,3 +130,28 @@ def load_intensity_roi(zarr_url, well, roi_index_of_interest, channel_index, lev
     img_data_zyx = da.from_zarr(f"{zarr_url}/{well}/{image_index}/{level}")[channel_index]
     img_roi = img_data_zyx[s_z:e_z, s_y:e_y, s_x:e_x]
     return np.array(img_roi), scale_img
+
+
+def prepare_feature_vis(feature_df, feature, quantiles=(0.1, 0.99)):
+    feature = 'area'
+    feature = 'mean_intensity'
+    quantiles=(0.1, 0.99)
+    lower_contrast_limit = feature_df[feature].quantile(quantiles[0])
+    upper_contrast_limit = feature_df[feature].quantile(quantiles[1])
+    feature_df['feature_scaled'] = (
+        (feature_df[feature] - lower_contrast_limit) / (upper_contrast_limit - lower_contrast_limit)
+    )
+    feature_df.loc[feature_df['feature_scaled'] < 0, 'feature_scaled'] = 0
+    feature_df.loc[feature_df['feature_scaled'] > 1, 'feature_scaled'] = 1
+    colors = plt.cm.get_cmap('viridis')(feature_df['feature_scaled'])
+
+    #colors = plt.cm.get_cmap('viridis')(feature_df[feature])
+
+    # create color dictionary
+    colors_simple = dict(zip(feature_df.index.astype(int), colors))
+
+    properties_array = np.zeros(feature_df.index.astype(int).max() + 1)
+    properties_array[feature_df.index.astype(int)] = feature_df[feature]
+    label_properties = {feature: np.round(properties_array, decimals=2)}
+    return colors_simple, label_properties
+
