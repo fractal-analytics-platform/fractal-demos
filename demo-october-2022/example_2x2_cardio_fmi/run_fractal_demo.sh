@@ -27,7 +27,7 @@ mkdir $TMPDIR
 # If the images have not been downloaded yet, use the `fetch_test_data_from_zenodo.sh` script
 INPUT_PATH=../images/10.5281_zenodo.7057076
 # Define a unique output path that depends on the username
-OUTPUT_Path=../$USERNAME'_output'
+OUTPUT_PATH=../$USERNAME'_output'
 rm -rv $OUTPUT_PATH
 
 TMPJSON=${TMPDIR}/tmp.json
@@ -59,26 +59,27 @@ echo "WF_ID: $WF_ID"
 
 # Add subtasks
 
-echo "{\"num_levels\": 5, \"coarsening_xy\": 2, \"channel_parameters\": {\"A01_C01\": {\"label\": \"DAPI\",\"colormap\": \"00FFFF\",\"start\": 50,\"end\": 700 }, \"A01_C02\": {\"label\": \"nanog\",\"colormap\": \"FF00FF\",\"start\": 20,\"end\": 200 }, \"A02_C03\": {\"label\": \"Lamin B1\",\"colormap\": \"FFFF00\",\"start\": 50,\"end\": 1500 }}}" > ${TMPDIR}/args_create.json
+echo "{\"num_levels\": 5, \"executor\": \"cpu-low\", \"coarsening_xy\": 2, \"channel_parameters\": {\"A01_C01\": {\"label\": \"DAPI\",\"colormap\": \"00FFFF\",\"start\": 50,\"end\": 700 }, \"A01_C02\": {\"label\": \"nanog\",\"colormap\": \"FF00FF\",\"start\": 20,\"end\": 200 }, \"A02_C03\": {\"label\": \"Lamin B1\",\"colormap\": \"FFFF00\",\"start\": 50,\"end\": 1500 }}}" > ${TMPDIR}/args_create.json
 fractal task add-subtask $WF_ID "Create OME-ZARR structure" --args-file ${TMPDIR}/args_create.json
 
-fractal task add-subtask $WF_ID "Yokogawa to Zarr"
+echo "{\"executor\": \"cpu-low\"}" > ${TMPDIR}/args_yoko.json
+fractal task add-subtask $WF_ID "Yokogawa to Zarr" > ${TMPDIR}/args_yoko.json
 
 # Paths of illumination correction images need to be accessible on the server.
 # This works if one runs the client from the same machine as the server. Otherwise, change `root_path_corr`
-echo "{\"overwrite\": true, \"executor\": \"cpu-mid\", \"dict_corr\": {\"root_path_corr\": \"$TMPDIR/../../illum_corr_images/\", \"A01_C01\": \"20220621_UZH_manual_illumcorr_40x_A01_C01.png\", \"A01_C02\": \"20220621_UZH_manual_illumcorr_40x_A01_C02.png\", \"A02_C03\": \"20220621_UZH_manual_illumcorr_40x_A02_C03.png\"}}" > ${TMPDIR}/args_illum.json
+echo "{\"overwrite\": true, \"executor\": \"cpu-low\", \"dict_corr\": {\"root_path_corr\": \"$TMPDIR/../../illum_corr_images/\", \"A01_C01\": \"20220621_UZH_manual_illumcorr_40x_A01_C01.png\", \"A01_C02\": \"20220621_UZH_manual_illumcorr_40x_A01_C02.png\", \"A02_C03\": \"20220621_UZH_manual_illumcorr_40x_A02_C03.png\"}}" > ${TMPDIR}/args_illum.json
 fractal task add-subtask $WF_ID "Illumination correction" --args-file ${TMPDIR}/args_illum.json
 
-echo "{\"executor\": \"cpu-mid\"}" > ${TMPDIR}/args_replicate.json
+echo "{\"executor\": \"cpu-low\"}" > ${TMPDIR}/args_replicate.json
 fractal task add-subtask $WF_ID "Replicate Zarr structure" --args-file ${TMPDIR}/args_replicate.json
 
-echo "{\"executor\": \"cpu-mid\"}" > ${TMPDIR}/args_mip.json
+echo "{\"executor\": \"cpu-low\"}" > ${TMPDIR}/args_mip.json
 fractal task add-subtask $WF_ID "Maximum Intensity Projection" --args-file ${TMPDIR}/args_mip.json
 
-echo "{\"labeling_level\": 2, \"executor\": \"cpu-mid\", \"ROI_table_name\": \"well_ROI_table\"}" > ${TMPDIR}/args_labeling.json
+echo "{\"labeling_level\": 2, \"executor\": \"cpu-low\", \"ROI_table_name\": \"well_ROI_table\"}" > ${TMPDIR}/args_labeling.json
 fractal task add-subtask $WF_ID "Per-FOV image labeling" --args-file ${TMPDIR}/args_labeling.json
 
-echo "{\"level\": 0, \"measurement_table_name\": \"nuclei\", \"executor\": \"cpu-mid\", \"ROI_table_name\": \"well_ROI_table\",\"workflow_file\": \"$TMPDIR/../regionprops_from_existing_labels_feature.yaml\"}" > ${TMPDIR}/args_measurement.json
+echo "{\"level\": 0, \"measurement_table_name\": \"nuclei\", \"executor\": \"cpu-low\", \"ROI_table_name\": \"well_ROI_table\",\"workflow_file\": \"$TMPDIR/../regionprops_from_existing_labels_feature.yaml\"}" > ${TMPDIR}/args_measurement.json
 fractal task add-subtask $WF_ID "Measurement" --args-file ${TMPDIR}/args_measurement.json
 
 # Apply workflow
