@@ -18,6 +18,7 @@ pip install napari
 pip install napari-ome-zarr
 pip install jupyterlab
 pip install anndata
+pip install matplotlib
 ```
 
 At the moment, one also needs to manually install this:
