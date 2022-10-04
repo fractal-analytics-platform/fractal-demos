@@ -1,5 +1,6 @@
 # Register user (this step will change in the future)
 curl -d '{"email":"test@me.com", "password":"test"}' -H "Content-Type: application/json" -X POST localhost:8000/auth/register
+echo -e "FRACTAL_USER=test@me.com\nFRACTAL_PASSWORD=test" > .fractal.env
 echo
 
 # Temporary: Set a unique name prefix to ensure all names are unique
@@ -25,9 +26,9 @@ rm -r $TMPDIR
 mkdir $TMPDIR
 
 # If the images have not been downloaded yet, use the `fetch_test_data_from_zenodo.sh` script
-INPUT_PATH=../images/10.5281_zenodo.7057076
+INPUT_PATH=../../images/10.5281_zenodo.7057076
 # Define a unique output path that depends on the username
-OUTPUT_PATH=../$USERNAME'_output'
+OUTPUT_PATH=`pwd`/$USERNAME'_output'
 rm -rv $OUTPUT_PATH
 
 TMPJSON=${TMPDIR}/tmp.json
