@@ -26,7 +26,7 @@ rm -r $TMPDIR
 mkdir $TMPDIR
 
 # If the images have not been downloaded yet, use the `fetch_test_data_from_zenodo.sh` script
-INPUT_PATH=../../images/10.5281_zenodo.7057076
+INPUT_PATH=`pwd`/../../images/10.5281_zenodo.7057076
 # Define a unique output path that depends on the username
 OUTPUT_PATH=`pwd`/$USERNAME'_output'
 rm -rv $OUTPUT_PATH
