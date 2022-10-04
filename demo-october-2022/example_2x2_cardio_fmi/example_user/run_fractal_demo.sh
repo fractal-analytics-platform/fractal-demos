@@ -9,9 +9,8 @@ echo
 USERNAME=''
 if [ "$USERNAME" = "" ];
 then
-    echo "Please define a username on line 8"
-    exit 1
-fi
+    echo "Please define a username on line 9"
+else
 
 # Set useful variables
 PRJ_NAME=$USERNAME"_myproj"
@@ -86,3 +85,4 @@ fractal task add-subtask $WF_ID "Measurement" --args-file ${TMPDIR}/args_measure
 # Apply workflow
 fractal task apply $PRJ_ID $DS_IN_ID $DS_OUT_ID $WF_ID
 
+fi
