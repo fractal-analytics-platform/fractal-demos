@@ -21,7 +21,7 @@ pip install anndata
 ```
 
 At the moment, one also needs to manually install this:
-``pip install imageio-ffmpeg``
+`pip install imageio-ffmpeg`
 
 If you're on an M1 mac or get a message about missing PyQt5:
 `conda install pyqt`
@@ -66,6 +66,10 @@ pip install -e .
 
 # Install jupyter lab
 pip install jupyterlab
+
+
+# At the moment, also do this to avoid an import error:
+pip install imageio-ffmpeg
 ```
 
 
