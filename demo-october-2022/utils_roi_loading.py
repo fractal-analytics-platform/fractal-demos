@@ -133,8 +133,6 @@ def load_intensity_roi(zarr_url, well, roi_index_of_interest, channel_index, lev
 
 
 def prepare_feature_vis(feature_df, feature, quantiles=(0.1, 0.99)):
-    feature = 'area'
-    feature = 'mean_intensity'
     quantiles=(0.1, 0.99)
     lower_contrast_limit = feature_df[feature].quantile(quantiles[0])
     upper_contrast_limit = feature_df[feature].quantile(quantiles[1])
