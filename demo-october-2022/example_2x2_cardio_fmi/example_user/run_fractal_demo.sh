@@ -18,6 +18,7 @@ DS_IN_NAME=$USERNAME"_input-ds"
 DS_OUT_NAME=$USERNAME"_output-ds"
 WF_NAME=$USERNAME"_WF-2x2"
 export FRACTAL_CACHE_PATH=`pwd`/".cache"
+rm -r $FRACTAL_CACHE_PATH
 
 # Define/initialize empty folder for temporary files
 TMPDIR=`pwd`/$PRJ_NAME
