@@ -1,0 +1,6 @@
+images
+myproj*
+tmp*
+parsl_executors.log
+cmd_parsl.slurm.*.sh
+.cache
