@@ -10,7 +10,7 @@ To run on a SLURM cluster, we have two required setup procedures:
 2. The user that will run the jobs has to setup an environment, install some packages, register as a fractal user (associated to a SLURM user), call the server via the client.
 
 Notes:
-* The server and client will communicate on a specific port (e.g. 8000). For these examples, we are specifying it in the current folder, in the file `examples/PORT`, and we are setting it to 8001 (since the 8000 is sometimes taken, on the clusters we use). Thus many of the bash scripts in each subfolder will start with ``PORT=`cat ../PORT```. This has nothing to do with fractal, but it's just a way to keep things clean in the examples. We can modify it later if it is a source of confusion.
+* The server and client will communicate on a specific port (e.g. 8000). For these examples, we are setting it to be the 8001 everywhere, since 8000 is sometimes already taken. To change it again, it should be changed everywhere in `server/cleanup_open_processes.sh`, `server/server_config_and_start.sh`, `register_as_a_user.sh`, and in all `.fractal.env` files.
 * For the moment, we assume that the user who wants to use the client is logged on the same machine where the client is running. If this is not the case, they need to specify where the server is accessible - to be added later to this instructions.
 
 
@@ -75,6 +75,47 @@ If upon starting the server you receive a message like "Address already in use",
 
 
 # User side
+
+
+These are instructions to be followed by the fractal user **while logged as their user on the cluster**. Some steps (setting up the environment and installing what is needed) will always have to take place in this way, while others (like calling the server through the client) can in principle take place from any user/machine that can communicate with the server (instructions for that use case are not yet available in this file).
+Note the the beginning of this list matches with instructions for the cluster. In soon-to-be future versions of fractal, the install part will differ (the server will not install the task, and the user will not install fractal architecture).
+
+1. If needed, create an environment (e.g. via `conda create --name fractalclient python==3.8.13 -y; conda activate fractalclient`).
+
+2. Install the required packages via
+```
+pip uninstall fractal-tasks-core fractal-server fractal-client -y
+pip install https://github.com/fractal-analytics-platform/fractal-server/releases/download/0.3.3/fractal_server-0.3.3-py3-none-any.whl fractal-tasks-core==0.2.3
+```
+(WARNING: this procedure will likely change in the future, when we switch back to PyPI)
+
+3. Register your fractal user with `./register_as_a_user.sh`, which contains
+```bash
+PORT=8001
+curl -d '{"email":"test@me.com", "password":"test", "slurm_user":"test01"}' -H "Content-Type: application/json" -X POST localhost:${PORT}/auth/register
+```
+where you must replace `test01` with your username on the cluster, and `8001` with the actual port being used (see above). Note that it is sufficient to issue this command once, and it should return an output like
+`{"id":"e9646e31-180e-4b68-9c91-09ff10678a0b","email":"test@me.com","is_active":true,"is_superuser":false,"is_verified":false,"slurm_user":"test01"}`. If you try to register twice, you'll receive a `{"detail":"REGISTER_USER_ALREADY_EXISTS"}` response.
+
+4. Verify that the file `.fractal.env` exists in your current folder, and that it reads
+```
+FRACTAL_USER=test@me.com
+FRACTAL_PASSWORD=test
+FRACTAL_SERVER=http://localhost:8001
+```
+where the parameters should match the ones in the previous point.
+
+5. Verify that the user is correctly registered and authorized by running `fractal version` (reminder: there should be a `.fractal.env` file in your working directory).
+The output should look like
+```
+DEBUG:asyncio:Using selector: EpollSelector
+DEBUG:root:Namespace(batch=False, cmd='version', json=False, password=None, user=None, v=0)
+DEBUG:httpx._client:HTTP Request: GET http://localhost:8001/api/alive/ "HTTP/1.1 200 OK"
+Fractal client
+	version: 0.2.9
+Fractal server:
+	url: http://localhost:8001	deployment type: testing	version: 0.3.3
+```
 
 
 
