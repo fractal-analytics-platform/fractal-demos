@@ -1,6 +1,6 @@
 #!/bin/bash
 
-PORT=`cat ../PORT`
+PORT=8001
 
 # Create an empty db
 rm fractal_server/migrations/versions/*.py -v

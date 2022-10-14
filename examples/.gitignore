@@ -4,3 +4,7 @@ tmp*
 parsl_executors.log
 cmd_parsl.slurm.*.sh
 .cache
+tmp*
+.*.swp
+logs
+runinfo

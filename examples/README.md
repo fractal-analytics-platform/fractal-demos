@@ -76,7 +76,6 @@ If upon starting the server you receive a message like "Address already in use",
 
 # User side
 
-
 These are instructions to be followed by the fractal user **while logged as their user on the cluster**. Some steps (setting up the environment and installing what is needed) will always have to take place in this way, while others (like calling the server through the client) can in principle take place from any user/machine that can communicate with the server (instructions for that use case are not yet available in this file).
 Note the the beginning of this list matches with instructions for the cluster. In soon-to-be future versions of fractal, the install part will differ (the server will not install the task, and the user will not install fractal architecture).
 
@@ -95,7 +94,7 @@ PORT=8001
 curl -d '{"email":"test@me.com", "password":"test", "slurm_user":"test01"}' -H "Content-Type: application/json" -X POST localhost:${PORT}/auth/register
 ```
 where you must replace `test01` with your username on the cluster, and `8001` with the actual port being used (see above). Note that it is sufficient to issue this command once, and it should return an output like
-`{"id":"e9646e31-180e-4b68-9c91-09ff10678a0b","email":"test@me.com","is_active":true,"is_superuser":false,"is_verified":false,"slurm_user":"test01"}`. If you try to register twice, you'll receive a `{"detail":"REGISTER_USER_ALREADY_EXISTS"}` response.
+`{"id":"...","email":"test@me.com","is_active":true,"is_superuser":false,"is_verified":false,"slurm_user":"test01"}`. If you try to register twice, you'll receive a `{"detail":"REGISTER_USER_ALREADY_EXISTS"}` response.
 
 4. Verify that the file `.fractal.env` exists in your current folder, and that it reads
 ```
@@ -117,6 +116,16 @@ Fractal server:
 	url: http://localhost:8001	deployment type: testing	version: 0.3.3
 ```
 
+6. Move to one of the example folders (e.g. `00_dummy`), and verify that there exists a `.fractal.env` file as the one in point 4.
+
+7. Use the available example script, named something like `run_example.sh`. In each example folder, a README file could include additional example-specific instructions, and the versions that were used to run it successfully.
+
+
+Some useful gotchas in case of errors:
+* Is the server running?
+* Did you register as a fractal user? (to be done each time the server is restarted)
+* If something goes wrong, remove the `.cache` subfolder of the example folder you are working in.
+* Note that at the moment each example script also makes use of `aux_extract_id_from_project_json.py`, which should be available in the example folder. This will change in the future.
 
 
 

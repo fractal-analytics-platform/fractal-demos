@@ -2,7 +2,7 @@
 
 ## (1) REMOVE ALL PROCESSES WITH FILES OPEN ON A GIVEN PORT (e.g. 8001)
 
-PORT=`cat PORT`
+PORT=8001
 
 echo "lsof -i :$PORT"
 echo
