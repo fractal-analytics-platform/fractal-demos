@@ -1,6 +1,6 @@
 #!/bin/bash
 
-PORT=`cat PORT`
+PORT=8001
 
 # Create an empty db
 rm fractal_server/migrations/versions/*.py -v
@@ -11,6 +11,7 @@ alembic upgrade head
 
 # Remove old stuff
 rm -r logs
+rm -r runinfo
 rm cmd_parsl.slurm.*.*.sh
 
 # Set environment variables
