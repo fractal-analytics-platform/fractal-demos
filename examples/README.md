@@ -118,7 +118,7 @@ Fractal server:
 
 6. Move to one of the example folders (e.g. `00_dummy`), and verify that there exists a `.fractal.env` file as the one in point 4.
 
-7. Use the available example script, named something like `run_example.sh`. In each example folder, a README file could include additional example-specific instructions, and the versions that were used to run it successfully.
+7. Use the available example script, named something like `run_example.sh`. In each example folder, a README.md file could include additional example-specific instructions, and the versions that were used to run it successfully.
 
 
 Some useful gotchas in case of errors:
@@ -126,6 +126,7 @@ Some useful gotchas in case of errors:
 * Did you register as a fractal user? (to be done each time the server is restarted)
 * If something goes wrong, remove the `.cache` subfolder of the example folder you are working in.
 * Note that at the moment each example script also makes use of `aux_extract_id_from_project_json.py`, which should be available in the example folder. This will change in the future.
+* Some examples require that you first download some data from zenodo. Check their README.md files!
 
 
 
