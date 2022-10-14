@@ -9,11 +9,13 @@ To run on a SLURM cluster, we have two required setup procedures:
 1. The user that will run the server (typically a `fractal` user) has to setup an environment, install some packages, set some environment variables, run the server.
 2. The user that will run the jobs has to setup an environment, install some packages, register as a fractal user (associated to a SLURM user), call the server via the client.
 
-NOTE: the server and client will communicate on a specific port (e.g. 8000). For these examples, we are specifying it in the current folder, in the file `examples/PORT`, and we are setting it to 8001 (since the 8000 is sometimes taken, on the clusters we use). Thus many of the bash scripts in each subfolder will start with
+Notes:
+* The server and client will communicate on a specific port (e.g. 8000). For these examples, we are specifying it in the current folder, in the file `examples/PORT`, and we are setting it to 8001 (since the 8000 is sometimes taken, on the clusters we use). Thus many of the bash scripts in each subfolder will start with
 ```bash
 PORT=`cat ../PORT`
 ```
 This has nothing to do with fractal, but it's just a way to keep things clean in the examples. We can modify it later if it is a source of confusion.
+* For the moment, we assume that the user who wants to use the client is logged on the same machine where the client is running. If this is not the case, they need to specify where the server is accessible - to be added later to this instructions.
 
 
 ## Server side
@@ -74,6 +76,10 @@ lsof -i :8001 | grep parsl
 still shows some results, after the server shutdown (say after 30 seconds).
 The bash script `cleanup_open_processes.sh` will (aggressively) kill all active processes that are either listed in `lsof -i :8001` or match to some typical parsl keywords. Please use it at your own risk, to avoid interfering with other processes that you may be running.
 If upon starting the server you receive a message like "Address already in use", than this script will likely help.
+
+
+# User side
+
 
 
 
