@@ -17,3 +17,4 @@ After successfully running, there will be a file `tmp_dummy/output/*.json` (NAME
 
 Successfully ran with:
 * fractal-server==0.3.3, fractal-client==0.2.9, fracal-tasks-core==0.2.3
+* fractal-server==0.3.4, fractal-client==0.2.9, fracal-tasks-core==0.2.5

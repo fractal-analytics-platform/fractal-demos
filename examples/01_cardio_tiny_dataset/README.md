@@ -11,3 +11,4 @@ Then run the example script, and you should obtain a zarr file in `tmp_cardio_ti
 
 Successfully ran with:
 * fractal-server==0.3.3, fractal-client==0.2.9, fracal-tasks-core==0.2.3
+* fractal-server==0.3.4, fractal-client==0.2.9, fracal-tasks-core==0.2.5
