@@ -1,9 +1,10 @@
 This set of examples are being updated, to be used with
 ```
-fractal-server 0.3.3
-fractal 0.2.9
-fracal-tasks-core 0.2.3
+fractal-server>=0.3.3
+fractal>=0.2.9
+fracal-tasks-core>=0.2.3
 ```
+Note that a major refactor of the server/client architecture is underway, which will bring some non-backwards-compatible changes also for the examples.
 
 To run on a SLURM cluster, we have two required setup procedures:
 1. The user that will run the server (typically a `fractal` user) has to setup an environment, install some packages, set some environment variables, run the server.
