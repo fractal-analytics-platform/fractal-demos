@@ -1,10 +1,5 @@
 LABEL="cardio_tiny"
 
-###############################################################################
-# IMPORTANT: MODIFY THE FOLLOWING TWO LINES SO THAT THEY POINT TO ABSOLUTE PATHS
-INPUT_PATH=`pwd`/../images/10.5281_zenodo.7059515
-OUTPUT_PATH=${PROJ_DIR}/output
-###############################################################################
 
 # Set useful variables
 PRJ_NAME="proj-$LABEL"
@@ -22,6 +17,13 @@ PROJ_DIR=`pwd`/tmp_${LABEL}
 rm -r $PROJ_DIR
 mkdir $PROJ_DIR
 TMPJSON=${PROJ_DIR}/tmp.json
+
+###############################################################################
+# IMPORTANT: MODIFY THE FOLLOWING TWO LINES SO THAT THEY POINT TO ABSOLUTE PATHS
+INPUT_PATH=`pwd`/../images/10.5281_zenodo.7059515
+OUTPUT_PATH=${PROJ_DIR}/output
+###############################################################################
+
 
 # Define useful auxiliary command (this will be removed in the future)
 CMD_JSON="python aux_extract_id_from_project_json.py $TMPJSON"
