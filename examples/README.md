@@ -119,7 +119,9 @@ Fractal server:
 
 6. Move to one of the example folders (e.g. `00_dummy`), and verify that there exists a `.fractal.env` file as the one in point 4.
 
-7. Use the available example script, named something like `run_example.sh`. In each example folder, a README.md file could include additional example-specific instructions, and the versions that were used to run it successfully.
+7. Update the `WORKER_INIT` variable, by adding anything that is necessary to then execute the tasks (a typical example could include e.g. a `conda activate ENV` command, where `ENV` is an environment available for your user on the cluster). Note that this variable MUST include a `cd` command to a folder where you have full read/write access. This could be your home folder (caveat: a lot of temporary scripts will be created there), or a specific folder like `$HOME/fractal_temporary_folder`.
+
+8. Use the available example script, named something like `run_example.sh`. In each example folder, a README.md file could include additional example-specific instructions, and the versions that were used to run it successfully.
 
 
 Some useful gotchas in case of errors:
