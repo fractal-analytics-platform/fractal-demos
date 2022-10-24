@@ -61,4 +61,5 @@ fractal task add-subtask $WF_ID "Replicate Zarr structure"
 fractal task add-subtask $WF_ID "Maximum Intensity Projection"
 
 # Apply workflow
-fractal task apply $PRJ_ID $DS_IN_ID $DS_OUT_ID $WF_ID
+WORKER_INIT="cd $HOME; source /opt/easybuild/software/Anaconda3/2019.07/etc/profile.d/conda.sh; conda activate fractal"
+fractal task apply $PRJ_ID $DS_IN_ID $DS_OUT_ID $WF_ID --worker_init "$WORKER_INIT"

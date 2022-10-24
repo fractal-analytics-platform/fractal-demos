@@ -1,5 +1,6 @@
 LABEL="dummy"
 
+
 # Set useful variables
 PRJ_NAME="proj-$LABEL"
 DS_IN_NAME="input-ds-$LABEL"
@@ -49,4 +50,5 @@ echo "{\"message\": \"bottle\", \"index\": 1}" > ${PROJ_DIR}/args_tmp.json
 fractal task add-subtask $WF_ID "dummy" --args-file ${PROJ_DIR}/args_tmp.json
 
 # Apply workflow
-fractal task apply $PRJ_ID $DS_IN_ID $DS_OUT_ID $WF_ID
+WORKER_INIT="cd $HOME; source /opt/easybuild/software/Anaconda3/2019.07/etc/profile.d/conda.sh; conda activate fractal"
+fractal task apply $PRJ_ID $DS_IN_ID $DS_OUT_ID $WF_ID --worker_init "$WORKER_INIT"
