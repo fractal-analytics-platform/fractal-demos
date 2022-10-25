@@ -1,5 +1,19 @@
 LABEL="cardio_tiny"
 
+###############################################################################
+# IMPORTANT: modify the following lines, depending on your preferences
+# 1. They MUST include a `cd` command to a path where your user can write. The
+#    simplest is to use `cd $HOME`, but notice that this will create many sh
+#    scripts in your folder. You can also use `cd $HOME/.fractal_scripts`, but
+#    first make sure that such folder exists
+# 2. They MAY include additional commands to load a python environment. The ones
+#    used in the current example are appropriate for the UZH setup.
+WORKER_INIT="\
+cd $HOME; \
+source /opt/easybuild/software/Anaconda3/2019.07/etc/profile.d/conda.sh; \
+conda activate fractal; \
+"
+###############################################################################
 
 # Set useful variables
 PRJ_NAME="proj-$LABEL"
@@ -19,7 +33,7 @@ mkdir $PROJ_DIR
 TMPJSON=${PROJ_DIR}/tmp.json
 
 ###############################################################################
-# IMPORTANT: MODIFY THE FOLLOWING TWO LINES SO THAT THEY POINT TO ABSOLUTE PATHS
+# IMPORTANT: modify the following lines so that they point to absolute paths
 INPUT_PATH=`pwd`/../images/10.5281_zenodo.7059515
 OUTPUT_PATH=${PROJ_DIR}/output
 ###############################################################################
@@ -63,5 +77,4 @@ fractal task add-subtask $WF_ID "Replicate Zarr structure"
 fractal task add-subtask $WF_ID "Maximum Intensity Projection"
 
 # Apply workflow
-WORKER_INIT="cd $HOME; source /opt/easybuild/software/Anaconda3/2019.07/etc/profile.d/conda.sh; conda activate fractal"
 fractal task apply $PRJ_ID $DS_IN_ID $DS_OUT_ID $WF_ID --worker_init "$WORKER_INIT"
