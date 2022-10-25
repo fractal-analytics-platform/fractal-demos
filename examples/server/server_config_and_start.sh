@@ -4,14 +4,14 @@ PORT=8001
 
 # Create an empty db
 rm fractal_server/migrations/versions/*.py -v
-rm -r data
+rm -fr data
 mkdir data
 alembic revision --autogenerate
 alembic upgrade head
 
 # Remove old stuff
-rm -r logs
-rm -r runinfo
+rm -fr logs
+rm -fr runinfo
 rm cmd_parsl.slurm.*.*.sh
 
 # Set environment variables
