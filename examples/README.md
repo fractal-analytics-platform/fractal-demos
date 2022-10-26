@@ -25,7 +25,7 @@ These are instructions to be followed by the fractal admin (typically within a d
 2. Install the required packages via
 ```
 pip uninstall fractal-tasks-core fractal-server fractal-client -y
-pip install https://github.com/fractal-analytics-platform/fractal-server/releases/download/0.3.3/fractal_server-0.3.3-py3-none-any.whl fractal-tasks-core==0.2.3
+pip install https://github.com/fractal-analytics-platform/fractal-server/releases/download/0.3.5/fractal_server-0.3.5-py3-none-any.whl fractal-tasks-core==0.2.6
 ```
 (WARNING: this procedure will likely change in the future, when we switch back to PyPI)
 
@@ -85,7 +85,7 @@ Note the the beginning of this list matches with instructions for the cluster. I
 2. Install the required packages via
 ```
 pip uninstall fractal-tasks-core fractal-server fractal-client -y
-pip install https://github.com/fractal-analytics-platform/fractal-server/releases/download/0.3.3/fractal_server-0.3.3-py3-none-any.whl fractal-tasks-core==0.2.3
+pip install https://github.com/fractal-analytics-platform/fractal-server/releases/download/0.3.5/fractal_server-0.3.5-py3-none-any.whl fractal-tasks-core==0.2.6
 ```
 (WARNING: this procedure will likely change in the future, when we switch back to PyPI)
 
