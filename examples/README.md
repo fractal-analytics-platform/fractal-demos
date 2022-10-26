@@ -1,8 +1,8 @@
 This set of examples are being updated, to be used with
 ```
-fractal-server>=0.3.3
+fractal-server>=0.3.5
 fractal>=0.2.9
-fracal-tasks-core>=0.2.3
+fracal-tasks-core>=0.2.6
 ```
 Note that a major refactor of the server/client architecture is underway, which will bring some non-backwards-compatible changes also for the examples.
 
