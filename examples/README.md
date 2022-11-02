@@ -94,7 +94,7 @@ pip install https://github.com/fractal-analytics-platform/fractal-server/release
 PORT=8001
 curl -d '{"email":"test@me.com", "password":"test", "slurm_user":"test01"}' -H "Content-Type: application/json" -X POST localhost:${PORT}/auth/register
 ```
-where you must replace `test01` with your username on the cluster, and `8001` with the actual port being used (see above). Note that it is sufficient to issue this command once, and it should return an output like
+where you must replace `test01` with your username on the cluster, email and password with what you want the users credentials to be, and `8001` with the actual port being used (see above). Note that it is sufficient to issue this command once, and it should return an output like
 `{"id":"...","email":"test@me.com","is_active":true,"is_superuser":false,"is_verified":false,"slurm_user":"test01"}`. If you try to register twice, you'll receive a `{"detail":"REGISTER_USER_ALREADY_EXISTS"}` response.
 
 4. Verify that the file `.fractal.env` exists in your current folder, and that it reads
