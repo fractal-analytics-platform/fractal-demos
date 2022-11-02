@@ -1,4 +1,13 @@
+PORT=8001
+USERNAME="$(whoami)"
+echo -e "FRACTAL_USER=test@me.com\nFRACTAL_PASSWORD=test\nFRACTAL_SERVER=http://localhost:$PORT" > .fractal.env
 LABEL="cardio_tiny"
+
+###############################################################################
+# THINGS TO BE CHANGED BY THE USER
+# Adapt to settings to where you run the example
+BASE_FOLDER_EXAMPLE="/data/homes/$USERNAME/03_fractal/fractal-demos/examples"
+###############################################################################
 
 ###############################################################################
 # IMPORTANT: modify the following lines, depending on your preferences
@@ -9,9 +18,10 @@ LABEL="cardio_tiny"
 # 2. They MAY include additional commands to load a python environment. The ones
 #    used in the current example are appropriate for the UZH setup.
 WORKER_INIT="\
+export HOME=$HOME; \
 cd $HOME; \
 source /opt/easybuild/software/Anaconda3/2019.07/etc/profile.d/conda.sh; \
-conda activate fractal; \
+conda activate /data/homes/fractal/sharedfractal; \
 "
 ###############################################################################
 
@@ -34,10 +44,9 @@ TMPJSON=${PROJ_DIR}/tmp.json
 
 ###############################################################################
 # IMPORTANT: modify the following lines so that they point to absolute paths
-INPUT_PATH=`pwd`/../images/10.5281_zenodo.7059515
+INPUT_PATH=$BASE_FOLDER_EXAMPLE/images/10.5281_zenodo.7059515
 OUTPUT_PATH=${PROJ_DIR}/output
 ###############################################################################
-
 
 # Define useful auxiliary command (this will be removed in the future)
 CMD_JSON="python aux_extract_id_from_project_json.py $TMPJSON"
@@ -69,12 +78,12 @@ fractal task add-subtask $WF_ID "Create OME-ZARR structure" --args-file ${PROJ_D
 
 fractal task add-subtask $WF_ID "Yokogawa to Zarr"
 
-echo "{\"labeling_level\": 1, \"executor\": \"gpu\"}" > ${PROJ_DIR}/args_labeling.json
-fractal task add-subtask $WF_ID "Cellpose Segmentation" --args-file ${PROJ_DIR}/args_labeling.json
-
 fractal task add-subtask $WF_ID "Replicate Zarr structure"
 
 fractal task add-subtask $WF_ID "Maximum Intensity Projection"
+
+echo "{\"labeling_level\": 3, \"executor\": \"gpu\"}" > ${PROJ_DIR}/args_labeling.json
+fractal task add-subtask $WF_ID "Cellpose Segmentation" --args-file ${PROJ_DIR}/args_labeling.json
 
 # Apply workflow
 fractal task apply $PRJ_ID $DS_IN_ID $DS_OUT_ID $WF_ID --worker_init "$WORKER_INIT"
