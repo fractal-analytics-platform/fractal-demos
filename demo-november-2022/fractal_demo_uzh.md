@@ -36,7 +36,7 @@ Run Fractal Workflow
 `cd ~/fractal-demos/demo-november-2022/output_cardio_2x2`
 
 ## Visualize an OME-Zarr file in napari
-To view the output OME-Zarr file we just created, make sure you have a local python environment with napari & the napari-ome-zarr plugin installed  on your laptop (see [installation_instructions.md](https://github.com/jluethi/fractal-demos/blob/main/demo-october-2022/installation_instructions.md)). Activate it by e.g. (change napari to your environment name):
+To view the output OME-Zarr file we just created, make sure you have a local python environment with napari & the napari-ome-zarr plugin installed  on your laptop (see [installation_instructions.md](https://github.com/jluethi/fractal-demos/blob/main/demo-october-2022/installation_instructions.md)). Activate it by e.g. (change napari to your environment name):  
 `conda activate napari`
 
 Before starting napari, turn on the async mode (not required anymore in the new async branch):  
@@ -57,7 +57,7 @@ Activate your environment again
 `conda activate napari`
 
 Go into the correct folder & start jupyter lab
-`cd ~/fractal-demos/demo-november-2022`  
+`cd PATH/TO/HOME/SHARE/fractal-demos/demo-november-2022`  
 `jupyter-lab`
 
 Follow the instructions in the `ROIs_and_FeatureVis.ipynb` notebook
