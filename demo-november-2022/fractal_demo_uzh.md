@@ -5,6 +5,8 @@ Preparation:
 - You can git clone the fractal-demos repository on the cluster, e.g. in your home folder: `cd ~; git clone https://github.com/fractal-analytics-platform/fractal-demos;`
 - You have a local napari environment installed on your laptop (see [installation_instructions.md](https://github.com/jluethi/fractal-demos/blob/main/demo-november-2022/installation_instructions.md))
 
+[Demo slides are available here](https://docs.google.com/presentation/d/1QGbkpdf9k58Gg-FH5U99vL8D9lmp2IJEiTJOwYL4OEY/edit?usp=sharing)
+
 ## Run a Fractal workflow yourself
 Run Fractal Workflow  
 
