@@ -82,7 +82,7 @@ fractal task add-subtask $WF_ID "Replicate Zarr structure"
 
 fractal task add-subtask $WF_ID "Maximum Intensity Projection"
 
-echo "{\"labeling_level\": 3, \"executor\": \"gpu\"}" > ${PROJ_DIR}/args_labeling.json
+echo "{\"labeling_level\": 3, \"executor\": \"cpu-low\"}" > ${PROJ_DIR}/args_labeling.json
 fractal task add-subtask $WF_ID "Cellpose Segmentation" --args-file ${PROJ_DIR}/args_labeling.json
 
 # Apply workflow
