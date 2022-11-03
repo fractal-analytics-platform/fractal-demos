@@ -1,4 +1,4 @@
-# Fractal Demo October 2022
+# Fractal Demo November 2022, Pelkmans lab
 
 Preparation:
 - You can ssh to the pelkmans lab cluster, i.e. `ssh USERNAME@cluster.pelkmanslab.org` & log in with your credentials
@@ -12,7 +12,7 @@ Run Fractal Workflow
 `ssh USERNAME@cluster.pelkmanslab.org` & log in with your credentials
 
 2. Go to the fractal-demos folder you cloned. If you used the command above, you can:  
-`cd fractal-demos/demo-november-2022/example_2x2_cardio_uzh/`
+`cd ~/fractal-demos/demo-november-2022/example_2x2_cardio_uzh/`
 
 3. If conda is unavailable for you at login, run this  
 `source /opt/easybuild/software/Anaconda3/2019.07/etc/profile.d/conda.sh`
@@ -74,3 +74,6 @@ Make sure it is installed in your environment (`pip install git+https://github.c
 
 4. Choose the parameters (e.g. `FOV_ROI_table`, 0, 0, 0) & click `Run`. napari will briefly be unresponsive, then the data is loaded into memory & you can go into 3D mode etc.
 
+
+## Server setup
+All of this runs on `fractal-tasks-core==0.2.6`, `fractal-server==0.3.5` and `fractal-client==0.2.9`. Installation instructions for the current server setup are here: https://github.com/fractal-analytics-platform/fractal-demos/blob/8b3f52b16f15e16c064123bec14b620cb7cbc546/examples/README.md 

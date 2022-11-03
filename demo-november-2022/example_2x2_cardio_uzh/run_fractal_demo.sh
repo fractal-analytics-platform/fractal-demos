@@ -20,9 +20,12 @@ LABEL="cardio_2x2"
 #    first make sure that such folder exists
 # 2. They MAY include additional commands to load a python environment. The ones
 #    used in the current example are appropriate for the UZH Pelkmans lab setup.
+TARGET_DIR=~/.tmp_fractal
+rm -r $TARGET_DIR
+mkdir $TARGET_DIR
 WORKER_INIT="\
 export HOME=$HOME; \
-cd $HOME; \
+cd $TARGET_DIR; \
 source /opt/easybuild/software/Anaconda3/2019.07/etc/profile.d/conda.sh; \
 conda activate /data/homes/fractal/sharedfractal; \
 "
@@ -87,7 +90,7 @@ fractal task add-subtask $WF_ID "Yokogawa to Zarr" > ${PROJ_DIR}/args_yoko.json
 
 # Paths of illumination correction images need to be accessible on the server.
 # This works if one runs the client from the same machine as the server. Otherwise, change `root_path_corr`
-echo "{\"overwrite\": true, \"executor\": \"cpu-low\", \"dict_corr\": {\"root_path_corr\": \"$BASE_FOLDER_EXAMPLE/../demo-october-2022/illum_corr_images/\", \"A01_C01\": \"20220621_UZH_manual_illumcorr_40x_A01_C01.png\", \"A01_C02\": \"20220621_UZH_manual_illumcorr_40x_A01_C02.png\", \"A02_C03\": \"20220621_UZH_manual_illumcorr_40x_A02_C03.png\"}}" > ${PROJ_DIR}/args_illum.json
+echo "{\"overwrite\": true, \"executor\": \"cpu-low\", \"dict_corr\": {\"root_path_corr\": \"$BASE_FOLDER_EXAMPLE/illum_corr_images/\", \"A01_C01\": \"20220621_UZH_manual_illumcorr_40x_A01_C01.png\", \"A01_C02\": \"20220621_UZH_manual_illumcorr_40x_A01_C02.png\", \"A02_C03\": \"20220621_UZH_manual_illumcorr_40x_A02_C03.png\"}}" > ${PROJ_DIR}/args_illum.json
 fractal task add-subtask $WF_ID "Illumination correction" --args-file ${PROJ_DIR}/args_illum.json
 
 echo "{\"executor\": \"cpu-low\"}" > ${PROJ_DIR}/args_replicate.json
@@ -96,10 +99,10 @@ fractal task add-subtask $WF_ID "Replicate Zarr structure" --args-file ${PROJ_DI
 echo "{\"executor\": \"cpu-low\"}" > ${PROJ_DIR}/args_mip.json
 fractal task add-subtask $WF_ID "Maximum Intensity Projection" --args-file ${PROJ_DIR}/args_mip.json
 
-echo "{\"labeling_level\": 2, \"executor\": \"cpu-low\", \"ROI_table_name\": \"well_ROI_table\"}" > ${PROJ_DIR}/args_labeling.json
+echo "{\"labeling_level\": 2, \"executor\": \"cpu-mid\", \"ROI_table_name\": \"well_ROI_table\"}" > ${PROJ_DIR}/args_labeling.json
 fractal task add-subtask $WF_ID "Cellpose Segmentation" --args-file ${PROJ_DIR}/args_labeling.json
 
-echo "{\"level\": 0, \"measurement_table_name\": \"nuclei\", \"executor\": \"cpu-low\", \"ROI_table_name\": \"well_ROI_table\",\"workflow_file\": \"$BASE_FOLDER_EXAMPLE/03_cardio_dataset_one_2x2_well_3_channels_10_Z/regionprops_from_existing_labels_feature.yaml\"}" > ${PROJ_DIR}/args_measurement.json
+echo "{\"level\": 0, \"measurement_table_name\": \"nuclei\", \"executor\": \"cpu-mid\", \"ROI_table_name\": \"well_ROI_table\",\"workflow_file\": \"$BASE_FOLDER_EXAMPLE/example_2x2_cardio_uzh/regionprops_from_existing_labels_feature.yaml\"}" > ${PROJ_DIR}/args_measurement.json
 fractal task add-subtask $WF_ID "Measurement" --args-file ${PROJ_DIR}/args_measurement.json
 
 # Apply workflow
