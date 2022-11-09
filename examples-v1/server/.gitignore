@@ -1,6 +1,5 @@
 data
 LOG*
 logs
-fractal_server
 FRACTAL_ROOT
 .fractal_server.env
