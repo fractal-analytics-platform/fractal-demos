@@ -56,24 +56,25 @@ echo "PRJ_ID: $PRJ_ID"
 echo "DS_IN_ID: $DS_IN_ID"
 
 # Update dataset name/type, and add a resource
-# fractal dataset edit --name "$DS_IN_NAME" -t image --read-only $PRJ_ID $DS_IN_ID
-# fractal dataset add-resource -g "*.png" $PRJ_ID $DS_IN_ID $INPUT_PATH
+fractal dataset edit --name "$DS_IN_NAME" -t image --read-only $PRJ_ID $DS_IN_ID
+fractal dataset add-resource -g "*.png" $PRJ_ID $DS_IN_ID $INPUT_PATH
 
 # Add output dataset, and add a resource to it
-# DS_OUT_ID=`fractal --batch project add-dataset $PRJ_ID "$DS_OUT_NAME"`
-# fractal dataset edit -t zarr --read-write $PRJ_ID $DS_OUT_ID
-# fractal dataset add-resource -g "*.zarr" $PRJ_ID $DS_OUT_ID $OUTPUT_PATH
+DS_OUT_ID=`fractal --batch project add-dataset $PRJ_ID "$DS_OUT_NAME"`
+fractal dataset edit -t zarr --read-write $PRJ_ID $DS_OUT_ID
+fractal dataset add-resource -g "*.zarr" $PRJ_ID $DS_OUT_ID $OUTPUT_PATH
 
 # Create workflow
-# WF_ID=`fractal --batch task new "$WF_NAME" workflow image zarr`
-# echo "WF_ID: $WF_ID"
+WF_ID=`fractal --batch workflow new "$WF_NAME" $PRJ_ID`
+echo "WF_ID: $WF_ID"
 
 # Add subtasks
+# 1 -> create_zarr_structure
+# 2 -> yokogawa_to_zarr
+echo "{\"num_levels\": 5, \"coarsening_xy\": 2, \"channel_parameters\": {\"A01_C01\": {\"label\": \"DAPI\",\"colormap\": \"00FFFF\",\"start\": 110,\"end\": 800 }, \"A01_C02\": {\"label\": \"nanog\",\"colormap\": \"FF00FF\",\"start\": 110,\"end\": 290 }, \"A02_C03\": {\"label\": \"Lamin B1\",\"colormap\": \"FFFF00\",\"start\": 110,\"end\": 1600 }}}" > ${PROJ_DIR}/args_create.json
+#fractal workflow add-task 1 1 --args-file ${PROJ_DIR}/args_create.jso
 
-# echo "{\"num_levels\": 5, \"coarsening_xy\": 2, \"channel_parameters\": {\"A01_C01\": {\"label\": \"DAPI\",\"colormap\": \"00FFFF\",\"start\": 110,\"end\": 800 }, \"A01_C02\": {\"label\": \"nanog\",\"colormap\": \"FF00FF\",\"start\": 110,\"end\": 290 }, \"A02_C03\": {\"label\": \"Lamin B1\",\"colormap\": \"FFFF00\",\"start\": 110,\"end\": 1600 }}}" > ${PROJ_DIR}/args_create.json
-# fractal task add-subtask $WF_ID "Create OME-ZARR structure" --args-file ${PROJ_DIR}/args_create.json
-
-# fractal task add-subtask $WF_ID "Yokogawa to Zarr"
+#fractal workflow add-task 1 2
 
 # fractal task add-subtask $WF_ID "Replicate Zarr structure"
 
