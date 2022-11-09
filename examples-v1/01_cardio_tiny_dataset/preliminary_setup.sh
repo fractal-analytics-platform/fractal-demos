@@ -1,5 +1,7 @@
 PORT=8002
 
+rm .cache -r
+
 USERNAME="$(whoami)"
 echo -e "FRACTAL_USER=${USERNAME}@me.com\nFRACTAL_PASSWORD=${USERNAME}\nSLURM_USER=${USERNAME}\nFRACTAL_SERVER=http://localhost:$PORT" > .fractal.env
 fractal register -p $USERNAME ${USERNAME}@me.com $USERNAME
