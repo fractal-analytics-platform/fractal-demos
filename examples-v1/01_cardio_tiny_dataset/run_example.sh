@@ -1,5 +1,5 @@
 fractal task check-collection
-LABEL="cardio_tiny"
+LABEL="1"
 
 ###############################################################################
 # THINGS TO BE CHANGED BY THE USER
@@ -54,6 +54,7 @@ PRJ_ID=`$CMD_JSON project_id`
 DS_IN_ID=`$CMD_JSON dataset_id "default"`
 echo "PRJ_ID: $PRJ_ID"
 echo "DS_IN_ID: $DS_IN_ID"
+echo "DS_OUT_ID: $DS_IN_ID"
 
 # Update dataset name/type, and add a resource
 fractal dataset edit --name "$DS_IN_NAME" -t image --read-only $PRJ_ID $DS_IN_ID
@@ -72,9 +73,12 @@ echo "WF_ID: $WF_ID"
 # 1 -> create_zarr_structure
 # 2 -> yokogawa_to_zarr
 echo "{\"num_levels\": 5, \"coarsening_xy\": 2, \"channel_parameters\": {\"A01_C01\": {\"label\": \"DAPI\",\"colormap\": \"00FFFF\",\"start\": 110,\"end\": 800 }, \"A01_C02\": {\"label\": \"nanog\",\"colormap\": \"FF00FF\",\"start\": 110,\"end\": 290 }, \"A02_C03\": {\"label\": \"Lamin B1\",\"colormap\": \"FFFF00\",\"start\": 110,\"end\": 1600 }}}" > ${PROJ_DIR}/args_create.json
-#fractal workflow add-task 1 1 --args-file ${PROJ_DIR}/args_create.json
+fractal workflow add-task 1 1 --args-file ${PROJ_DIR}/args_create.json
 
-#fractal workflow add-task 1 2
+# fractal workflow add-task 1 2
+
+#APPLY
+fractal workflow apply -o $DS_OUT_ID -p $PRJ_ID $WF_ID $DS_IN_ID
 
 # fractal task add-subtask $WF_ID "Replicate Zarr structure"
 
@@ -82,6 +86,3 @@ echo "{\"num_levels\": 5, \"coarsening_xy\": 2, \"channel_parameters\": {\"A01_C
 
 # echo "{\"labeling_level\": 3, \"executor\": \"cpu-low\"}" > ${PROJ_DIR}/args_labeling.json
 # fractal task add-subtask $WF_ID "Cellpose Segmentation" --args-file ${PROJ_DIR}/args_labeling.json
-
-# Apply workflow
-# fractal task apply $PRJ_ID $DS_IN_ID $DS_OUT_ID $WF_ID --worker_init "$WORKER_INIT"
