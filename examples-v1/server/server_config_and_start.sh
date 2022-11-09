@@ -3,6 +3,7 @@
 PORT=8002
 
 # Create an empty db
+mkdir fractal_server/migrations/versions
 rm fractal_server/migrations/versions/*.py -v
 rm -fr data
 mkdir data
