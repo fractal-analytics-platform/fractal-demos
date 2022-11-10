@@ -70,7 +70,7 @@ echo "WF_ID: $WF_ID"
 # Add subtasks
 # 1 -> create_zarr_structure
 # 2 -> yokogawa_to_zarr
-fractal workflow add-task $WF_ID 1 --args-file parameters/create_ome_zarr.json
+fractal workflow add-task $WF_ID 1 --args-file Parameters/create_zarr_structure.json
 
 fractal workflow add-task $WF_ID 2
 
