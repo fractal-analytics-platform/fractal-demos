@@ -14,6 +14,7 @@ alembic upgrade head
 rm -fr logs
 rm -fr runinfo
 rm -fr FRACTAL_ROOT
+rm -fr artifacts
 rm cmd_parsl.slurm.*.*.sh
 
 # Set environment variables
