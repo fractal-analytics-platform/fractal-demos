@@ -1,0 +1,8 @@
+{
+   "args": {
+        "labeling_level": 2
+    },
+    "meta": {
+        "executor": "cpu-low"
+    }
+}

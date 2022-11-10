@@ -70,15 +70,14 @@ echo "WF_ID: $WF_ID"
 # Add subtasks
 # 1 -> create_zarr_structure
 # 2 -> yokogawa_to_zarr
-echo "{\"num_levels\": 5, \"coarsening_xy\": 2, \"channel_parameters\": {\"A01_C01\": {\"label\": \"DAPI\",\"colormap\": \"00FFFF\",\"start\": 110,\"end\": 800 }, \"A01_C02\": {\"label\": \"nanog\",\"colormap\": \"FF00FF\",\"start\": 110,\"end\": 290 }, \"A02_C03\": {\"label\": \"Lamin B1\",\"colormap\": \"FFFF00\",\"start\": 110,\"end\": 1600 }}}" > ${PROJ_DIR}/args_create.json
-fractal workflow add-task $WF_ID 1 --args-file ${PROJ_DIR}/args_create.json
+fractal workflow add-task $WF_ID 1 --args-file parameters/create_ome_zarr.json
 
 fractal workflow add-task $WF_ID 2
 
 # fractal workflow add-task $WF_ID "Replicate Zarr structure"
 # fractal workflow add-task $WF_ID "Maximum Intensity Projection"
 # echo "{\"labeling_level\": 3, \"executor\": \"cpu-low\"}" > ${PROJ_DIR}/args_labeling.json
-# fractal workflow add-task $WF_ID "Cellpose Segmentation" --args-file ${PROJ_DIR}/args_labeling.json
+# fractal workflow add-task $WF_ID "Cellpose Segmentation" --args-file ${PROJ_DIR}/args_labeling.json --meta-file
 
 # Look at the current workflows
 fractal workflow show $WF_ID

@@ -1,0 +1,24 @@
+{
+    "channel_parameters": {
+        "A01_C01": {
+            "colormap": "00FFFF",
+            "end": 800,
+            "label": "DAPI",
+            "start": 110
+        },
+        "A01_C02": {
+            "colormap": "FF00FF",
+            "end": 290,
+            "label": "nanog",
+            "start": 110
+        },
+        "A02_C03": {
+            "colormap": "FFFF00",
+            "end": 1600,
+            "label": "Lamin B1",
+            "start": 110
+        }
+    },
+    "coarsening_xy": 2,
+    "num_levels": 5
+}
