@@ -4,3 +4,4 @@ LOG*
 logs
 FRACTAL_ROOT
 .fractal_server.env
+tmp
