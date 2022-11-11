@@ -19,7 +19,7 @@ rm cmd_parsl.slurm.*.*.sh
 
 # Set environment variables
 FRACTAL_ROOT=`pwd`/FRACTAL_ROOT
-echo -e "DEPLOYMENT_TYPE=testing\nJWT_SECRET_KEY=secret\nDATA_DIR_ROOT=/tmp/\nSQLITE_PATH=./data/fractal_server.db\nFRACTAL_ROOT=${FRACTAL_ROOT}\nFRACTAL_LOGGING_LEVEL=10" > .fractal_server.env
+echo -e "DEPLOYMENT_TYPE=testing\nJWT_SECRET_KEY=secret\nDATA_DIR_ROOT=/tmp/\nSQLITE_PATH=./data/fractal_server.db\nFRACTAL_ROOT=${FRACTAL_ROOT}\nFRACTAL_LOGGING_LEVEL=10\nRUNNER_BACKEND=parsl\n" > .fractal_server.env
 
 
 # Start the server
