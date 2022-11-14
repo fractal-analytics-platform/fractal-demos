@@ -19,7 +19,16 @@ rm cmd_parsl.slurm.*.*.sh
 
 # Set environment variables
 FRACTAL_ROOT=`pwd`/FRACTAL_ROOT
-echo -e "DEPLOYMENT_TYPE=testing\nJWT_SECRET_KEY=secret\nDATA_DIR_ROOT=/tmp/\nSQLITE_PATH=./data/fractal_server.db\nFRACTAL_ROOT=${FRACTAL_ROOT}\nFRACTAL_LOGGING_LEVEL=10\nRUNNER_BACKEND=parsl\n" > .fractal_server.env
+echo -e "\
+DEPLOYMENT_TYPE=testing
+JWT_SECRET_KEY=secret
+DATA_DIR_ROOT=/tmp/
+SQLITE_PATH=./data/fractal_server.db
+FRACTAL_ROOT=${FRACTAL_ROOT}
+FRACTAL_LOGGING_LEVEL=10
+RUNNER_BACKEND=parsl
+RUNNER_PARSL_ENV_ACTIVATE=\"source /opt/easybuild/software/Anaconda3/2019.07/etc/profile.d/conda.sh; conda activate fractal-server-v1;\"
+" > .fractal_server.env
 
 
 # Start the server
