@@ -17,7 +17,8 @@ BASE_FOLDER_EXAMPLE=`pwd`/..
 #    used in the current example are appropriate for the UZH setup.
 WORKER_INIT="\
 export HOME=$HOME; \
-cd $HOME; \
+mkdir -p $HOME/parsl_scripts; \
+cd $HOME/parsl_scripts; \
 "
 ###############################################################################
 
