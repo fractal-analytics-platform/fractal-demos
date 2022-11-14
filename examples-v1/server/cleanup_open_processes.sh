@@ -29,7 +29,7 @@ for KEY in $KEYWORDS; do
     echo $PIDs
 
     for PID in $PIDs; do
-        kill $PID
+        kill -9 $PID
     done
     sleep 0.1
     echo
