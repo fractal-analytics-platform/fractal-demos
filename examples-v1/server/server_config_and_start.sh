@@ -27,7 +27,7 @@ SQLITE_PATH=./data/fractal_server.db
 FRACTAL_ROOT=${FRACTAL_ROOT}
 FRACTAL_LOGGING_LEVEL=10
 RUNNER_BACKEND=parsl
-RUNNER_PARSL_ENV_ACTIVATE=\"source /opt/easybuild/software/Anaconda3/2019.07/etc/profile.d/conda.sh; conda activate fractal-server-v1;\"
+RUNNER_ROOT_DIR=\"artifacts\"
 " > .fractal_server.env
 
 
