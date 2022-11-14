@@ -33,10 +33,9 @@ export FRACTAL_CACHE_PATH=`pwd`/".cache"
 rm -rv ${FRACTAL_CACHE_PATH}
 
 # Define/initialize empty project folder and temporary file
-PROJ_DIR=`pwd`/tmp_${LABEL}
+PROJ_DIR=`pwd`/proj_${LABEL}
 rm -r $PROJ_DIR
 mkdir $PROJ_DIR
-TMPJSON=${PROJ_DIR}/tmp.json
 
 ###############################################################################
 # IMPORTANT: modify the following lines so that they point to absolute paths
@@ -66,11 +65,10 @@ fractal dataset add-resource -g "*.zarr" $PRJ_ID $DS_OUT_ID $OUTPUT_PATH
 WF_ID=`fractal --batch workflow new "$WF_NAME" $PRJ_ID`
 echo "WF_ID: $WF_ID"
 
-# Add subtasks
+# Add tasks to workflow
 # 1 -> create_zarr_structure
 # 2 -> yokogawa_to_zarr
 fractal workflow add-task $WF_ID 1 --args-file Parameters/create_zarr_structure.json
-
 fractal workflow add-task $WF_ID 2
 
 # fractal workflow add-task $WF_ID "Replicate Zarr structure"
@@ -82,5 +80,5 @@ fractal workflow add-task $WF_ID 2
 fractal workflow show $WF_ID
 echo
 
-#APPLY
+# Apply workflow
 fractal workflow apply -o $DS_OUT_ID -p $PRJ_ID $WF_ID $DS_IN_ID --worker-init "$WORKER_INIT"
