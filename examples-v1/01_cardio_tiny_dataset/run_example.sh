@@ -23,7 +23,7 @@ cd $HOME/fractal_parsl_scripts; \
 
 
 # Set useful variables
-PRJ_NAME="proj-$LABEL"
+PRJ_NAME="tmp-$LABEL"
 DS_IN_NAME="input-ds-$LABEL"
 DS_OUT_NAME="output-ds-$LABEL"
 WF_NAME="Workflow $LABEL"
