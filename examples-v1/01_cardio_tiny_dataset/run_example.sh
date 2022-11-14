@@ -23,7 +23,7 @@ cd $HOME/fractal_parsl_scripts; \
 
 
 # Set useful variables
-PRJ_NAME="tmp-$LABEL"
+PRJ_NAME="proj-$LABEL"
 DS_IN_NAME="input-ds-$LABEL"
 DS_OUT_NAME="output-ds-$LABEL"
 WF_NAME="Workflow $LABEL"
@@ -33,7 +33,7 @@ export FRACTAL_CACHE_PATH=`pwd`/".cache"
 rm -rv ${FRACTAL_CACHE_PATH}
 
 # Define/initialize empty project folder and temporary file
-PROJ_DIR=`pwd`/proj_${LABEL}
+PROJ_DIR=`pwd`/tmp_${LABEL}
 rm -r $PROJ_DIR
 mkdir $PROJ_DIR
 
