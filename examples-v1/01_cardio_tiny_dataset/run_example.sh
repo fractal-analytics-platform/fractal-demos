@@ -1,5 +1,5 @@
 fractal task check-collection .fractal/fractal-tasks-core
-LABEL="4"
+LABEL="1"
 
 ###############################################################################
 # THINGS TO BE CHANGED BY THE USER
@@ -84,5 +84,4 @@ fractal workflow show $WF_ID
 echo
 
 #APPLY
-fractal workflow apply -o $DS_OUT_ID -p $PRJ_ID $WF_ID $DS_IN_ID
-
+fractal workflow apply -o $DS_OUT_ID -p $PRJ_ID $WF_ID $DS_IN_ID --worker-init "$WORKER_INIT"
