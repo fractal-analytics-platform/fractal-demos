@@ -1,4 +1,3 @@
-fractal task check-collection .fractal/fractal-tasks-core
 LABEL="1"
 
 ###############################################################################
