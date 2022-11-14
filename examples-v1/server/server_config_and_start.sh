@@ -14,8 +14,10 @@ alembic upgrade head
 rm -fr logs
 rm -fr runinfo
 rm -fr FRACTAL_ROOT
-mv artifacts OLD/
 rm cmd_parsl.slurm.*.*.sh
+# Move what cannot be removed easily to some trash folder
+TIMESTAMP=$(date +%s)
+mv artifacts OLD/artifacts_$TIMESTAMP
 
 # Set environment variables
 FRACTAL_ROOT=`pwd`/FRACTAL_ROOT
