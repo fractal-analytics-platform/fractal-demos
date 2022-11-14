@@ -17,6 +17,7 @@ rm -fr FRACTAL_ROOT
 rm cmd_parsl.slurm.*.*.sh
 # Move what cannot be removed easily to some trash folder
 TIMESTAMP=$(date +%s)
+mkdir OLD
 mv artifacts OLD/artifacts_$TIMESTAMP
 
 # Set environment variables
