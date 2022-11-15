@@ -1,0 +1,18 @@
+{
+    "channel_parameters": {
+        "A01_C01": {
+            "colormap": "00FFFF",
+            "end": 3000,
+            "label": "DAPI",
+            "start": 110
+        },
+        "A02_C02": {
+            "colormap": "FF00FF",
+            "end": 1500,
+            "label": "488",
+            "start": 110
+        }
+    },
+    "coarsening_xy": 2,
+    "num_levels": 5
+}
