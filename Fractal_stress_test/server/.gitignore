@@ -1,0 +1,10 @@
+data
+artifacts
+LOG*
+logs
+FRACTAL_ROOT
+.fractal_server.env
+tmp
+OLD
+runinfo
+fractal_server-*-py3-none-any.whl
