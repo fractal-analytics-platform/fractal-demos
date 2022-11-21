@@ -83,7 +83,7 @@ fractal workflow add-task $WF_ID 2
 #fractal workflow add-task $WF_ID 7 --args-file Parameters/illumination_correction.json
 fractal workflow add-task $WF_ID 3
 fractal workflow add-task $WF_ID 4
-fractal workflow add-task $WF_ID 5 --args-file Parameters/cellpose_segmentation.json
+fractal workflow add-task $WF_ID 5 --args-file Parameters/cellpose_segmentation_StandardModel.json
 
 echo "{\"level\": 0, \"ROI_table_name\": \"well_ROI_table\", \"workflow_file\": \"$PROJ_DIR/../regionprops_from_existing_labels_feature.yaml\", \"input_specs\": {\"dapi_img\": {\"type\": \"image\", \"channel\": \"A01_C01\"},\"label_img\": {\"type\": \"label\", \"label_name\": \"organoids\"}}, \"output_specs\": {\"regionprops_DAPI\": {\"type\": \"dataframe\",\"table_name\": \"regionprops_organoids\"}}}" > Parameters/measurement.json
 fractal workflow add-task $WF_ID 8 --args-file Parameters/measurement.json
