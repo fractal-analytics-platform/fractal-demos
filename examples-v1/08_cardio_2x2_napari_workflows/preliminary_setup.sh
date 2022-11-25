@@ -1,6 +1,6 @@
 
 # Register user
-PORT=8005
+PORT=8002
 USERNAME="$(whoami)"
 echo -e "\
 FRACTAL_USER=${USERNAME}@me.com
@@ -11,7 +11,8 @@ FRACTAL_SERVER=http://localhost:$PORT\
 fractal register -p $USERNAME ${USERNAME}@me.com $USERNAME
 
 # Trigger collection of core tasks
-fractal task collect fractal-tasks-core --package-version 0.3.5
+fractal task collect fractal-tasks-core --package-version 0.4.6
 
 echo "To quickly see whether task collection is complete, issue the command"
 echo "fractal task list"
+
