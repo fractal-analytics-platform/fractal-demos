@@ -1,4 +1,4 @@
-LABEL='multiplexing_046'
+LABEL='multiplexing_046-segmentation'
 
 ###############################################################################
 # THINGS TO BE CHANGED BY THE USER
@@ -84,6 +84,7 @@ fractal workflow add-task $WF_ID 9 --args-file Parameters/create_zarr_structure_
 fractal workflow add-task $WF_ID 2
 fractal workflow add-task $WF_ID 3
 fractal workflow add-task $WF_ID 4
+fractal workflow add-task $WF_ID 5  --args-file Parameters/cellpose_segmentation.json
 
 # Look at the current workflows
 fractal workflow show $WF_ID

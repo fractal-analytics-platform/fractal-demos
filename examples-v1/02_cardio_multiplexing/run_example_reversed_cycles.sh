@@ -1,4 +1,4 @@
-LABEL='multiplexing_reversed_v2'
+LABEL='multiplexing_reversed_v3'
 
 ###############################################################################
 # THINGS TO BE CHANGED BY THE USER
@@ -70,10 +70,20 @@ WF_ID=`fractal --batch workflow new "$WF_NAME" $PRJ_ID`
 echo "WF_ID: $WF_ID"
 
 # Add tasks to workflow
-# X -> create_zarr_structure_multiplex
+# Check the IDs! Those only work if they are the only ones that were registered
+# 1 -> create_zarr_structure
 # 2 -> yokogawa_to_zarr
+# 3 -> Replicate Zarr structure
+# 4 -> Maximum Intensity Projection
+# 5 -> Cellpose Segmentation
+# 6 -> Measurement -> to be deprecated
+# 7 -> Illumination correction
+# 8 -> Napari workflows wrapper
+# 9 -> Create OME-ZARR structure (multiplexing)
 fractal workflow add-task $WF_ID 9 --args-file Parameters/create_zarr_structure_multiplex_reversed.json
 fractal workflow add-task $WF_ID 2
+fractal workflow add-task $WF_ID 3
+fractal workflow add-task $WF_ID 4
 
 # Look at the current workflows
 fractal workflow show $WF_ID
