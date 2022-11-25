@@ -9,4 +9,4 @@ pip install zenodo-get
 The user needs to run `install_client.sh` (once to set up the client environment) and `preliminary_setup.sh` (installs the tasks environment on the server-side and registers the user). Change the `PORT` in `preliminary_setup.sh` to the port being used on the server side.
 
 This example ran successfully with:   
-* `fractal-server==1.0.0a15, fractal-client==1.0.0a0, fracal-tasks-core==0.3.5`
+* `fractal-server==1.0.0a15, fractal-client==1.0.0a0, fracal-tasks-core==0.4.6`
