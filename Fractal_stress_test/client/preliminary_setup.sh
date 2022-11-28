@@ -17,5 +17,5 @@ VERSION="0.1.0"
 
 fractal task collect `pwd`/fractal-tasks-stresstest/dist/fractal_tasks_stresstest-${VERSION}-py3-none-any.whl
 
-sleep 4
-fractal task check-collection .fractal/fractal_tasks_stresstest${VERSION}
+sleep 5
+fractal task check-collection 1
