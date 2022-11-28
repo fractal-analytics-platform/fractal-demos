@@ -8,22 +8,6 @@ LABEL=$1
 BASE_FOLDER_EXAMPLE=`pwd`/..
 ###############################################################################
 
-###############################################################################
-# IMPORTANT: modify the following lines, depending on your preferences
-# 1. They MUST include a `cd` command to a path where your user can write. The
-#    simplest is to use `cd $HOME`, but notice that this will create many sh
-#    scripts in your folder. You can also use `cd $HOME/fractal_parsl_scripts`,
-#    but first make sure that such folder exists
-# 2. They MAY include additional commands to load a python environment. The ones
-#    used in the current example are appropriate for the UZH setup.
-#WORKER_INIT="\
-#export HOME=$HOME; \
-#mkdir -p $HOME/fractal_parsl_scripts; \
-#cd $HOME/fractal_parsl_scripts; \
-#"
-###############################################################################
-
-
 # Set useful variables
 PRJ_NAME="proj-$LABEL"
 DS_IN_NAME="input-ds-$LABEL"
@@ -61,7 +45,7 @@ WF_ID=`fractal --batch workflow new "$WF_NAME" $PRJ_ID`
 
 # Add tasks to workflow
 fractal --batch workflow add-task $WF_ID 1
-fractal --batch workflow add-task $WF_ID 2
+fractal --batch workflow add-task $WF_ID 2 --args-file Parameters/edit_task.json
 
 # Apply workflow
 fractal --batch workflow apply -o $DS_OUT_ID -p $PRJ_ID $WF_ID $DS_IN_ID --worker-init "$WORKER_INIT"
