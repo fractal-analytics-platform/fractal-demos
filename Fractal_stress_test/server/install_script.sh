@@ -5,7 +5,7 @@ conda create --name $ENVNAME python==3.8.13 -y
 conda activate $ENVNAME
 conda update pip -y
 
-VERSION="1.0.0b0"
+VERSION="1.0.0b1"
 WHEEL=fractal_server-${VERSION}-py3-none-any.whl
 wget https://github.com/fractal-analytics-platform/fractal-server/releases/download/${VERSION}/${WHEEL} .
 pip install ${WHEEL}[slurm]
