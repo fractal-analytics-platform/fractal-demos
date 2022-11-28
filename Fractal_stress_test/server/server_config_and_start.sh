@@ -29,10 +29,13 @@ DATA_DIR_ROOT=/tmp/
 SQLITE_PATH=./data/fractal_server.db
 FRACTAL_ROOT=${FRACTAL_ROOT}
 FRACTAL_LOGGING_LEVEL=10
-RUNNER_BACKEND=parsl
+RUNNER_BACKEND=slurm
 RUNNER_ROOT_DIR=\"artifacts\"
+FRACTAL_SLURM_CONFIG_FILE=config.json
 " > .fractal_server.env
 
 
 # Start the server
 fractal-server --port $PORT
+#fractal-server --port $PORT --workers 1
+#gunicorn fractal_server.main:app -w 4 -k uvicorn.workers.UvicornWorker --bind :$PORT --access-logfile -

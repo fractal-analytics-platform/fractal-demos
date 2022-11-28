@@ -1,0 +1,9 @@
+{
+    "cpu-low": {
+            "partition": "main",
+            "mem": "1g",
+            "nodes": "1",
+            "ntasks-per-node": "1",
+            "cpus-per-task": "1"
+        }
+}
