@@ -29,8 +29,9 @@ DATA_DIR_ROOT=/tmp/
 SQLITE_PATH=./data/fractal_server.db
 FRACTAL_ROOT=${FRACTAL_ROOT}
 FRACTAL_LOGGING_LEVEL=10
-RUNNER_BACKEND=parsl
+RUNNER_BACKEND=slurm
 RUNNER_ROOT_DIR=\"artifacts\"
+FRACTAL_SLURM_CONFIG_FILE=config_uzh.json
 " > .fractal_server.env
 
 
