@@ -1,26 +1,10 @@
-LABEL="1"
+LABEL="2"
 
 ###############################################################################
 # THINGS TO BE CHANGED BY THE USER
 # Adapt to settings to where you run the example
 BASE_FOLDER_EXAMPLE=`pwd`/..
 ###############################################################################
-
-###############################################################################
-# IMPORTANT: modify the following lines, depending on your preferences
-# 1. They MUST include a `cd` command to a path where your user can write. The
-#    simplest is to use `cd $HOME`, but notice that this will create many sh
-#    scripts in your folder. You can also use `cd $HOME/fractal_parsl_scripts`,
-#    but first make sure that such folder exists
-# 2. They MAY include additional commands to load a python environment. The ones
-#    used in the current example are appropriate for the UZH setup.
-WORKER_INIT="\
-export HOME=$HOME; \
-mkdir -p $HOME/fractal_parsl_scripts; \
-cd $HOME/fractal_parsl_scripts; \
-"
-###############################################################################
-
 
 # Set useful variables
 PRJ_NAME="proj-$LABEL"
@@ -65,20 +49,27 @@ fractal dataset add-resource -g "*.zarr" $PRJ_ID $DS_OUT_ID $OUTPUT_PATH
 WF_ID=`fractal --batch workflow new "$WF_NAME" $PRJ_ID`
 echo "WF_ID: $WF_ID"
 
-# Add tasks to workflow
-# 1 -> create_zarr_structure
-# 2 -> yokogawa_to_zarr
-fractal workflow add-task $WF_ID 1 --args-file Parameters/create_zarr_structure.json
-fractal workflow add-task $WF_ID 2
+# Mapping of tasks to their IDs (until we add the by-name addressing)
+#    "Create OME-ZARR structure": 1,
+#    "Yokogawa to Zarr": 2,
+#    "Replicate Zarr structure": 3,
+#    "Maximum Intensity Projection": 4,
+#    "Cellpose Segmentation": 5,
+#    "Measurement": 6,
+#    "Illumination correction": 7,
+#    "Napari workflows wrapper": 8,
+#    "Create OME-ZARR structure (multiplexing)": 9
 
-# fractal workflow add-task $WF_ID "Replicate Zarr structure"
-# fractal workflow add-task $WF_ID "Maximum Intensity Projection"
-# echo "{\"labeling_level\": 3, \"executor\": \"cpu-low\"}" > ${PROJ_DIR}/args_labeling.json
-# fractal workflow add-task $WF_ID "Cellpose Segmentation" --args-file ${PROJ_DIR}/args_labeling.json --meta-file
+# Add tasks to workflow
+fractal workflow add-task $WF_ID 1 --args-file Parameters/args_create_ome_zarr.json
+fractal workflow add-task $WF_ID 2
+fractal workflow add-task $WF_ID 3
+fractal workflow add-task $WF_ID 4
+fractal workflow add-task $WF_ID 5 --args-file Parameters/args_cellpose_segmentation.json
 
 # Look at the current workflows
 fractal workflow show $WF_ID
 echo
 
 # Apply workflow
-fractal workflow apply -o $DS_OUT_ID -p $PRJ_ID $WF_ID $DS_IN_ID --worker-init "$WORKER_INIT"
+fractal workflow apply -o $DS_OUT_ID -p $PRJ_ID $WF_ID $DS_IN_ID
