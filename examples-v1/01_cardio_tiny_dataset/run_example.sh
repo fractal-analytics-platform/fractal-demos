@@ -1,5 +1,10 @@
 LABEL="2"
 
+WORKER_INIT="\
+export CELLPOSE_LOCAL_MODELS_PATH=${HOME}/.cache/CELLPOSE_LOCAL_MODELS_PATH
+export NUMBA_CACHE_DIR=${HOME}/.cache/NUMBA_CACHE_DIR
+"
+
 ###############################################################################
 # THINGS TO BE CHANGED BY THE USER
 # Adapt to settings to where you run the example
@@ -55,10 +60,6 @@ echo "WF_ID: $WF_ID"
 #    "Replicate Zarr structure": 3,
 #    "Maximum Intensity Projection": 4,
 #    "Cellpose Segmentation": 5,
-#    "Measurement": 6,
-#    "Illumination correction": 7,
-#    "Napari workflows wrapper": 8,
-#    "Create OME-ZARR structure (multiplexing)": 9
 
 # Add tasks to workflow
 fractal workflow add-task $WF_ID 1 --args-file Parameters/args_create_ome_zarr.json
@@ -72,4 +73,4 @@ fractal workflow show $WF_ID
 echo
 
 # Apply workflow
-fractal workflow apply -o $DS_OUT_ID -p $PRJ_ID $WF_ID $DS_IN_ID
+fractal workflow apply -o $DS_OUT_ID -p $PRJ_ID $WF_ID $DS_IN_ID --worker-init "$WORKER_INIT"
