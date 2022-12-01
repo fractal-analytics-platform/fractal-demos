@@ -1,0 +1,30 @@
+{
+    "channel_parameters": {
+        "A01_C04": {
+            "colormap": "FFFF00",
+            "end": 13000,
+            "label": "Ecadherin",
+            "start": 110
+        },
+        "A02_C03": {
+            "colormap": "FF00FF",
+            "end": 17000,
+            "label": "Agr2",
+            "start": 110
+        },
+        "A03_C02": {
+            "colormap": "FFFF00",
+            "end": 6000,
+            "label": "Dll1",
+            "start": 110
+        },
+        "A04_C01": {
+            "colormap": "00FFFF",
+            "end": 3000,
+            "label": "DAPI",
+            "start": 110
+        }
+    },
+    "coarsening_xy": 2,
+    "num_levels": 5
+}
