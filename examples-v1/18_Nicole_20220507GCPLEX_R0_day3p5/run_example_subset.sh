@@ -1,8 +1,11 @@
 ###############################################################################
 # THINGS TO BE CHANGED BY THE USER
-LABEL="nicole-CGPLEX-subset-v2"
+LABEL="nicole-CGPLEX-subset-v4"
 
+# For FMI: needs to point to the liberali group folder
 DATA_BASE_PATH="TBD"
+
+INPUT_PATH=$DATA_BASE_PATH"Fractal_Dev/test_datasets/FMI/3_manyZplanes_20220507GCPLEX_R0"
 
 # Change cache directory or add proxy settings if necessary
 WORKER_INIT="\
@@ -29,11 +32,8 @@ PROJ_DIR=`pwd`/tmp_${LABEL}
 rm -r $PROJ_DIR
 mkdir $PROJ_DIR
 
-###############################################################################
-# IMPORTANT: modify the following lines so that they point to absolute paths
-INPUT_PATH=$DATA_BASE_PATH"Fractal_Dev/test_datasets/FMI/3_manyZplanes_20220507GCPLEX_R0"
+# Modify this to place the output somewhere else
 OUTPUT_PATH=${PROJ_DIR}/output
-###############################################################################
 
 # Create project
 OUTPUT=`fractal --batch project new $PRJ_NAME $PROJ_DIR`
@@ -58,27 +58,16 @@ WF_ID=`fractal --batch workflow new "$WF_NAME" $PRJ_ID`
 echo "WF_ID: $WF_ID"
 
 # Add tasks to workflow
-# Check the IDs! Those only work if they are the only ones that were registered
-# 1 -> create_zarr_structure
-# 2 -> yokogawa_to_zarr
-# 3 -> Replicate Zarr structure
-# 4 -> Maximum Intensity Projection
-# 5 -> Cellpose Segmentation
-# 6 -> Measurement -> to be deprecated
-# 7 -> Illumination correction
-# 8 -> Napari workflows wrapper
-# 9 -> Create OME-ZARR structure (multiplexing)
-fractal workflow add-task $WF_ID 1 --args-file Parameters/create_zarr_structure.json
-fractal workflow add-task $WF_ID 2
-
-#echo "{\"overwrite\": \"True\", \"dict_corr\": {\"root_path_corr\": \"$BASE_FOLDER_EXAMPLE/illum_corr_images/\", \"A01_C01\": \"20220621_UZH_manual_illumcorr_40x_A01_C01.png\", \"A01_C02\": \"20220621_UZH_manual_illumcorr_40x_A01_C02.png\", \"A02_C03\": \"20220621_UZH_manual_illumcorr_40x_A02_C03.png\"}}" > Parameters/illumination_correction.json
-#fractal workflow add-task $WF_ID 7 --args-file Parameters/illumination_correction.json
-fractal workflow add-task $WF_ID 3
-fractal workflow add-task $WF_ID 4
-#fractal workflow add-task $WF_ID 5 --args-file Parameters/cellpose_segmentation.json
-
-#echo "{\"level\": 0, \"ROI_table_name\": \"well_ROI_table\", \"workflow_file\": \"$PROJ_DIR/../regionprops_from_existing_labels_feature.yaml\", \"input_specs\": {\"dapi_img\": {\"type\": \"image\", \"channel\": \"A01_C01\"},\"label_img\": {\"type\": \"label\", \"label_name\": \"organoids\"}}, \"output_specs\": {\"regionprops_DAPI\": {\"type\": \"dataframe\",\"table_name\": \"regionprops_organoids\"}}}" > Parameters/measurement.json
-#fractal workflow add-task $WF_ID 8 --args-file Parameters/measurement.json
+fractal workflow add-task $WF_ID "Create OME-Zarr structure" --args-file Parameters/create_zarr_structure.json
+fractal workflow add-task $WF_ID "Convert Yokogawa to OME-Zarr"
+fractal workflow add-task $WF_ID "Copy OME-Zarr structure"
+fractal workflow add-task $WF_ID "Maximum Intensity Projection"
+# Add cellpose (setting parameters here because we need to set some paths in there)
+echo "{\"labeling_channel\": \"A04_C01\", \"ROI_table_name\": \"FOV_ROI_table\", \"diameter_level0\": 1000, \"cellprob_threshold\": -1.0, \"flow_threshold\": 0.6, \"label_name\": \"organoids\", \"pretrained_model\": \"$DATA_BASE_PATH/Fractal_Dev/models/Hummingbird.331986\"}" > Parameters/cellpose_segmentation.json
+fractal workflow add-task $WF_ID "Cellpose Segmentation" --args-file Parameters/cellpose_segmentation.json --meta-file Parameters/meta_cellpose.json
+# Add napari workflow (setting parameters here because we need to set some paths in there)
+echo "{\"level\": 0, \"ROI_table_name\": \"FOV_ROI_table\", \"workflow_file\": \"$PROJ_DIR/../regionprops_from_existing_labels_feature.yaml\", \"input_specs\": {\"dapi_img\": {\"type\": \"image\", \"channel\": \"A04_C01\"},\"label_img\": {\"type\": \"label\", \"label_name\": \"organoids\"}}, \"output_specs\": {\"regionprops_DAPI\": {\"type\": \"dataframe\",\"table_name\": \"organoids\"}}}" > Parameters/measurement.json
+fractal workflow add-task $WF_ID "Napari workflows wrapper" --args-file Parameters/measurement.json
 
 # Look at the current workflows
 fractal workflow show $WF_ID
