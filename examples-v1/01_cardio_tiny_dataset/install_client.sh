@@ -6,6 +6,7 @@ conda activate $ENVNAME
 conda update pip -y
 
 
-VERSION="1.0.0a0"
-WHEEL=fractal_client-${VERSION}-py3-none-any.whl
-pip install https://github.com/fractal-analytics-platform/fractal/releases/download/${VERSION}/${WHEEL}
+VERSION="1.0.0a1"
+#WHEEL=fractal_client-${VERSION}-py3-none-any.whl
+#pip install https://github.com/fractal-analytics-platform/fractal/releases/download/${VERSION}/${WHEEL}
+pip install fractal-client==$VERSION

@@ -1,4 +1,4 @@
-LABEL="2"
+LABEL="1"
 
 WORKER_INIT="\
 export CELLPOSE_LOCAL_MODELS_PATH=${HOME}/.cache/CELLPOSE_LOCAL_MODELS_PATH
@@ -54,19 +54,12 @@ fractal dataset add-resource -g "*.zarr" $PRJ_ID $DS_OUT_ID $OUTPUT_PATH
 WF_ID=`fractal --batch workflow new "$WF_NAME" $PRJ_ID`
 echo "WF_ID: $WF_ID"
 
-# Mapping of tasks to their IDs (until we add the by-name addressing)
-#    "Create OME-ZARR structure": 1,
-#    "Yokogawa to Zarr": 2,
-#    "Replicate Zarr structure": 3,
-#    "Maximum Intensity Projection": 4,
-#    "Cellpose Segmentation": 5,
-
 # Add tasks to workflow
-fractal workflow add-task $WF_ID 1 --args-file Parameters/args_create_ome_zarr.json
-fractal workflow add-task $WF_ID 2
-fractal workflow add-task $WF_ID 3
-fractal workflow add-task $WF_ID 4
-fractal workflow add-task $WF_ID 5 --args-file Parameters/args_cellpose_segmentation.json
+fractal workflow add-task $WF_ID "Create OME-Zarr structure" --args-file Parameters/args_create_ome_zarr.json
+fractal workflow add-task $WF_ID "Convert Yokogawa to OME-Zarr"
+fractal workflow add-task $WF_ID "Copy OME-Zarr structure"
+fractal workflow add-task $WF_ID "Maximum Intensity Projection"
+fractal workflow add-task $WF_ID "Cellpose Segmentation" --args-file Parameters/args_cellpose_segmentation.json
 
 # Look at the current workflows
 fractal workflow show $WF_ID
