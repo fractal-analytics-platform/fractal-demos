@@ -59,7 +59,7 @@ fractal workflow add-task $WF_ID "Create OME-Zarr structure" --args-file Paramet
 fractal workflow add-task $WF_ID "Convert Yokogawa to OME-Zarr"
 fractal workflow add-task $WF_ID "Copy OME-Zarr structure"
 fractal workflow add-task $WF_ID "Maximum Intensity Projection"
-fractal workflow add-task $WF_ID "Cellpose Segmentation" --args-file Parameters/args_cellpose_segmentation.json
+fractal workflow add-task $WF_ID "Cellpose Segmentation" --args-file Parameters/args_cellpose_segmentation.json --meta-file Parameters/example_meta.json
 
 # Look at the current workflows
 fractal workflow show $WF_ID
