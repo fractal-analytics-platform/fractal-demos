@@ -1,4 +1,4 @@
-LABEL="CV8K_15"
+LABEL="CV8K-mem-test"
 
 ###############################################################################
 # THINGS TO BE CHANGED BY THE USER
@@ -66,24 +66,15 @@ WF_ID=`fractal --batch workflow new "$WF_NAME" $PRJ_ID`
 echo "WF_ID: $WF_ID"
 
 # Add tasks to workflow
-# 1 -> create_zarr_structure
-# 2 -> yokogawa_to_zarr
-# 3 -> Replicate Zarr structure
-# 4 -> Maximum Intensity Projection
-# 5 -> Cellpose Segmentation
-# 6 -> Measurement
-# 7 -> Illumination correction
-fractal workflow add-task $WF_ID 1 --args-file Parameters/create_zarr_structure.json
-fractal workflow add-task $WF_ID 2
-fractal workflow add-task $WF_ID 3
-fractal workflow add-task $WF_ID 4
-fractal workflow add-task $WF_ID 5 --args-file Parameters/cellpose_segmentation.json
-fractal workflow add-task $WF_ID 6 --args-file Parameters/measurement.json
+fractal workflow add-task $WF_ID "Create OME-Zarr structure" --args-file Parameters/create_zarr_structure.json
+fractal workflow add-task $WF_ID "Convert Yokogawa to OME-Zarr"
+fractal workflow add-task $WF_ID "Copy OME-Zarr structure"
+fractal workflow add-task $WF_ID "Maximum Intensity Projection"
+fractal workflow add-task $WF_ID "Cellpose Segmentation" --args-file Parameters/cellpose_segmentation.json
 
-# fractal workflow add-task $WF_ID "Replicate Zarr structure"
-# fractal workflow add-task $WF_ID "Maximum Intensity Projection"
-# echo "{\"labeling_level\": 3, \"executor\": \"cpu-low\"}" > ${PROJ_DIR}/args_labeling.json
-# fractal workflow add-task $WF_ID "Cellpose Segmentation" --args-file ${PROJ_DIR}/args_labeling.json --meta-file
+# TODO: Change executor
+echo "{\"level\": 0, \"ROI_table_name\": \"well_ROI_table\", \"workflow_file\": \"$PROJ_DIR/../regionprops_from_existing_labels_feature.yaml\", \"input_specs\": {\"dapi_img\": {\"type\": \"image\", \"wavelength_id\": \"A01_C01\"},\"label_img\": {\"type\": \"label\", \"label_name\": \"organoids\"}}, \"output_specs\": {\"regionprops_DAPI\": {\"type\": \"dataframe\",\"table_name\": \"organoids\"}}}" > Parameters/measurement.json
+fractal workflow add-task $WF_ID "Napari workflows wrapper" --args-file Parameters/measurement.json --meta-file Parameters/executor_measurement.json
 
 # Look at the current workflows
 fractal workflow show $WF_ID

@@ -1,6 +1,0 @@
-{
-    "level": 0,
-    "measurement_table_name": "organoid_measurements",
-    "ROI_table_name": "well_ROI_table",
-    "workflow_file": "/data/homes/jluethi/v1_fractal/fractal-demos/examples-v1/15_CV8K_Test/regionprops_from_existing_labels_feature.yaml"
-}
