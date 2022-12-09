@@ -1,8 +1,10 @@
-LABEL="1"
+LABEL="workflow_test-3"
 
 WORKER_INIT="\
 export CELLPOSE_LOCAL_MODELS_PATH=${HOME}/.cache/CELLPOSE_LOCAL_MODELS_PATH
 export NUMBA_CACHE_DIR=${HOME}/.cache/NUMBA_CACHE_DIR
+export NAPARI_CONFIG=${HOME}/.cache/NAPARI_CACHE_DIR
+export XDG_CONFIG_HOME=${HOME}/.cache/XDG
 "
 
 ###############################################################################
@@ -60,6 +62,9 @@ fractal workflow add-task $WF_ID "Convert Yokogawa to OME-Zarr"
 fractal workflow add-task $WF_ID "Copy OME-Zarr structure"
 fractal workflow add-task $WF_ID "Maximum Intensity Projection"
 fractal workflow add-task $WF_ID "Cellpose Segmentation" --args-file Parameters/args_cellpose_segmentation.json --meta-file Parameters/example_meta.json
+echo "{\"level\": 0, \"ROI_table_name\": \"well_ROI_table\", \"workflow_file\": \"`pwd`/regionprops_from_existing_labels_feature.yaml\", \"input_specs\": {\"dapi_img\": {\"type\": \"image\", \"wavelength_id\": \"A01_C01\"}, \"label_img\": {\"type\": \"label\", \"label_name\": \"nuclei\"}}, \"output_specs\": {\"regionprops_DAPI\": {\"type\": \"dataframe\",\"table_name\": \"nuclei\"}}}" > Parameters/args_measurement.json
+fractal workflow add-task $WF_ID "Napari workflows wrapper" --args-file Parameters/args_measurement.json --meta-file Parameters/example_meta.json
+
 
 # Look at the current workflows
 fractal workflow show $WF_ID
