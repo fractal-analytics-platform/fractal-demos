@@ -131,3 +131,7 @@ dmypy.json
 # Mac filesystem stuff
 .DS_Store
 *.swp
+
+# Additional tmp files and folders
+tmp*
+.fractal.env
