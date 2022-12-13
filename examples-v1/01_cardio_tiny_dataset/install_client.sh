@@ -6,7 +6,7 @@ conda activate $ENVNAME
 conda update pip -y
 
 
-VERSION="1.0.0a4"
+VERSION="1.0.0a5"
 pip install fractal-client==$VERSION
 
 # Installing from github releases:
