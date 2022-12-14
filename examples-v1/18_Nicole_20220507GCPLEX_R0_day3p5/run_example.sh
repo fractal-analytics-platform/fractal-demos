@@ -6,7 +6,7 @@ LABEL="nicole-CGPLEX-v2"
 DATA_BASE_PATH="TBD"
 
 INPUT_PATH=$DATA_BASE_PATH"/Users/repinico/Yokogawa/20220507GCPLEX_R0/day3p5/TIF"
-OUTPUT_PATH=$DATA_BASE_PATH"/luetjoel/Fractal_Test_Output/output_$LABEL"
+OUTPUT_PATH=$DATA_BASE_PATH"/Users/luetjoel/Fractal_Test_Output/output_$LABEL"
 
 # Change cache directory or add proxy settings if necessary
 WORKER_INIT="\
