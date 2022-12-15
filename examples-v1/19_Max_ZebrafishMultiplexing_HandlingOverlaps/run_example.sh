@@ -1,6 +1,6 @@
 ###############################################################################
 # THINGS TO BE CHANGED BY THE USER
-LABEL="max-multiplexing"
+LABEL="max-multiplexing-cpu_high"
 
 # For FMI: needs to point to the liberali group folder
 
@@ -8,7 +8,7 @@ INPUT_PATH_CYCLE_0="/data/active/fractal/3D/PelkmansLab/ZebrafishMultiplexing/cy
 INPUT_PATH_CYCLE_1="/data/active/fractal/3D/PelkmansLab/ZebrafishMultiplexing/cycle1"
 
 # Modify this to place the output somewhere else
-OUTPUT_PATH="/data/active/jluethi/Fractal/20221206_"$LABEL
+OUTPUT_PATH="/data/active/jluethi/Fractal/20221209_"$LABEL
 
 # Change cache directory or add proxy settings if necessary
 WORKER_INIT="\
@@ -68,7 +68,7 @@ fractal workflow add-task $WF_ID "Convert Yokogawa to OME-Zarr" --meta-file Para
 fractal workflow add-task $WF_ID "Cellpose Segmentation" --args-file Parameters/cellpose_3D_cells.json
 # Manually create measurement arg file to get the correct paths
 echo "{\"level\": 0, \"ROI_table_name\": \"FOV_ROI_table\", \"workflow_file\": \"`pwd`/regionprops_from_existing_labels_feature.yaml\", \"input_specs\": {\"dapi_img\": {\"type\": \"image\", \"wavelength_id\": \"A01_C01\"}, \"label_img\": {\"type\": \"label\", \"label_name\": \"nuclei\"}}, \"output_specs\": {\"regionprops_DAPI\": {\"type\": \"dataframe\",\"table_name\": \"nuclei\"}}}" > Parameters/args_measurement.json
-fractal workflow add-task $WF_ID "Napari workflows wrapper" --args-file Parameters/args_measurement.json --meta-file Parameters/yoko_parsing.json
+fractal workflow add-task $WF_ID "Napari workflows wrapper" --args-file Parameters/args_measurement.json --meta-file Parameters/meta_measurement.json
 
 # 2D processing
 fractal workflow add-task $WF_ID "Copy OME-Zarr structure"
