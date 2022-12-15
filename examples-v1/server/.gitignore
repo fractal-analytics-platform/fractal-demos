@@ -2,7 +2,7 @@ data
 artifacts
 LOG*
 logs
-FRACTAL_ROOT
+FRACTAL_TASKS_DIR
 .fractal_server.env
 tmp
 OLD

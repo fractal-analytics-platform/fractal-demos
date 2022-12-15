@@ -1,26 +1,11 @@
-LABEL="grid_overlap"
+LABEL="overlap-test-v3"
 
-###############################################################################
-# THINGS TO BE CHANGED BY THE USER
-# Adapt to settings to where you run the example
-BASE_FOLDER_EXAMPLE=`pwd`/..
-###############################################################################
-
-###############################################################################
-# IMPORTANT: modify the following lines, depending on your preferences
-# 1. They MUST include a `cd` command to a path where your user can write. The
-#    simplest is to use `cd $HOME`, but notice that this will create many sh
-#    scripts in your folder. You can also use `cd $HOME/fractal_parsl_scripts`,
-#    but first make sure that such folder exists
-# 2. They MAY include additional commands to load a python environment. The ones
-#    used in the current example are appropriate for the UZH setup.
 WORKER_INIT="\
-export HOME=$BASE_FOLDER_EXAMPLE/../../fractal-home; \
-mkdir -p $BASE_FOLDER_EXAMPLE/../../fractal-home/fractal_parsl_scripts; \
-cd $BASE_FOLDER_EXAMPLE/../../fractal-home/fractal_parsl_scripts; \
+export CELLPOSE_LOCAL_MODELS_PATH=${HOME}/.cache/CELLPOSE_LOCAL_MODELS_PATH
+export NUMBA_CACHE_DIR=${HOME}/.cache/NUMBA_CACHE_DIR
+export NAPARI_CONFIG=${HOME}/.cache/NAPARI_CACHE_DIR
+export XDG_CONFIG_HOME=${HOME}/.cache/XDG
 "
-###############################################################################
-
 
 # Set useful variables
 PRJ_NAME="proj-$LABEL"
@@ -38,7 +23,10 @@ rm -r $PROJ_DIR
 mkdir $PROJ_DIR
 
 ###############################################################################
-# IMPORTANT: modify the following lines so that they point to absolute paths
+# THINGS TO BE CHANGED BY THE USER
+# Adapt to settings to where you run the example
+BASE_FOLDER_EXAMPLE=`pwd`/..
+
 INPUT_PATH=$BASE_FOLDER_EXAMPLE/../../../test_datasets/FMI/grided_overlap_184planes_100FOVs/221007CB_nucShape
 OUTPUT_PATH=${PROJ_DIR}/output
 ###############################################################################
@@ -66,29 +54,12 @@ WF_ID=`fractal --batch workflow new "$WF_NAME" $PRJ_ID`
 echo "WF_ID: $WF_ID"
 
 # Add tasks to workflow
-# Check the IDs! Those only work if they are the only ones that were registered
-# 1 -> create_zarr_structure
-# 2 -> yokogawa_to_zarr
-# 3 -> Replicate Zarr structure
-# 4 -> Maximum Intensity Projection
-# 5 -> Cellpose Segmentation
-# 6 -> Measurement -> to be deprecated
-# 7 -> Illumination correction
-# 8 -> Napari workflows wrapper
-fractal workflow add-task $WF_ID 1 --args-file Parameters/create_zarr_structure.json
-fractal workflow add-task $WF_ID 2
-
-# TODO: Set up FMI illumination correction?
-# echo "{\"overwrite\": \"True\", \"dict_corr\": {\"root_path_corr\": \"$BASE_FOLDER_EXAMPLE/illum_corr_images/\", \"A01_C01\": \"20220621_UZH_manual_illumcorr_40x_A01_C01.png\", \"A01_C02\": \"20220621_UZH_manual_illumcorr_40x_A01_C02.png\", \"A02_C03\": \"20220621_UZH_manual_illumcorr_40x_A02_C03.png\"}}" > Parameters/illumination_correction.json
-# fractal workflow add-task $WF_ID 7 --args-file Parameters/illumination_correction.json
-fractal workflow add-task $WF_ID 3
-fractal workflow add-task $WF_ID 4
-
-# TODO: Cellpose task doesn't work yet at FMI, because of issue with executor overwrite
-# fractal workflow add-task $WF_ID 5 --args-file Parameters/cellpose_segmentation_fmi.json
-
-# echo "{\"level\": 0, \"ROI_table_name\": \"well_ROI_table\", \"workflow_file\": \"$PROJ_DIR/../regionprops_from_existing_labels_feature.yaml\", \"input_specs\": {\"dapi_img\": {\"type\": \"image\", \"channel\": \"A01_C01\"},\"label_img\": {\"type\": \"label\", \"label_name\": \"organoids\"}}, \"output_specs\": {\"regionprops_DAPI\": {\"type\": \"dataframe\",\"table_name\": \"organoids\"}}}" > Parameters/measurement.json
-# fractal workflow add-task $WF_ID 8 --args-file Parameters/measurement.json
+fractal workflow add-task $WF_ID "Create OME-Zarr structure" --args-file Parameters/create_zarr_structure.json
+fractal workflow add-task $WF_ID "Convert Yokogawa to OME-Zarr"
+fractal workflow add-task $WF_ID "Copy OME-Zarr structure"
+fractal workflow add-task $WF_ID "Maximum Intensity Projection"
+#fractal workflow add-task $WF_ID "Cellpose Segmentation" --args-file Parameters/args_cellpose_segmentation.json --meta-file Parameters/example_meta.json
+#fractal workflow add-task $WF_ID "Napari workflows wrapper" --args-file Parameters/args_measurement.json --meta-file Parameters/example_meta.json
 
 # Look at the current workflows
 fractal workflow show $WF_ID

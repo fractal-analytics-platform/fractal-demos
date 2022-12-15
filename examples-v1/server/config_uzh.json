@@ -1,7 +1,7 @@
 {
     "cpu-low": {
         "partition": "main",
-        "mem": "1g",
+        "mem": "7g",
         "nodes": "1",
         "ntasks-per-node": "1",
         "cpus-per-task": "1"

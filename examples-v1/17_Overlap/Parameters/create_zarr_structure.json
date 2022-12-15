@@ -1,18 +1,21 @@
 {
-    "channel_parameters": {
-        "A02_C01": {
+    "allowed_channels": [
+        {
             "colormap": "00FFFF",
-            "end": 2000,
+            "wavelength_id": "A02_C01",
+            "end": 7000,
             "label": "Channel 1",
             "start": 110
         },
-        "A01_C04": {
-            "colormap": "FFFF00",
-            "end": 1600,
+        {
+            "colormap": "FF00FF",
+            "end": 800,
+            "wavelength_id": "A01_C04",
             "label": "Channel 4",
             "start": 110
         }
-    },
+        ]
+    ,
     "coarsening_xy": 2,
     "num_levels": 5
 }

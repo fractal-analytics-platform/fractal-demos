@@ -1,4 +1,4 @@
-ENVNAME=fractal-client-v1
+ENVNAME=fractal-client-v1-a5
 conda deactivate
 conda remove --name $ENVNAME -y --all
 conda create --name $ENVNAME python==3.8.13 -y
@@ -6,7 +6,7 @@ conda activate $ENVNAME
 conda update pip -y
 
 
-VERSION="1.0.0a2"
+VERSION="1.0.0a5"
 pip install fractal-client==$VERSION
 
 # Installing from github releases:
