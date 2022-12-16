@@ -1,0 +1,37 @@
+[tool.poetry]
+name = "fractal-tasks-core-MINIMAL-VERSION"
+version = "0.0.0"
+description = ""
+authors = ["None <none@none.none>"]
+packages = [{include = "fractal_tasks_core"}]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+dask = ">=2022.6"
+pandas = "^1.2.0"
+defusedxml = "^0.7.1"
+anndata = "^0.8.0"
+lxml = "^4.9.1"
+numpy = "^1.23.4"
+zarr = "^2.13.3"
+pydantic = "^1.10.2"
+devtools = "^0.8.0"
+deptry = "^0.6.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+
+[tool.bumpver]
+current_version = "0.6.5"
+version_pattern = "MAJOR.MINOR.PATCH[PYTAGNUM]"
+commit_message = "bump version {old_version} -> {new_version}"
+commit = true
+tag = true
+push = true
+
+[tool.deptry]
+exclude = [
+  'tests', 'examples', 'docs'
+]

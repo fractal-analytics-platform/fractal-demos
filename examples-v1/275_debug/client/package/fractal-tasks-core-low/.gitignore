@@ -1,0 +1,13 @@
+.pytest_cache/
+__pycache__
+*.cpython-*.pyc
+*.env
+
+# parsl-related
+.*.swp
+tmp*
+LOG*
+dist
+dist
+.mypy_cache
+_build
