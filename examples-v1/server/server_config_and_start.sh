@@ -1,6 +1,6 @@
 #!/bin/bash
 
-PORT=8002
+PORT=8010
 
 # Create an empty db
 mkdir fractal_server/migrations/versions
