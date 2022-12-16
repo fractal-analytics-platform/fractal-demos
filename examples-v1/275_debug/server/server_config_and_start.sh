@@ -32,7 +32,7 @@ FRACTAL_RUNNER_WORKING_BASE_DIR=\"artifacts\"
 RUNNER_WORKING_BASE_DIR=\"artifacts\"
 RUNNER_ROOT_DIR=\"artifacts\"
 FRACTAL_PUBLIC_TASK_SUBDIR=.fractal
-FRACTAL_SLURM_CONFIG_FILE=config_uzh.json
+FRACTAL_SLURM_CONFIG_FILE=Config_uzh.json
 " > .fractal_server.env
 
 

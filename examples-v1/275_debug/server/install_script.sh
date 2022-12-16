@@ -5,10 +5,14 @@ conda create --name $ENVNAME python==3.8.13 -y
 conda activate $ENVNAME
 conda update pip -y
 
-git clone git@github.com:fractal-analytics-platform/fractal-server.git code_fractal_server
+CODE_DIR=code_fractal_server
+rm -rf $CODE_DIR
+
+git clone git@github.com:fractal-analytics-platform/fractal-server.git $CODE_DIR
 
 HERE=`pwd`
-cd fractal_server
+cd $CODE_DIR
+git submodule update --init
 pip install -e .[slurm]
 cd $HERE
 
