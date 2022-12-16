@@ -286,6 +286,12 @@ def create_ome_zarr(
 
             group_well = group_plate.create_group(f"{row}/{column}/")
 
+
+    metadata_update = {"some": "metadata"}
+    return metadata_update
+
+    '''
+
             group_well.attrs["well"] = {
                 "images": [{"path": "0"}],
                 "version": __OME_NGFF_VERSION__,
@@ -378,6 +384,7 @@ def create_ome_zarr(
         original_paths=[str(p) for p in input_paths],
     )
     return metadata_update
+    '''
 
 
 if __name__ == "__main__":
