@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "fractal-tasks-core-MINIMAL-VERSION"
+name = "fractal-tasks-core"
 version = "0.0.0"
 description = ""
 authors = ["None <none@none.none>"]
