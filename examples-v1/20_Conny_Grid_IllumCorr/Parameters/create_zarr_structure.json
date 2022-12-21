@@ -1,0 +1,35 @@
+{
+    "allowed_channels": [
+        {
+            "colormap": "00FF00",
+            "wavelength_id": "A01_C04",
+            "end": 13000,
+            "label": "E-Cad",
+            "start": 0
+        },
+        {
+            "colormap": "FFFF00",
+            "end": 1500,
+            "wavelength_id": "A02_C03",
+            "label": "Dll1",
+            "start": 0
+        },
+        {
+            "colormap": "FF00FF",
+            "end": 11000,
+            "wavelength_id": "A03_C02",
+            "label": "Channel 2",
+            "start": 0
+        },
+        {
+            "colormap": "00FFFF",
+            "end": 7500,
+            "wavelength_id": "A04_C01",
+            "label": "DAPI",
+            "start": 0
+        }
+        ]
+    ,
+    "coarsening_xy": 2,
+    "num_levels": 5
+}

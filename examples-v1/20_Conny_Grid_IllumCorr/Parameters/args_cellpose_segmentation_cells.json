@@ -1,0 +1,8 @@
+{
+    "level": 2, 
+    "wavelength_id": "A01_C04", 
+    "output_label_name": "cells", 
+    "ROI_table_name": "FOV_ROI_table", 
+    "model_type": "cyto2", 
+    "diameter": 50
+}
