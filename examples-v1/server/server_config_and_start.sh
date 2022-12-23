@@ -32,4 +32,4 @@ FRACTAL_SLURM_CONFIG_FILE=config_uzh.json
 
 
 # Start the server
-fractal-server --port $PORT
+fractalctl start --port $PORT
