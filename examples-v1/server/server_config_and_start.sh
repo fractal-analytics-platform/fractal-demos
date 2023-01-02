@@ -3,12 +3,13 @@
 PORT=8002
 
 # Create an empty db
-mkdir fractal_server/migrations/versions
-rm fractal_server/migrations/versions/*.py -v
+
 rm -fr data
 mkdir data
-alembic revision --autogenerate
-alembic upgrade head
+export SQLITE_PATH=./data/fractal_server.db
+fractalctl set-db
+#alembic revision --autogenerate
+#alembic upgrade head
 
 # Remove old stuff
 rm -fr FRACTAL_TASKS_DIR
