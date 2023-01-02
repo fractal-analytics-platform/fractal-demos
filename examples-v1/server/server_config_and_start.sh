@@ -5,6 +5,7 @@ PORT=8010
 # Create an empty db
 rm -fr db
 mkdir db
+export SQLITE_PATH=db/fractal_server.db
 fractalctl set-db
 
 # Remove old stuff
