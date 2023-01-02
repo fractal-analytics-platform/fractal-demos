@@ -1,6 +1,6 @@
 VERSION="1.0.0b12"
 
-ENVNAME=fractal-client-$VERSION
+ENVNAME=fractal-server-$VERSION
 conda deactivate
 conda remove --name $ENVNAME -y --all
 conda create --name $ENVNAME python==3.8.13 -y
