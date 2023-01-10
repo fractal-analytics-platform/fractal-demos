@@ -3,7 +3,7 @@ rm .cache -r
 rm -r tmp
 
 # Register user
-PORT=8002
+PORT=8010
 USERNAME="$(whoami)"
 echo -e "\
 FRACTAL_USER=${USERNAME}@me.com

@@ -48,4 +48,4 @@ fractal --batch workflow add-task $WF_ID 1
 fractal --batch workflow add-task $WF_ID 2 --args-file Parameters/edit_task.json
 
 # Apply workflow
-fractal --batch workflow apply -o $DS_OUT_ID -p $PRJ_ID $WF_ID $DS_IN_ID --worker-init "$WORKER_INIT"
+time fractal --batch workflow apply -o $DS_OUT_ID -p $PRJ_ID $WF_ID $DS_IN_ID --worker-init "$WORKER_INIT"

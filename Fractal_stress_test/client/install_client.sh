@@ -1,7 +1,9 @@
-ENVNAME=fractal-client-v1
+ENVNAME=fractal-client-stress-test
 conda deactivate
 conda remove --name $ENVNAME -y --all
-conda create --name $ENVNAME python==3.8.13 -y
+conda create --name $ENVNAME python==3.8 -y
 conda activate $ENVNAME
 conda update pip -y
-pip install git+https://github.com/fractal-analytics-platform/fractal.git -U --force-reinstall
+
+VERSION="1.0.0rc0"
+pip install fractal-client==$VERSION
