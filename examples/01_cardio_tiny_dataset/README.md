@@ -8,3 +8,7 @@
 
 This should complete fairly quickly (submitting the script to it being finished took 30s on my machine). One can check the status with `fractal job show ID` (where the ID is the job ID of the submitted workflow, 1 for the first workflow submitted. This is shown when submitting the workflow)
 
+Check the client documentation for details on using the Fractal Client: https://fractal-analytics-platform.github.io/fractal/install.html
+Check the Fractal Tasks Core documentation for details on the individual tasks of this example workflow: https://fractal-analytics-platform.github.io/fractal-tasks-core/
+
+Successfully run with `fractal-server==1.0.0rc1`, `fractal-client==1.0.0rc0` and `fractal-tasks-core==0.6.5`
