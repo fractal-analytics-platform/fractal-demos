@@ -1,0 +1,9 @@
+data
+artifacts
+LOG*
+logs
+FRACTAL_TASKS_DIR
+.fractal_server.env
+tmp
+OLD
+db
