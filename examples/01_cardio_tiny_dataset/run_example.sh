@@ -25,7 +25,7 @@ rm -r $PROJ_DIR  2> /dev/null
 mkdir $PROJ_DIR
 
 ###############################################################################
-# IMPORTANT: modify the following lines so that they point to absolute paths
+# IMPORTANT: This defines the location of input & output data
 INPUT_PATH=`pwd`/../images/10.5281_zenodo.7059515
 OUTPUT_PATH=${PROJ_DIR}/output
 ###############################################################################
