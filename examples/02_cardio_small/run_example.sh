@@ -1,4 +1,4 @@
-LABEL="cardio-2x2"
+LABEL="cardio-2x2-3"
 
 # Initialization for some environment variables for the worker
 # Needed on clusters where users don't have write access to the conda env
@@ -54,7 +54,7 @@ echo "WF_ID: $WF_ID"
 
 # Add tasks to workflow
 fractal workflow add-task $WF_ID "Create OME-Zarr structure" --args-file Parameters/create_zarr_structure.json
-fractal workflow add-task $WF_ID "Convert Yokogawa to OME-Zarr"
+fractal workflow add-task $WF_ID "Convert Yokogawa to OME-Zarr"  --meta-file Parameters/example_meta.json
 
 echo "{\"overwrite\": \"True\", \"dict_corr\": {\"root_path_corr\": \"`pwd`/../illum_corr_images/\", \"A01_C01\": \"20220621_UZH_manual_illumcorr_40x_A01_C01.png\", \"A01_C02\": \"20220621_UZH_manual_illumcorr_40x_A01_C02.png\", \"A02_C03\": \"20220621_UZH_manual_illumcorr_40x_A02_C03.png\"}}" > Parameters/illumination_correction.json
 fractal workflow add-task $WF_ID "Illumination correction" --args-file Parameters/illumination_correction.json
