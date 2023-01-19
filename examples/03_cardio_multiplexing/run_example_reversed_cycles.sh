@@ -1,4 +1,4 @@
-LABEL="5"
+LABEL="reversed_2"
 
 # Initialization for some environment variables for the worker
 # Needed on clusters where users don't have write access to the conda env
@@ -40,9 +40,9 @@ echo "DS_IN_ID: $DS_IN_ID"
 
 # Update dataset name/type, and add a resource
 fractal dataset edit --name "$DS_IN_NAME" -t image --read-only $PRJ_ID $DS_IN_ID
-fractal dataset add-resource -g "*.png" $PRJ_ID $DS_IN_ID $INPUT_PATH/cycle1
-fractal dataset add-resource -g "*.png" $PRJ_ID $DS_IN_ID $INPUT_PATH/cycle2
 fractal dataset add-resource -g "*.png" $PRJ_ID $DS_IN_ID $INPUT_PATH/cycle3
+fractal dataset add-resource -g "*.png" $PRJ_ID $DS_IN_ID $INPUT_PATH/cycle2
+fractal dataset add-resource -g "*.png" $PRJ_ID $DS_IN_ID $INPUT_PATH/cycle1
 
 # Add output dataset, and add a resource to it
 DS_OUT_ID=`fractal --batch project add-dataset $PRJ_ID "$DS_OUT_NAME"`
@@ -56,7 +56,7 @@ WF_ID=`fractal --batch workflow new "$WF_NAME" $PRJ_ID`
 echo "WF_ID: $WF_ID"
 
 # Add tasks to workflow
-fractal workflow add-task $WF_ID "Create OME-ZARR structure (multiplexing)" --args-file Parameters/create_zarr_structure_multiplex.json
+fractal workflow add-task $WF_ID "Create OME-ZARR structure (multiplexing)" --args-file Parameters/create_zarr_structure_multiplex_reversed.json
 fractal workflow add-task $WF_ID "Convert Yokogawa to OME-Zarr"
 fractal workflow add-task $WF_ID "Copy OME-Zarr structure"
 fractal workflow add-task $WF_ID "Maximum Intensity Projection"
