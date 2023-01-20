@@ -1,4 +1,4 @@
-LABEL="SF_custom_network"
+LABEL="SF_custom_network-1"
 
 # Initialization for some environment variables for the worker
 # Needed on clusters where users don't have write access to the conda env
@@ -27,7 +27,7 @@ mkdir $PROJ_DIR
 ###############################################################################
 # IMPORTANT: modify the following lines so that they point to absolute paths
 INPUT_PATH=/data/active/fractal/Liberali/1_well_15_fields_20_planes_SF_w_errors/D10_R1/220304_172545_220304_175557
-OUTPUT_PATH=/data/active/jluethi/Fractal/20230120_searchfirst_custom_network
+OUTPUT_PATH=/data/active/jluethi/Fractal/20230120_searchfirst_custom_network1
 ###############################################################################
 
 # Create project
