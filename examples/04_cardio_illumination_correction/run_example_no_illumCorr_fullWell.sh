@@ -1,4 +1,4 @@
-LABEL="no_illum_corr_fullWell_FOV-_cellpose_highres"
+LABEL="no_illum_corr_fullWell_FOV-_cellpose_highres-2"
 
 WORKER_INIT="\
 export CELLPOSE_LOCAL_MODELS_PATH=${HOME}/.cache/CELLPOSE_LOCAL_MODELS_PATH
@@ -25,7 +25,7 @@ mkdir $PROJ_DIR
 ###############################################################################
 # IMPORTANT: modify the following lines so that they point to absolute paths
 INPUT_PATH=/data/active/fractal/3D/PelkmansLab/CardiacMultiplexing/Cycle1_9x8_singleWell
-OUTPUT_PATH=${PROJ_DIR}/output
+OUTPUT_PATH=/data/active/jluethi/Fractal/20230119_NoillumCorr_FullWell
 ###############################################################################
 
 # Create project
