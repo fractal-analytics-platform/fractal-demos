@@ -6,5 +6,5 @@
     "cellprob_threshold": -3.0,
     "flow_threshold": 0.4,
     "pretrained_model": "/data/active/fractal/Liberali/Hummingbird.331986",
-    "label_name": "organoids"
+    "output_label_name": "organoids"
 }

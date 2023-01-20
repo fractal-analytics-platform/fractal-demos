@@ -1,4 +1,4 @@
-LABEL="SF_custom_network-1"
+LABEL="SF_custom_network-2"
 
 # Initialization for some environment variables for the worker
 # Needed on clusters where users don't have write access to the conda env
