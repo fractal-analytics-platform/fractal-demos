@@ -9,8 +9,8 @@ This only needs to be done once (unless the server is restarted again)
 ## Running an example through Fractal
 This needs to be done in each example folder you're running
 4. Switch to this example folder and save the user credentials here by running the `prepare_user.sh` script (user credentials either need to be provided on each fractal client command or present in the `.fractal.env` in the folder you're running the client from)
-4. Get the example data: `pip install zenodo_get`, then run `. ./fetch_test_data_from_zenodo.sh`
-5. One can then either go through the project creation, dataset creation, workflow creation & submission one by one. Or run it all at once by running: `. ./run_example.sh`
+5. Get the example data: `pip install zenodo_get`, then run `. ./fetch_test_data_from_zenodo.sh`
+6. One can then either go through the project creation, dataset creation, workflow creation & submission one by one. Or run it all at once by running: `. ./run_example.sh`
 
 This should complete fairly quickly (submitting the script to it being finished took 30s on my machine). One can check the status with `fractal job show ID` (where the ID is the job ID of the submitted workflow, 1 for the first workflow submitted. This is shown when submitting the workflow)
 
