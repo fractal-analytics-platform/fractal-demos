@@ -1,26 +1,13 @@
-LABEL="CV8K-mem-test"
+LABEL="CV8K-test"
 
-###############################################################################
-# THINGS TO BE CHANGED BY THE USER
-# Adapt to settings to where you run the example
-BASE_FOLDER_EXAMPLE=`pwd`/..
-###############################################################################
-
-###############################################################################
-# IMPORTANT: modify the following lines, depending on your preferences
-# 1. They MUST include a `cd` command to a path where your user can write. The
-#    simplest is to use `cd $HOME`, but notice that this will create many sh
-#    scripts in your folder. You can also use `cd $HOME/fractal_parsl_scripts`,
-#    but first make sure that such folder exists
-# 2. They MAY include additional commands to load a python environment. The ones
-#    used in the current example are appropriate for the UZH setup.
+# Initialization for some environment variables for the worker
+# Needed on clusters where users don't have write access to the conda env
 WORKER_INIT="\
-export HOME=$HOME; \
-mkdir -p $HOME/fractal_parsl_scripts; \
-cd $HOME/fractal_parsl_scripts; \
+export CELLPOSE_LOCAL_MODELS_PATH=${HOME}/.cache/CELLPOSE_LOCAL_MODELS_PATH
+export NUMBA_CACHE_DIR=${HOME}/.cache/NUMBA_CACHE_DIR
+export NAPARI_CONFIG=${HOME}/.cache/NAPARI_CACHE_DIR
+export XDG_CONFIG_HOME=${HOME}/.cache/XDG
 "
-###############################################################################
-
 
 # Set useful variables
 PRJ_NAME="proj-$LABEL"
@@ -30,11 +17,11 @@ WF_NAME="Workflow $LABEL"
 
 # Set cache path and remove any previous file from there
 export FRACTAL_CACHE_PATH=`pwd`/".cache"
-rm -rv ${FRACTAL_CACHE_PATH}
+rm -rv ${FRACTAL_CACHE_PATH} 2> /dev/null
 
 # Define/initialize empty project folder and temporary file
 PROJ_DIR=`pwd`/tmp_${LABEL}
-rm -r $PROJ_DIR
+rm -r $PROJ_DIR 2> /dev/null
 mkdir $PROJ_DIR
 
 ###############################################################################
