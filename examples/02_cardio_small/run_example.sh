@@ -1,4 +1,4 @@
-LABEL="cardio-2x2-3"
+LABEL="cardio-2x2-rc3"
 
 # Initialization for some environment variables for the worker
 # Needed on clusters where users don't have write access to the conda env
@@ -54,7 +54,7 @@ echo "WF_ID: $WF_ID"
 
 # Add tasks to workflow
 fractal workflow add-task $WF_ID "Create OME-Zarr structure" --args-file Parameters/create_zarr_structure.json
-fractal workflow add-task $WF_ID "Convert Yokogawa to OME-Zarr"  --meta-file Parameters/example_meta.json
+fractal workflow add-task $WF_ID "Convert Yokogawa to OME-Zarr"
 
 echo "{\"overwrite\": \"True\", \"dict_corr\": {\"root_path_corr\": \"`pwd`/../illum_corr_images/\", \"A01_C01\": \"20220621_UZH_manual_illumcorr_40x_A01_C01.png\", \"A01_C02\": \"20220621_UZH_manual_illumcorr_40x_A01_C02.png\", \"A02_C03\": \"20220621_UZH_manual_illumcorr_40x_A02_C03.png\"}}" > Parameters/illumination_correction.json
 fractal workflow add-task $WF_ID "Illumination correction" --args-file Parameters/illumination_correction.json
@@ -68,7 +68,7 @@ fractal workflow add-task $WF_ID "Napari workflows wrapper" --args-file Paramete
 # Maximum intensity projection
 fractal workflow add-task $WF_ID "Copy OME-Zarr structure"
 fractal workflow add-task $WF_ID "Maximum Intensity Projection"
-fractal workflow add-task $WF_ID "Cellpose Segmentation" --args-file Parameters/cellpose_segmentation.json
+fractal workflow add-task $WF_ID "Cellpose Segmentation" --args-file Parameters/cellpose_segmentation.json --meta-file Parameters/example_meta.json
 
 # Run a series of napari workflows
 echo "{\"level\": 0, \"ROI_table_name\": \"well_ROI_table\", \"workflow_file\": \"$PROJ_DIR/../regionprops_from_existing_labels_feature.yaml\", \"input_specs\": {\"dapi_img\": {\"type\": \"image\", \"wavelength_id\": \"A01_C01\"}, \"label_img\": {\"type\": \"label\", \"label_name\": \"nuclei\"}}, \"output_specs\": {\"regionprops_DAPI\": {\"type\": \"dataframe\", \"table_name\": \"regionprops_DAPI\"}}}" > Parameters/measurement.json

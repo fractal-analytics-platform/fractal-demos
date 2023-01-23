@@ -1,0 +1,8 @@
+{
+    "wavelength_id": "A04_C01",
+    "level": 1,
+    "ROI_table_name": "FOV_ROI_table",
+    "output_label_name": "nuclei",
+    "diameter_level0": 30,
+    "cellprob_threshold": -0.2
+}

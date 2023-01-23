@@ -1,0 +1,54 @@
+{
+    "allowed_channels": {
+        "0": [
+            {
+                "wavelength_id": "A01_C01",
+                "colormap": "00FFFF",
+                "end": 700,
+                "label": "DAPI",
+                "start": 110
+            }
+        ],
+        "1": [
+            {
+                "wavelength_id": "A01_C01",
+                "colormap": "00FFFF",
+                "end": 300,
+                "label": "DAPI",
+                "start": 100
+            },
+            {
+                "wavelength_id": "A02_C03",
+                "colormap": "FFFF00",
+                "end": 1500,
+                "label": "Na/K ATPase",
+                "start": 110
+            }
+        ],
+        "2": [
+            {
+                "wavelength_id": "A01_C01",
+                "colormap": "00FFFF",
+                "end": 600,
+                "label": "DAPI",
+                "start": 110
+            },
+            {
+                "wavelength_id": "A01_C02",
+                "colormap": "FF00FF",
+                "end": 500,
+                "label": "HSP60",
+                "start": 110
+            },
+            {
+                "wavelength_id": "A02_C03",
+                "colormap": "FFFF00",
+                "end": 800,
+                "label": "Tubulin",
+                "start": 110
+            }
+        ]
+    },
+    "coarsening_xy": 2,
+    "num_levels": 5
+}
