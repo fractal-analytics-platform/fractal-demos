@@ -7,4 +7,4 @@ conda create --name $ENVNAME python==3.8.13 -y
 conda activate $ENVNAME
 conda update pip -y
 
-pip install fractal-server[slurm]==$VERSION
+pip install fractal-server==$VERSION
