@@ -5,12 +5,12 @@ PORT=8010
 echo -e "FRACTAL_SERVER=http://localhost:$PORT" > .fractal.env
 
 # Modify default admin credentials
-DEFAULT_CREDENTIALS="--user admin@fractal.xy --password 1234"
+DEFAULT_ADMIN="admin@fractal.xy"
+DEFAULT_ADMIN_PW="1234"
 NEW_ADMIN_EMAIL=real-admin@fractal.xy
-NEW_ADMIN_PWD=real-admin-password
-ADMIN_ID=`fractal $DEFAULT_CREDENTIALS --batch user whoami`
-echo "ADMIN_ID: $ADMIN_ID"
-fractal $DEFAULT_CREDENTIALS user edit $ADMIN_ID --new-email $NEW_ADMIN_EMAIL --new-password $NEW_ADMIN_PWD
+NEW_ADMIN_PWD="new_pwd"
+ADMIN_ID=`fractal -u $DEFAULT_ADMIN -p $DEFAULT_ADMIN_PW --batch user whoami`
+fractal  -u $DEFAULT_ADMIN -p $DEFAULT_ADMIN_PW user edit $ADMIN_ID --new-email $NEW_ADMIN_EMAIL --new-password $NEW_ADMIN_PWD
 
 # Write credentials in a .env file (optional) and check new identity
 echo -e "\
