@@ -1,5 +1,11 @@
 LABEL="with_illum_corr_2"
 
+# Get the credentials: If you followed the instructions, they can be copied 
+# from the .fractal.env file in ../00_user_setup. Alternatively, you can write
+# a .fractal.env file yourself or add --user & --password entries to all fractal
+# commands below
+cp ../00_user_setup/.fractal.env .fractal.env
+
 WORKER_INIT="\
 export CELLPOSE_LOCAL_MODELS_PATH=${HOME}/.cache/CELLPOSE_LOCAL_MODELS_PATH
 export NUMBA_CACHE_DIR=${HOME}/.cache/NUMBA_CACHE_DIR

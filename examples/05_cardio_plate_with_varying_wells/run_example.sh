@@ -1,5 +1,11 @@
 LABEL="4"
 
+# Get the credentials: If you followed the instructions, they can be copied 
+# from the .fractal.env file in ../00_user_setup. Alternatively, you can write
+# a .fractal.env file yourself or add --user & --password entries to all fractal
+# commands below
+cp ../00_user_setup/.fractal.env .fractal.env
+
 # Initialization for some environment variables for the worker
 # Needed on clusters where users don't have write access to the conda env
 WORKER_INIT="\

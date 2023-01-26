@@ -1,6 +1,12 @@
 # LABEL needs to be the same as in the initial workflow
 LABEL="1"
 
+# Get the credentials: If you followed the instructions, they can be copied 
+# from the .fractal.env file in ../00_user_setup. Alternatively, you can write
+# a .fractal.env file yourself or add --user & --password entries to all fractal
+# commands below
+cp ../00_user_setup/.fractal.env .fractal.env
+
 # Get IDs from the first workflow
 PRJ_ID="13"
 # Output dataset from the first workflow is both input & output now
