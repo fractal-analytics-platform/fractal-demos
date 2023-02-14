@@ -1,4 +1,4 @@
-LABEL="cardio-23"
+LABEL="cardio-23-2"
 
 # Get the credentials: If you followed the instructions, they can be copied 
 # from the .fractal.env file in ../00_user_setup. Alternatively, you can write
@@ -33,7 +33,7 @@ mkdir $PROJ_DIR
 ###############################################################################
 # IMPORTANT: This defines the location of input & output data
 INPUT_PATH=/data/active/jluethi/20200810-CardiomyocyteDifferentiation14/Cycle1/images_renamed
-OUTPUT_PATH=/data/active/jluethi/Fractal/20230130_23well_Cardiomyocytes
+OUTPUT_PATH=/data/active/jluethi/Fractal/20230131_23well_Cardiomyocytes
 ###############################################################################
 
 # Create project
@@ -60,14 +60,14 @@ echo "WF_ID: $WF_ID"
 
 # Add tasks to workflow
 fractal workflow add-task $WF_ID "Create OME-Zarr structure" --args-file Parameters/create_zarr_structure.json
-fractal workflow add-task $WF_ID "Convert Yokogawa to OME-Zarr"
+fractal workflow add-task $WF_ID "Convert Yokogawa to OME-Zarr" --meta-file Parameters/example_meta.json
 
 echo "{\"overwrite\": \"True\", \"dict_corr\": {\"root_path_corr\": \"`pwd`/../../illum_corr_images/\", \"A01_C01\": \"20220621_UZH_manual_illumcorr_40x_A01_C01.png\", \"A01_C02\": \"20220621_UZH_manual_illumcorr_40x_A01_C02.png\", \"A02_C03\": \"20220621_UZH_manual_illumcorr_40x_A02_C03.png\"}}" > Parameters/illumination_correction.json
 fractal workflow add-task $WF_ID "Illumination correction" --args-file Parameters/illumination_correction.json
 
 # Maximum intensity projection
 fractal workflow add-task $WF_ID "Copy OME-Zarr structure"
-fractal workflow add-task $WF_ID "Maximum Intensity Projection"
+fractal workflow add-task $WF_ID "Maximum Intensity Projection" --meta-file Parameters/example_meta.json
 fractal workflow add-task $WF_ID "Cellpose Segmentation" --args-file Parameters/cellpose_segmentation.json #--meta-file Parameters/example_meta.json
 
 # Run a series of napari workflows
