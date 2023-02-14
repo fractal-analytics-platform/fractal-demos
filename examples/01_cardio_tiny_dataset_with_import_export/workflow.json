@@ -1,0 +1,176 @@
+{
+  "name": "My Workflow",
+  "task_list": [
+    {
+      "order": 0,
+      "meta": {
+        "executor": "cpu-mid"
+      },
+      "args": {
+        "allowed_channels": [
+          {
+            "colormap": "00FFFF",
+            "wavelength_id": "A01_C01",
+            "end": 800,
+            "label": "DAPI",
+            "start": 110
+          },
+          {
+            "colormap": "FF00FF",
+            "end": 290,
+            "wavelength_id": "A01_C02",
+            "label": "nanog",
+            "start": 110
+          },
+          {
+            "colormap": "FFFF00",
+            "end": 1600,
+            "wavelength_id": "A02_C03",
+            "label": "Lamin B1",
+            "start": 110
+          }
+        ],
+        "coarsening_xy": 2,
+        "num_levels": 5
+      },
+      "task": {
+        "name": "Create OME-Zarr structure",
+        "command": "/home/tommaso/Fractal/fractal-demos/examples/server/FRACTAL_TASKS_DIR/.fractal/fractal-tasks-core0.7.2/venv/bin/python /home/tommaso/Fractal/fractal-demos/examples/server/FRACTAL_TASKS_DIR/.fractal/fractal-tasks-core0.7.2/venv/lib/python3.8/site-packages/fractal_tasks_core/create_ome_zarr.py",
+        "source": "pip:fractal-tasks-core==0.7.2",
+        "input_type": "image",
+        "output_type": "zarr",
+        "default_args": {
+          "num_levels": 2,
+          "coarsening_xy": 2,
+          "metadata_table": "mrf_mlf"
+        },
+        "meta": {
+          "executor": "cpu-low"
+        }
+      }
+    },
+    {
+      "order": 1,
+      "meta": null,
+      "args": null,
+      "task": {
+        "name": "Convert Yokogawa to OME-Zarr",
+        "command": "/home/tommaso/Fractal/fractal-demos/examples/server/FRACTAL_TASKS_DIR/.fractal/fractal-tasks-core0.7.2/venv/bin/python /home/tommaso/Fractal/fractal-demos/examples/server/FRACTAL_TASKS_DIR/.fractal/fractal-tasks-core0.7.2/venv/lib/python3.8/site-packages/fractal_tasks_core/yokogawa_to_ome_zarr.py",
+        "source": "pip:fractal-tasks-core==0.7.2",
+        "input_type": "zarr",
+        "output_type": "zarr",
+        "default_args": {},
+        "meta": {
+          "executor": "cpu-low",
+          "parallelization_level": "image"
+        }
+      }
+    },
+    {
+      "order": 2,
+      "meta": null,
+      "args": null,
+      "task": {
+        "name": "Copy OME-Zarr structure",
+        "command": "/home/tommaso/Fractal/fractal-demos/examples/server/FRACTAL_TASKS_DIR/.fractal/fractal-tasks-core0.7.2/venv/bin/python /home/tommaso/Fractal/fractal-demos/examples/server/FRACTAL_TASKS_DIR/.fractal/fractal-tasks-core0.7.2/venv/lib/python3.8/site-packages/fractal_tasks_core/copy_ome_zarr.py",
+        "source": "pip:fractal-tasks-core==0.7.2",
+        "input_type": "zarr",
+        "output_type": "zarr",
+        "default_args": {
+          "project_to_2D": true,
+          "suffix": "mip"
+        },
+        "meta": {
+          "executor": "cpu-low"
+        }
+      }
+    },
+    {
+      "order": 3,
+      "meta": null,
+      "args": null,
+      "task": {
+        "name": "Maximum Intensity Projection",
+        "command": "/home/tommaso/Fractal/fractal-demos/examples/server/FRACTAL_TASKS_DIR/.fractal/fractal-tasks-core0.7.2/venv/bin/python /home/tommaso/Fractal/fractal-demos/examples/server/FRACTAL_TASKS_DIR/.fractal/fractal-tasks-core0.7.2/venv/lib/python3.8/site-packages/fractal_tasks_core/maximum_intensity_projection.py",
+        "source": "pip:fractal-tasks-core==0.7.2",
+        "input_type": "zarr",
+        "output_type": "zarr",
+        "default_args": {},
+        "meta": {
+          "executor": "cpu-low",
+          "parallelization_level": "image"
+        }
+      }
+    },
+    {
+      "order": 4,
+      "meta": {
+        "executor": "cpu-mid"
+      },
+      "args": {
+        "level": 3,
+        "wavelength_id": "A01_C01",
+        "output_label_name": "nuclei",
+        "ROI_table_name": "well_ROI_table"
+      },
+      "task": {
+        "name": "Cellpose Segmentation",
+        "command": "/home/tommaso/Fractal/fractal-demos/examples/server/FRACTAL_TASKS_DIR/.fractal/fractal-tasks-core0.7.2/venv/bin/python /home/tommaso/Fractal/fractal-demos/examples/server/FRACTAL_TASKS_DIR/.fractal/fractal-tasks-core0.7.2/venv/lib/python3.8/site-packages/fractal_tasks_core/cellpose_segmentation.py",
+        "source": "pip:fractal-tasks-core==0.7.2",
+        "input_type": "zarr",
+        "output_type": "zarr",
+        "default_args": {
+          "labeling_channel": "A01_C01"
+        },
+        "meta": {
+          "executor": "gpu",
+          "parallelization_level": "image"
+        }
+      }
+    },
+    {
+      "order": 5,
+      "meta": {
+        "executor": "cpu-mid"
+      },
+      "args": {
+        "level": 0,
+        "ROI_table_name": "well_ROI_table",
+        "workflow_file": "/home/tommaso/Fractal/fractal-demos/examples/01_cardio_tiny_dataset_with_import_export/regionprops_from_existing_labels_feature.yaml",
+        "input_specs": {
+          "dapi_img": {
+            "type": "image",
+            "wavelength_id": "A01_C01"
+          },
+          "label_img": {
+            "type": "label",
+            "label_name": "nuclei"
+          }
+        },
+        "output_specs": {
+          "regionprops_DAPI": {
+            "type": "dataframe",
+            "table_name": "nuclei"
+          }
+        }
+      },
+      "task": {
+        "name": "Napari workflows wrapper",
+        "command": "/home/tommaso/Fractal/fractal-demos/examples/server/FRACTAL_TASKS_DIR/.fractal/fractal-tasks-core0.7.2/venv/bin/python /home/tommaso/Fractal/fractal-demos/examples/server/FRACTAL_TASKS_DIR/.fractal/fractal-tasks-core0.7.2/venv/lib/python3.8/site-packages/fractal_tasks_core/napari_workflows_wrapper.py",
+        "source": "pip:fractal-tasks-core==0.7.2",
+        "input_type": "zarr",
+        "output_type": "zarr",
+        "default_args": {
+          "ROI_table_name": "FOV_ROI_table",
+          "level": 0,
+          "relabeling": true,
+          "expected_dimensions": 3
+        },
+        "meta": {
+          "executor": "cpu-low",
+          "parallelization_level": "image"
+        }
+      }
+    }
+  ]
+}
