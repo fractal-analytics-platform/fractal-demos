@@ -16,13 +16,13 @@ fractal  -u $DEFAULT_ADMIN -p $DEFAULT_ADMIN_PW user edit $ADMIN_ID --new-email 
 
 # Register new user
 echo "Enter the user email"
-read -s NEW_USER_EMAIL
+read NEW_USER_EMAIL
 echo
 echo "Enter the user password"
 read -s NEW_USER_PASSWORD
 echo
 echo "Enter the corresponding slurm user"
-read -s SLURM_USER
+read SLURM_USER
 echo
 fractal --user $NEW_ADMIN_EMAIL --password $NEW_ADMIN_PWD user register $NEW_USER_EMAIL $NEW_USER_PASSWORD --slurm-user $SLURM_USER
 
@@ -35,4 +35,4 @@ FRACTAL_SERVER=http://localhost:$PORT
 fractal user whoami
 
 # Trigger collection of core tasks
-fractal task collect fractal-tasks-core --package-version 0.7.0
+fractal task collect fractal-tasks-core --package-version 0.7.2
