@@ -1,4 +1,4 @@
-LABEL="1"
+LABEL="new_2"
 
 # Get the credentials: If you followed the instructions, they can be copied 
 # from the .fractal.env file in ../00_user_setup. Alternatively, you can write
@@ -49,7 +49,7 @@ fractal dataset add-resource -g "*.png" $PRJ_ID $DS_IN_ID $INPUT_PATH
 
 # Add output dataset, and add a resource to it
 DS_OUT_ID=`fractal --batch project add-dataset $PRJ_ID "$DS_OUT_NAME"`
-echo "DS_OUT_ID: $DS_IN_ID"
+echo "DS_OUT_ID: $DS_OUT_ID"
 
 fractal dataset edit -t zarr --read-write $PRJ_ID $DS_OUT_ID
 fractal dataset add-resource -g "*.zarr" $PRJ_ID $DS_OUT_ID $OUTPUT_PATH

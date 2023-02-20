@@ -43,7 +43,7 @@ fractal dataset add-resource -g "*.tif" $PRJ_ID $DS_IN_ID $INPUT_PATH
 
 # Add output dataset, and add a resource to it
 DS_OUT_ID=`fractal --batch project add-dataset $PRJ_ID "$DS_OUT_NAME"`
-echo "DS_OUT_ID: $DS_IN_ID"
+echo "DS_OUT_ID: $DS_OUT_ID"
 
 fractal dataset edit -t zarr --read-write $PRJ_ID $DS_OUT_ID
 fractal dataset add-resource -g "*.zarr" $PRJ_ID $DS_OUT_ID $OUTPUT_PATH
