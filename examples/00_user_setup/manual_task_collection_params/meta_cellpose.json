@@ -1,0 +1,4 @@
+{
+    "executor": "gpu",
+    "parallelization_level": "image"
+}

@@ -14,7 +14,10 @@ There are two main client setups: for a local user or for a multi-user setup. Us
 
 Check the client documentation for details on using the Fractal Client: https://fractal-analytics-platform.github.io/fractal/install.html
 
-Successfully run with `fractal-server==1.0.2`, `fractal-client==1.0.1` and `fractal-tasks-core==0.7.0`
+Successfully run with `fractal-server==1.0.8`, `fractal-client==1.0.5` and `fractal-tasks-core==0.7.4`
 
-Know issues:
-Installation on Macs can fail due to qt in a dependency. We're trying to work around this at the moment. See here for more details: https://github.com/fractal-analytics-platform/fractal-tasks-core/issues/286#issuecomment-1404640818
+## Know issues:
+Task collection on Apple Silicon Macs can fail due to issues with dependencies being install via pip (currently, the imagecodecs dependency of cellpose is not pip installable). We are [evaluating conda packaging](https://github.com/fractal-analytics-platform/fractal-tasks-core/issues/290), but are not releasing those at the moment.
+You can work around this by manually installting the tasks (e.g. install imagecodecs first, then the task package) and the register the tasks one-by-one with the server. I created a `manual_task_collection.sh` script that automates this process. Thus, if the automatic task collection fails, try running `manual_task_collection.sh` (after you have run the `local_user_setup.sh` to register the fractal user).
+
+

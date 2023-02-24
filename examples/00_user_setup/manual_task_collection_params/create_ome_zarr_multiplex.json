@@ -1,0 +1,5 @@
+{
+    "num_levels": 2,
+    "coarsening_xy": 2,
+    "metadata_table": "mrf_mlf"
+}
