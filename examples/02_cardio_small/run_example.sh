@@ -1,4 +1,4 @@
-LABEL="cardio-2x2-rc3"
+LABEL="cardio-2x2-zenodo"
 
 # Get the credentials: If you followed the instructions, they can be copied 
 # from the .fractal.env file in ../00_user_setup. Alternatively, you can write

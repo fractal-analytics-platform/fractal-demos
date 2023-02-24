@@ -1,4 +1,4 @@
-LABEL="new_2"
+LABEL="zenodo_new"
 
 # Get the credentials: If you followed the instructions, they can be copied 
 # from the .fractal.env file in ../00_user_setup. Alternatively, you can write
