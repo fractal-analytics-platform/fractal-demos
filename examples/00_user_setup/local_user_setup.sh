@@ -21,4 +21,4 @@ FRACTAL_SERVER=http://localhost:$PORT
 fractal user whoami
 
 # Trigger collection of core tasks
-fractal task collect fractal-tasks-core --package-version 0.7.4
+fractal task collect fractal-tasks-core --package-version 0.8.0
