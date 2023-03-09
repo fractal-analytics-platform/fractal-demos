@@ -31,22 +31,12 @@
           }
         ],
         "coarsening_xy": 2,
-        "num_levels": 5
+        "num_levels": 5,
+        "image_extension": "png"
       },
       "task": {
         "name": "Create OME-Zarr structure",
-        "command": "/home/tommaso/Fractal/fractal-demos/examples/server/FRACTAL_TASKS_DIR/.fractal/fractal-tasks-core0.7.2/venv/bin/python /home/tommaso/Fractal/fractal-demos/examples/server/FRACTAL_TASKS_DIR/.fractal/fractal-tasks-core0.7.2/venv/lib/python3.8/site-packages/fractal_tasks_core/create_ome_zarr.py",
-        "source": "pip:fractal-tasks-core==0.7.2",
-        "input_type": "image",
-        "output_type": "zarr",
-        "default_args": {
-          "num_levels": 2,
-          "coarsening_xy": 2,
-          "metadata_table": "mrf_mlf"
-        },
-        "meta": {
-          "executor": "cpu-low"
-        }
+        "source": "pip:fractal-tasks-core==0.8.1"
       }
     },
     {
@@ -55,15 +45,7 @@
       "args": null,
       "task": {
         "name": "Convert Yokogawa to OME-Zarr",
-        "command": "/home/tommaso/Fractal/fractal-demos/examples/server/FRACTAL_TASKS_DIR/.fractal/fractal-tasks-core0.7.2/venv/bin/python /home/tommaso/Fractal/fractal-demos/examples/server/FRACTAL_TASKS_DIR/.fractal/fractal-tasks-core0.7.2/venv/lib/python3.8/site-packages/fractal_tasks_core/yokogawa_to_ome_zarr.py",
-        "source": "pip:fractal-tasks-core==0.7.2",
-        "input_type": "zarr",
-        "output_type": "zarr",
-        "default_args": {},
-        "meta": {
-          "executor": "cpu-low",
-          "parallelization_level": "image"
-        }
+        "source": "pip:fractal-tasks-core==0.8.1"
       }
     },
     {
@@ -72,17 +54,7 @@
       "args": null,
       "task": {
         "name": "Copy OME-Zarr structure",
-        "command": "/home/tommaso/Fractal/fractal-demos/examples/server/FRACTAL_TASKS_DIR/.fractal/fractal-tasks-core0.7.2/venv/bin/python /home/tommaso/Fractal/fractal-demos/examples/server/FRACTAL_TASKS_DIR/.fractal/fractal-tasks-core0.7.2/venv/lib/python3.8/site-packages/fractal_tasks_core/copy_ome_zarr.py",
-        "source": "pip:fractal-tasks-core==0.7.2",
-        "input_type": "zarr",
-        "output_type": "zarr",
-        "default_args": {
-          "project_to_2D": true,
-          "suffix": "mip"
-        },
-        "meta": {
-          "executor": "cpu-low"
-        }
+        "source": "pip:fractal-tasks-core==0.8.1"
       }
     },
     {
@@ -91,15 +63,7 @@
       "args": null,
       "task": {
         "name": "Maximum Intensity Projection",
-        "command": "/home/tommaso/Fractal/fractal-demos/examples/server/FRACTAL_TASKS_DIR/.fractal/fractal-tasks-core0.7.2/venv/bin/python /home/tommaso/Fractal/fractal-demos/examples/server/FRACTAL_TASKS_DIR/.fractal/fractal-tasks-core0.7.2/venv/lib/python3.8/site-packages/fractal_tasks_core/maximum_intensity_projection.py",
-        "source": "pip:fractal-tasks-core==0.7.2",
-        "input_type": "zarr",
-        "output_type": "zarr",
-        "default_args": {},
-        "meta": {
-          "executor": "cpu-low",
-          "parallelization_level": "image"
-        }
+        "source": "pip:fractal-tasks-core==0.8.1"
       }
     },
     {
@@ -111,21 +75,13 @@
         "level": 3,
         "wavelength_id": "A01_C01",
         "output_label_name": "nuclei",
-        "ROI_table_name": "well_ROI_table"
+        "ROI_table_name": "well_ROI_table",
+        "model_type": "nuclei",
+        "diameter_level0": 60
       },
       "task": {
         "name": "Cellpose Segmentation",
-        "command": "/home/tommaso/Fractal/fractal-demos/examples/server/FRACTAL_TASKS_DIR/.fractal/fractal-tasks-core0.7.2/venv/bin/python /home/tommaso/Fractal/fractal-demos/examples/server/FRACTAL_TASKS_DIR/.fractal/fractal-tasks-core0.7.2/venv/lib/python3.8/site-packages/fractal_tasks_core/cellpose_segmentation.py",
-        "source": "pip:fractal-tasks-core==0.7.2",
-        "input_type": "zarr",
-        "output_type": "zarr",
-        "default_args": {
-          "labeling_channel": "A01_C01"
-        },
-        "meta": {
-          "executor": "gpu",
-          "parallelization_level": "image"
-        }
+        "source": "pip:fractal-tasks-core==0.8.1"
       }
     },
     {
@@ -136,7 +92,7 @@
       "args": {
         "level": 0,
         "ROI_table_name": "well_ROI_table",
-        "workflow_file": "/home/tommaso/Fractal/fractal-demos/examples/01_cardio_tiny_dataset_with_import_export/regionprops_from_existing_labels_feature.yaml",
+        "workflow_file": "/data/homes/jluethi/v1_fractal/fractal-demos/examples/01_cardio_tiny_dataset_with_import_export/regionprops_from_existing_labels_feature.yaml",
         "input_specs": {
           "dapi_img": {
             "type": "image",
@@ -156,20 +112,7 @@
       },
       "task": {
         "name": "Napari workflows wrapper",
-        "command": "/home/tommaso/Fractal/fractal-demos/examples/server/FRACTAL_TASKS_DIR/.fractal/fractal-tasks-core0.7.2/venv/bin/python /home/tommaso/Fractal/fractal-demos/examples/server/FRACTAL_TASKS_DIR/.fractal/fractal-tasks-core0.7.2/venv/lib/python3.8/site-packages/fractal_tasks_core/napari_workflows_wrapper.py",
-        "source": "pip:fractal-tasks-core==0.7.2",
-        "input_type": "zarr",
-        "output_type": "zarr",
-        "default_args": {
-          "ROI_table_name": "FOV_ROI_table",
-          "level": 0,
-          "relabeling": true,
-          "expected_dimensions": 3
-        },
-        "meta": {
-          "executor": "cpu-low",
-          "parallelization_level": "image"
-        }
+        "source": "pip:fractal-tasks-core==0.8.1"
       }
     }
   ]

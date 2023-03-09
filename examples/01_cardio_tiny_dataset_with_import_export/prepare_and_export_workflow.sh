@@ -6,7 +6,10 @@ cp ../00_user_setup/.fractal.env .fractal.env
 
 # Create dummy project (note: this is only because a new workflow must be
 # associated to a project)
-OUTPUT=`fractal --batch project new dummy-project dummy/project`
+OUTPUT_DIR=`pwd`/dummy_project
+rm -r $OUTPUT_DIR 2> /dev/null
+mkdir $OUTPUT_DIR
+OUTPUT=`fractal --batch project new dummy-project $OUTPUT_DIR`
 PRJ_ID=`echo $OUTPUT | cut -d ' ' -f1`
 echo "PRJ_ID: $PRJ_ID"
 
