@@ -17,5 +17,4 @@ Runs faster if the level is decreased for the 2D Cellpose segmentation or if 2D 
 Check the client documentation for details on using the Fractal Client: https://fractal-analytics-platform.github.io/fractal/install.html
 Check the Fractal Tasks Core documentation for details on the individual tasks of this example workflow: https://fractal-analytics-platform.github.io/fractal-tasks-core/
 
-This example ran successfully with:   
-* `fractal-server==1.0.0rc3, fractal-client==1.0.0rc3, fracal-tasks-core==0.7.0`
+Successfully run with `fractal-server==1.1.0a1`, `fractal-client==1.1.0a2` and `fractal-tasks-core==0.8.1`
