@@ -1,4 +1,4 @@
-LABEL="cardio-23-2"
+LABEL="20230309_23well_Cardiomyocytes"
 
 # Get the credentials: If you followed the instructions, they can be copied 
 # from the .fractal.env file in ../00_user_setup. Alternatively, you can write
@@ -33,7 +33,7 @@ mkdir $PROJ_DIR
 ###############################################################################
 # IMPORTANT: This defines the location of input & output data
 INPUT_PATH=/data/active/jluethi/20200810-CardiomyocyteDifferentiation14/Cycle1/images_renamed
-OUTPUT_PATH=/data/active/jluethi/Fractal/20230131_23well_Cardiomyocytes
+OUTPUT_PATH=/data/active/jluethi/Fractal/$LABEL
 ###############################################################################
 
 # Create project
@@ -45,14 +45,14 @@ echo "DS_IN_ID: $DS_IN_ID"
 
 # Update dataset name/type, and add a resource
 fractal dataset edit --name "$DS_IN_NAME" -t image --read-only $PRJ_ID $DS_IN_ID
-fractal dataset add-resource -g "*.png" $PRJ_ID $DS_IN_ID $INPUT_PATH
+fractal dataset add-resource $PRJ_ID $DS_IN_ID $INPUT_PATH
 
 # Add output dataset, and add a resource to it
 DS_OUT_ID=`fractal --batch project add-dataset $PRJ_ID "$DS_OUT_NAME"`
 echo "DS_OUT_ID: $DS_OUT_ID"
 
 fractal dataset edit -t zarr --read-write $PRJ_ID $DS_OUT_ID
-fractal dataset add-resource -g "*.zarr" $PRJ_ID $DS_OUT_ID $OUTPUT_PATH
+fractal dataset add-resource $PRJ_ID $DS_OUT_ID $OUTPUT_PATH
 
 # Create workflow
 WF_ID=`fractal --batch workflow new "$WF_NAME" $PRJ_ID`
