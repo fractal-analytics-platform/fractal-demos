@@ -1,4 +1,4 @@
-LABEL="zenodo_new2"
+LABEL="cardiac-2x1"
 
 # Get the credentials: If you followed the instructions, they can be copied 
 # from the .fractal.env file in ../00_user_setup. Alternatively, you can write
@@ -13,6 +13,7 @@ export CELLPOSE_LOCAL_MODELS_PATH=${HOME}/.cache/CELLPOSE_LOCAL_MODELS_PATH
 export NUMBA_CACHE_DIR=${HOME}/.cache/NUMBA_CACHE_DIR
 export NAPARI_CONFIG=${HOME}/.cache/NAPARI_CACHE_DIR
 export XDG_CONFIG_HOME=${HOME}/.cache/XDG
+export MPLCONFIGDIR=${HOME}/.cache/MPL
 "
 
 # Set useful variables
