@@ -16,7 +16,7 @@ Check the client documentation for details on using the Fractal Client: https://
 
 Successfully run with `fractal-server==1.0.8`, `fractal-client==1.0.5` and `fractal-tasks-core==0.7.4`
 
-## Know issues:
+## Known issues:
 Task collection on Apple Silicon Macs can fail due to issues with dependencies being install via pip (currently, the imagecodecs dependency of cellpose is not pip installable). We are [evaluating conda packaging](https://github.com/fractal-analytics-platform/fractal-tasks-core/issues/290), but are not releasing those at the moment.
 You can work around this by manually installting the tasks (e.g. install imagecodecs first, then the task package) and the register the tasks one-by-one with the server. I created a `manual_task_collection.sh` script that automates this process. Thus, if the automatic task collection fails, try running `manual_task_collection.sh` (after you have run the `local_user_setup.sh` to register the fractal user).
 
@@ -31,6 +31,15 @@ Currrently the easiest way to install Fractal in Windows is using Windows Subsys
 3. Install miniconda. You can just follow the typical [installation instructions for linux](https://conda.io/projects/conda/en/stable/user-guide/install/linux.html).
 4. Follow the installation instructions for running Fractal locally. Information can be found in our docs page: https://fractal-analytics-platform.github.io/
 
+
+## Known issues: 
+One issue that can happen when trying to use GPU for segmentation is that the libcuda.so file cannot be found and the segmentation task throws something like: `Error: libcuda.so: cannot open shared object file: No such file or directory`. This can be solved by manually providing the path to the `libcuda.so ` in the `.bashrc` of the linux distribution:
+`export LD_LIBRARY_PATH=/usr/lib/wsl/lib:$LD_LIBRARY_PATH`    
+If this works you should see the file with `ldconfig -p | grep cuda`
+
+
+
+
 > :warning: **WSL resource allocation:**    
 Since WSL2 works ultimately as a virtual machine, it is important enough resources are allocated for running Fractal. We have tested Fractal with the default resource allocation after installation of the linux distribution, however you can [change resource allocation if needed](https://learn.microsoft.com/en-us/windows/wsl/wsl-config). 
 
@@ -38,6 +47,13 @@ Since WSL2 works ultimately as a virtual machine, it is important enough resourc
 WSL1 works as a compatibility layer which basically translates linux commands to the windows kernel. The newer version of WSL, WSL2, however, works as a managed virtual machine via Hyper-V and implements a full linux kernel. Since this generates better compatibility with linux distributions, we recommend WSL2 instead of WSL1. More information can be found in [Wikipedia](https://en.wikipedia.org/wiki/Windows_Subsystem_for_Linux) and [Microsoft](https://docs.microsoft.com/en-us/windows/wsl/wsl2-about).  
 
 
+
+
+
+
 Currently:  
 WSL versions tested: 1.1.3.0  
 Kernel versions: 5.15.90.1
+
+
+
