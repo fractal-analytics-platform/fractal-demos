@@ -14,4 +14,4 @@ Check the client documentation for details on using the Fractal Client: https://
 Check the Fractal Tasks Core documentation for details on the individual tasks of this example workflow: https://fractal-analytics-platform.github.io/fractal-tasks-core/
 
 This example ran successfully with:   
-* `fractal-server==1.0.0rc3, fractal-client==1.0.0rc3, fracal-tasks-core==0.7.0`
+* `fractal-server==1.1.0a3, fractal-client==1.1.0a4, fracal-tasks-core==0.9.0`
