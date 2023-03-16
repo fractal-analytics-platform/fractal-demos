@@ -3,5 +3,6 @@
     "wavelength_id": "A01_C01", 
     "output_label_name": "cells", 
     "ROI_table_name": "well_ROI_table",
-    "model_type": "cyto2"
+    "model_type": "cyto2",
+    "diameter_level0": 80
 }
