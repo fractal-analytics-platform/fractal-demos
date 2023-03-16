@@ -1,4 +1,6 @@
 LABEL=1
+TASK_LABEL=meta-writer
+MY_TASK_NAME="my custom task $TASK_LABEL"
 
 # Get the credentials: If you followed the instructions, they can be copied 
 # from the .fractal.env file in ../00_user_setup. Alternatively, you can write
@@ -27,12 +29,6 @@ INPUT_PATH=`pwd`/../images/10.5281_zenodo.7059515
 OUTPUT_PATH=${PROJ_DIR}/output
 ###############################################################################
 
-# Add custom task to database
-MY_TASK_NAME="my custom task $LABEL"
-MY_TASK_COMMAND="`which python3` `pwd`/my_custom_task.py"
-MY_TASK_SOURCE="my-new-source-$LABEL"
-fractal task new "$MY_TASK_NAME" "$MY_TASK_COMMAND" "$MY_TASK_SOURCE"
-
 # Create project
 OUTPUT=`fractal --batch project new $PRJ_NAME $PROJ_DIR`
 PRJ_ID=`echo $OUTPUT | cut -d ' ' -f1`
@@ -41,15 +37,15 @@ echo "PRJ_ID: $PRJ_ID"
 echo "DS_IN_ID: $DS_IN_ID"
 
 # Update dataset name/type, and add a resource
-fractal dataset edit --name "$DS_IN_NAME" -t image --read-only $PRJ_ID $DS_IN_ID
-fractal dataset add-resource -g "*.png" $PRJ_ID $DS_IN_ID $INPUT_PATH
+fractal dataset edit --new-name "$DS_IN_NAME" --new-type image --make-read-only $PRJ_ID $DS_IN_ID
+fractal dataset add-resource $PRJ_ID $DS_IN_ID $INPUT_PATH
 
 # Add output dataset, and add a resource to it
 DS_OUT_ID=`fractal --batch project add-dataset $PRJ_ID "$DS_OUT_NAME"`
-echo "DS_OUT_ID: $DS_IN_ID"
+echo "DS_OUT_ID: $DS_OUT_ID"
 
-fractal dataset edit -t zarr --read-write $PRJ_ID $DS_OUT_ID
-fractal dataset add-resource -g "*.zarr" $PRJ_ID $DS_OUT_ID $OUTPUT_PATH
+fractal dataset edit --new-type zarr --remove-read-only $PRJ_ID $DS_OUT_ID
+fractal dataset add-resource $PRJ_ID $DS_OUT_ID $OUTPUT_PATH
 
 # Create workflow
 WF_ID=`fractal --batch workflow new "$WF_NAME" $PRJ_ID`
