@@ -1,10 +1,11 @@
 {
     "wavelength_id": "A01_C01",
     "level": 2,
-    "ROI_table_name": "well_ROI_table",
+    "input_ROI_table": "well_ROI_table",
     "diameter_level0": 1000,
     "cellprob_threshold": -3.0,
     "flow_threshold": 0.4,
     "pretrained_model": "/data/active/fractal/Liberali/Hummingbird.331986",
-    "output_label_name": "organoids"
+    "output_label_name": "organoids",
+    "output_ROI_table": "organoid_ROI_table"
 }

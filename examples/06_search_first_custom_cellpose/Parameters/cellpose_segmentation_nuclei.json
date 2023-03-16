@@ -1,7 +1,7 @@
 {
     "wavelength_id": "A01_C01",
     "level": 1,
-    "ROI_table_name": "well_ROI_table",
+    "input_ROI_table": "organoid_ROI_table",
     "diameter_level0": 15,
     "cellprob_threshold": 0.0,
     "flow_threshold": 0.4,

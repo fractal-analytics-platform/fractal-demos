@@ -1,4 +1,4 @@
-LABEL="SF_custom_network-2"
+LABEL="SF_organoid_overlap-v4"
 
 # Get the credentials: If you followed the instructions, they can be copied 
 # from the .fractal.env file in ../00_user_setup. Alternatively, you can write
@@ -36,7 +36,7 @@ mkdir $PROJ_DIR
 ###############################################################################
 # IMPORTANT: modify the following lines so that they point to absolute paths
 INPUT_PATH=/data/active/fractal/Liberali/1_well_15_fields_20_planes_SF_w_errors/D10_R1/220304_172545_220304_175557
-OUTPUT_PATH=/data/active/jluethi/Fractal/20230120_searchfirst_custom_network1
+OUTPUT_PATH=/data/active/jluethi/Fractal/20230316_$LABEL
 ###############################################################################
 
 # Create project
@@ -47,15 +47,15 @@ echo "PRJ_ID: $PRJ_ID"
 echo "DS_IN_ID: $DS_IN_ID"
 
 # Update dataset name/type, and add a resource
-fractal dataset edit --name "$DS_IN_NAME" -t image --read-only $PRJ_ID $DS_IN_ID
-fractal dataset add-resource -g "*.tif" $PRJ_ID $DS_IN_ID $INPUT_PATH
+fractal dataset edit --new-name "$DS_IN_NAME" --new-type image --make-read-only $PRJ_ID $DS_IN_ID
+fractal dataset add-resource $PRJ_ID $DS_IN_ID $INPUT_PATH
 
 # Add output dataset, and add a resource to it
 DS_OUT_ID=`fractal --batch project add-dataset $PRJ_ID "$DS_OUT_NAME"`
 echo "DS_OUT_ID: $DS_OUT_ID"
 
-fractal dataset edit -t zarr --read-write $PRJ_ID $DS_OUT_ID
-fractal dataset add-resource -g "*.zarr" $PRJ_ID $DS_OUT_ID $OUTPUT_PATH
+fractal dataset edit --new-type zarr --remove-read-only $PRJ_ID $DS_OUT_ID
+fractal dataset add-resource $PRJ_ID $DS_OUT_ID $OUTPUT_PATH
 
 # Create workflow
 WF_ID=`fractal --batch workflow new "$WF_NAME" $PRJ_ID`
@@ -68,11 +68,14 @@ fractal workflow add-task $WF_ID "Convert Yokogawa to OME-Zarr"
 fractal workflow add-task $WF_ID "Copy OME-Zarr structure"
 fractal workflow add-task $WF_ID "Maximum Intensity Projection"
 
-fractal workflow add-task $WF_ID "Cellpose Segmentation" --args-file Parameters/cellpose_segmentation.json
+# Organoid segmentation
+fractal workflow add-task $WF_ID "Cellpose Segmentation" --args-file Parameters/cellpose_segmentation_overlap.json
 
-echo "{\"level\": 0, \"ROI_table_name\": \"well_ROI_table\", \"workflow_file\": \"$PROJ_DIR/../regionprops_from_existing_labels_feature.yaml\", \"input_specs\": {\"dapi_img\": {\"type\": \"image\", \"wavelength_id\": \"A01_C01\"}, \"label_img\": {\"type\": \"label\", \"label_name\": \"organoids\"}}, \"output_specs\": {\"regionprops_DAPI\": {\"type\": \"dataframe\", \"table_name\": \"organoids\"}}}" > Parameters/measurement.json
+echo "{\"level\": 0, \"input_ROI_table\": \"well_ROI_table\", \"workflow_file\": \"$PROJ_DIR/../regionprops_from_existing_labels_feature.yaml\", \"input_specs\": {\"dapi_img\": {\"type\": \"image\", \"wavelength_id\": \"A01_C01\"}, \"label_img\": {\"type\": \"label\", \"label_name\": \"organoids\"}}, \"output_specs\": {\"regionprops_DAPI\": {\"type\": \"dataframe\", \"table_name\": \"organoids\"}}}" > Parameters/measurement.json
 fractal workflow add-task $WF_ID "Napari workflows wrapper" --args-file Parameters/measurement.json
 
+# Nuclear segmentation
+fractal workflow add-task $WF_ID "Cellpose Segmentation" --args-file Parameters/cellpose_segmentation_nuclei.json
 
 # Look at the current workflows
 # fractal workflow show $WF_ID
