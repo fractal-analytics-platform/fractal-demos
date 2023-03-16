@@ -1,4 +1,4 @@
-LABEL="4"
+LABEL="varying_well_size_plate_4"
 
 # Get the credentials: If you followed the instructions, they can be copied 
 # from the .fractal.env file in ../00_user_setup. Alternatively, you can write
@@ -35,8 +35,8 @@ mkdir $PROJ_DIR
 
 ###############################################################################
 # IMPORTANT: This defines the location of input & output data
-INPUT_PATH=`pwd`/../images/combined_images_varyingWellPlate
-OUTPUT_PATH=/data/active/jluethi/Fractal/20230118_varying_well_size_plate_$LABEL
+INPUT_PATH=/data/active/fractal/3D/PelkmansLab/plate_varying_wells
+OUTPUT_PATH=/data/active/jluethi/Fractal/20230316_$LABEL
 ###############################################################################
 
 # Create project
@@ -47,27 +47,27 @@ echo "PRJ_ID: $PRJ_ID"
 echo "DS_IN_ID: $DS_IN_ID"
 
 # Update dataset name/type, and add a resource
-fractal dataset edit --name "$DS_IN_NAME" -t image --read-only $PRJ_ID $DS_IN_ID
-fractal dataset add-resource -g "*.png" $PRJ_ID $DS_IN_ID $INPUT_PATH
+fractal dataset edit --new-name "$DS_IN_NAME" --new-type image --make-read-only $PRJ_ID $DS_IN_ID
+fractal dataset add-resource $PRJ_ID $DS_IN_ID $INPUT_PATH
 
 # Add output dataset, and add a resource to it
 DS_OUT_ID=`fractal --batch project add-dataset $PRJ_ID "$DS_OUT_NAME"`
 echo "DS_OUT_ID: $DS_OUT_ID"
 
-fractal dataset edit -t zarr --read-write $PRJ_ID $DS_OUT_ID
-fractal dataset add-resource -g "*.zarr" $PRJ_ID $DS_OUT_ID $OUTPUT_PATH
+fractal dataset edit --new-type zarr --remove-read-only $PRJ_ID $DS_OUT_ID
+fractal dataset add-resource $PRJ_ID $DS_OUT_ID $OUTPUT_PATH
 
 # Create workflow
 WF_ID=`fractal --batch workflow new "$WF_NAME" $PRJ_ID`
 echo "WF_ID: $WF_ID"
 
 # Add tasks to workflow
-fractal workflow add-task $WF_ID "Create OME-Zarr structure" --args-file Parameters/args_create_ome_zarr.json --meta-file Parameters/example_meta.json
+fractal workflow add-task $WF_ID "Create OME-Zarr structure" --args-file Parameters/args_create_ome_zarr.json
 fractal workflow add-task $WF_ID "Convert Yokogawa to OME-Zarr"
 fractal workflow add-task $WF_ID "Copy OME-Zarr structure"
 fractal workflow add-task $WF_ID "Maximum Intensity Projection"
 # fractal workflow add-task $WF_ID "Cellpose Segmentation" --args-file Parameters/args_cellpose_segmentation.json --meta-file Parameters/example_meta.json
-# echo "{\"level\": 0, \"ROI_table_name\": \"well_ROI_table\", \"workflow_file\": \"`pwd`/regionprops_from_existing_labels_feature.yaml\", \"input_specs\": {\"dapi_img\": {\"type\": \"image\", \"wavelength_id\": \"A01_C01\"}, \"label_img\": {\"type\": \"label\", \"label_name\": \"nuclei\"}}, \"output_specs\": {\"regionprops_DAPI\": {\"type\": \"dataframe\",\"table_name\": \"nuclei\"}}}" > Parameters/args_measurement.json
+# echo "{\"level\": 0, \"input_ROI_table\": \"well_ROI_table\", \"workflow_file\": \"`pwd`/regionprops_from_existing_labels_feature.yaml\", \"input_specs\": {\"dapi_img\": {\"type\": \"image\", \"wavelength_id\": \"A01_C01\"}, \"label_img\": {\"type\": \"label\", \"label_name\": \"nuclei\"}}, \"output_specs\": {\"regionprops_DAPI\": {\"type\": \"dataframe\",\"table_name\": \"nuclei\"}}}" > Parameters/args_measurement.json
 # fractal workflow add-task $WF_ID "Napari workflows wrapper" --args-file Parameters/args_measurement.json --meta-file Parameters/example_meta.json
 
 # Look at the current workflows
