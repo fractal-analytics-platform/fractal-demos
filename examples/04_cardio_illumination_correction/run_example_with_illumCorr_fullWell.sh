@@ -36,7 +36,7 @@ mkdir $PROJ_DIR
 ###############################################################################
 # IMPORTANT: modify the following lines so that they point to absolute paths
 INPUT_PATH=/data/active/fractal/3D/PelkmansLab/CardiacMultiplexing/Cycle1_9x8_singleWell
-OUTPUT_PATH=/data/active/jluethi/Fractal/20230119_illumCorr_FullWell
+OUTPUT_PATH=/data/active/jluethi/Fractal/20230316_illumCorr_FullWell
 ###############################################################################
 
 # Create project
@@ -47,15 +47,15 @@ echo "PRJ_ID: $PRJ_ID"
 echo "DS_IN_ID: $DS_IN_ID"
 
 # Update dataset name/type, and add a resource
-fractal dataset edit --name "$DS_IN_NAME" -t image --read-only $PRJ_ID $DS_IN_ID
-fractal dataset add-resource -g "*.png" $PRJ_ID $DS_IN_ID $INPUT_PATH
+fractal dataset edit --new-name "$DS_IN_NAME" --new-type image --make-read-only $PRJ_ID $DS_IN_ID
+fractal dataset add-resource $PRJ_ID $DS_IN_ID $INPUT_PATH
 
 # Add output dataset, and add a resource to it
 DS_OUT_ID=`fractal --batch project add-dataset $PRJ_ID "$DS_OUT_NAME"`
 echo "DS_OUT_ID: $DS_OUT_ID"
 
-fractal dataset edit -t zarr --read-write $PRJ_ID $DS_OUT_ID
-fractal dataset add-resource -g "*.zarr" $PRJ_ID $DS_OUT_ID $OUTPUT_PATH
+fractal dataset edit --new-type zarr --remove-read-only $PRJ_ID $DS_OUT_ID
+fractal dataset add-resource $PRJ_ID $DS_OUT_ID $OUTPUT_PATH
 
 # Create workflow
 WF_ID=`fractal --batch workflow new "$WF_NAME" $PRJ_ID`
