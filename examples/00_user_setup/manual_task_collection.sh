@@ -9,7 +9,7 @@
 # be done in actual deployments. For local testing, installing everything in
 # the client environment works though.
 
-TASK_VERSION="0.8.1"
+TASK_VERSION="0.9.0"
 # 1. Manually install the dependencies that are creating issues
 conda install imagecodecs -y
 
