@@ -1,4 +1,4 @@
-LABEL="import-1"
+LABEL="import-2"
 
 # Get the credentials: If you followed the instructions, they can be copied 
 # from the .fractal.env file in ../00_user_setup. Alternatively, you can write
@@ -13,6 +13,7 @@ export CELLPOSE_LOCAL_MODELS_PATH=${HOME}/.cache/CELLPOSE_LOCAL_MODELS_PATH
 export NUMBA_CACHE_DIR=${HOME}/.cache/NUMBA_CACHE_DIR
 export NAPARI_CONFIG=${HOME}/.cache/NAPARI_CACHE_DIR
 export XDG_CONFIG_HOME=${HOME}/.cache/XDG
+export MPLCONFIGDIR=${HOME}/.cache/MPL
 "
 
 # Set useful variables
@@ -43,14 +44,14 @@ echo "PRJ_ID: $PRJ_ID"
 echo "DS_IN_ID: $DS_IN_ID"
 
 # Update dataset name/type, and add a resource
-fractal dataset edit --name "$DS_IN_NAME" -t image --read-only $PRJ_ID $DS_IN_ID
+fractal dataset edit --new-name "$DS_IN_NAME" --new-type image --make-read-only $PRJ_ID $DS_IN_ID
 fractal dataset add-resource $PRJ_ID $DS_IN_ID $INPUT_PATH
 
 # Add output dataset, and add a resource to it
 DS_OUT_ID=`fractal --batch project add-dataset $PRJ_ID "$DS_OUT_NAME"`
-echo "DS_OUT_ID: $DS_IN_ID"
+echo "DS_OUT_ID: $DS_OUT_ID"
 
-fractal dataset edit -t zarr --read-write $PRJ_ID $DS_OUT_ID
+fractal dataset edit --new-type zarr --remove-read-only $PRJ_ID $DS_OUT_ID
 fractal dataset add-resource $PRJ_ID $DS_OUT_ID $OUTPUT_PATH
 
 # Import workflow
