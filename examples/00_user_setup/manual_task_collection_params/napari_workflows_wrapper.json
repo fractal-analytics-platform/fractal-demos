@@ -1,5 +1,5 @@
 {
-    "ROI_table_name": "FOV_ROI_table",
+    "input_ROI_table": "FOV_ROI_table",
     "level": 0,
     "relabeling": true,
     "expected_dimensions": 3
