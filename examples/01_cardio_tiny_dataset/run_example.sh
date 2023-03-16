@@ -7,13 +7,15 @@ LABEL="cardiac-tiny"
 cp ../00_user_setup/.fractal.env .fractal.env
 
 # Initialization for some environment variables for the worker
-# Needed on clusters where users don't have write access to the conda env
+# Needed on clusters where users don't have write access to the conda env and 
+# fractal user cache directories
+BASE_CACHE_DIR=${HOME}/.cache
 WORKER_INIT="\
-export CELLPOSE_LOCAL_MODELS_PATH=${HOME}/.cache/CELLPOSE_LOCAL_MODELS_PATH
-export NUMBA_CACHE_DIR=${HOME}/.cache/NUMBA_CACHE_DIR
-export NAPARI_CONFIG=${HOME}/.cache/NAPARI_CACHE_DIR
-export XDG_CONFIG_HOME=${HOME}/.cache/XDG
-export MPLCONFIGDIR=${HOME}/.cache/MPL
+export CELLPOSE_LOCAL_MODELS_PATH=$BASE_CACHE_DIR/CELLPOSE_LOCAL_MODELS_PATH
+export NUMBA_CACHE_DIR=$BASE_CACHE_DIR/NUMBA_CACHE_DIR
+export NAPARI_CONFIG=$BASE_CACHE_DIR/napari_config.json
+export XDG_CONFIG_HOME=$BASE_CACHE_DIR/XDG_CONFIG
+export XDG_CACHE_HOME=$BASE_CACHE_DIR/XDG
 "
 
 # Set useful variables

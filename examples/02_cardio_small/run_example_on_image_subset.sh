@@ -7,12 +7,15 @@ LABEL="cardio-2x2-zenodo-subset-1"
 cp ../00_user_setup/.fractal.env .fractal.env
 
 # Initialization for some environment variables for the worker
-# Needed on clusters where users don't have write access to the conda env
+# Needed on clusters where users don't have write access to the conda env and 
+# fractal user cache directories
+BASE_CACHE_DIR=${HOME}/.cache
 WORKER_INIT="\
-export CELLPOSE_LOCAL_MODELS_PATH=${HOME}/.cache/CELLPOSE_LOCAL_MODELS_PATH
-export NUMBA_CACHE_DIR=${HOME}/.cache/NUMBA_CACHE_DIR
-export NAPARI_CONFIG=${HOME}/.cache/NAPARI_CACHE_DIR
-export XDG_CONFIG_HOME=${HOME}/.cache/XDG
+export CELLPOSE_LOCAL_MODELS_PATH=$BASE_CACHE_DIR/CELLPOSE_LOCAL_MODELS_PATH
+export NUMBA_CACHE_DIR=$BASE_CACHE_DIR/NUMBA_CACHE_DIR
+export NAPARI_CONFIG=$BASE_CACHE_DIR/napari_config.json
+export XDG_CONFIG_HOME=$BASE_CACHE_DIR/XDG_CONFIG
+export XDG_CACHE_HOME=$BASE_CACHE_DIR/XDG
 "
 
 # Set useful variables
@@ -81,16 +84,16 @@ echo "{\"level\": 0, \"input_ROI_table\": \"well_ROI_table\", \"workflow_file\":
 fractal workflow add-task $WF_ID "Napari workflows wrapper" --args-file Parameters/measurement.json
 
 # # Workflow 2: 
-# echo "{\"level\": 0, \"input_ROI_table\": \"well_ROI_table\", \"workflow_file\": \"$PROJ_DIR/../np_wf_2_label.yaml\", \"input_specs\": {\"slice_img\": {\"type\": \"image\", \"wavelength_id\": \"A01_C01\"}, \"slice_img_c2\": {\"type\": \"image\", \"wavelength_id\": \"A02_C03\"}}, \"output_specs\": {\"Result of Expand labels (scikit-image, nsbatwm)\": {\"type\": \"label\", \"label_name\": \"wf_2_labels\"}}}" > Parameters/measurement2.json
-# fractal workflow add-task $WF_ID "Napari workflows wrapper" --args-file Parameters/measurement2.json
+echo "{\"level\": 0, \"input_ROI_table\": \"well_ROI_table\", \"workflow_file\": \"$PROJ_DIR/../np_wf_2_label.yaml\", \"input_specs\": {\"slice_img\": {\"type\": \"image\", \"wavelength_id\": \"A01_C01\"}, \"slice_img_c2\": {\"type\": \"image\", \"wavelength_id\": \"A02_C03\"}}, \"output_specs\": {\"Result of Expand labels (scikit-image, nsbatwm)\": {\"type\": \"label\", \"label_name\": \"wf_2_labels\"}}}" > Parameters/measurement2.json
+fractal workflow add-task $WF_ID "Napari workflows wrapper" --args-file Parameters/measurement2.json
 
 # # Workflow 3: 
-# echo "{\"level\": 0, \"input_ROI_table\": \"well_ROI_table\", \"workflow_file\": \"$PROJ_DIR/../np_wf_3_label_df.yaml\", \"input_specs\": {\"slice_img\": {\"type\": \"image\", \"wavelength_id\": \"A01_C01\"}, \"slice_img_c2\": {\"type\": \"image\", \"wavelength_id\": \"A02_C03\"}}, \"output_specs\": {\"Result of Expand labels (scikit-image, nsbatwm)\": {\"type\": \"label\", \"label_name\": \"wf_3_labels\"}, \"regionprops_DAPI\": {\"type\": \"dataframe\", \"table_name\": \"nuclei_measurements_wf3\"}}}" > Parameters/measurement3.json
-# fractal workflow add-task $WF_ID "Napari workflows wrapper" --args-file Parameters/measurement3.json
+echo "{\"level\": 0, \"input_ROI_table\": \"well_ROI_table\", \"workflow_file\": \"$PROJ_DIR/../np_wf_3_label_df.yaml\", \"input_specs\": {\"slice_img\": {\"type\": \"image\", \"wavelength_id\": \"A01_C01\"}, \"slice_img_c2\": {\"type\": \"image\", \"wavelength_id\": \"A02_C03\"}}, \"output_specs\": {\"Result of Expand labels (scikit-image, nsbatwm)\": {\"type\": \"label\", \"label_name\": \"wf_3_labels\"}, \"regionprops_DAPI\": {\"type\": \"dataframe\", \"table_name\": \"nuclei_measurements_wf3\"}}}" > Parameters/measurement3.json
+fractal workflow add-task $WF_ID "Napari workflows wrapper" --args-file Parameters/measurement3.json
 
 # # Workflow 4: 
-# echo "{\"level\": 0, \"input_ROI_table\": \"well_ROI_table\", \"workflow_file\": \"$PROJ_DIR/../np_wf_4_label_multi_df.yaml\", \"input_specs\": {\"slice_img\": {\"type\": \"image\", \"wavelength_id\": \"A01_C01\"}, \"slice_img_c2\": {\"type\": \"image\", \"wavelength_id\": \"A02_C03\"}}, \"output_specs\": {\"Result of Expand labels (scikit-image, nsbatwm)\": {\"type\": \"label\", \"label_name\": \"wf_4_labels\"}, \"regionprops_DAPI\": {\"type\": \"dataframe\", \"table_name\": \"nuclei_measurements_wf4\"}, \"regionprops_Lamin\": {\"type\": \"dataframe\",\"table_name\": \"nuclei_lamin_measurements_wf4\"}}}" > Parameters/measurement4.json
-# fractal workflow add-task $WF_ID "Napari workflows wrapper" --args-file Parameters/measurement4.json
+echo "{\"level\": 0, \"input_ROI_table\": \"well_ROI_table\", \"workflow_file\": \"$PROJ_DIR/../np_wf_4_label_multi_df.yaml\", \"input_specs\": {\"slice_img\": {\"type\": \"image\", \"wavelength_id\": \"A01_C01\"}, \"slice_img_c2\": {\"type\": \"image\", \"wavelength_id\": \"A02_C03\"}}, \"output_specs\": {\"Result of Expand labels (scikit-image, nsbatwm)\": {\"type\": \"label\", \"label_name\": \"wf_4_labels\"}, \"regionprops_DAPI\": {\"type\": \"dataframe\", \"table_name\": \"nuclei_measurements_wf4\"}, \"regionprops_Lamin\": {\"type\": \"dataframe\",\"table_name\": \"nuclei_lamin_measurements_wf4\"}}}" > Parameters/measurement4.json
+fractal workflow add-task $WF_ID "Napari workflows wrapper" --args-file Parameters/measurement4.json
 
 # Look at the current workflows
 # fractal workflow show $WF_ID
