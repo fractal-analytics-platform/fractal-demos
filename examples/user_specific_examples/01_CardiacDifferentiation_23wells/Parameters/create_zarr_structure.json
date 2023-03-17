@@ -24,5 +24,6 @@
     ],
     "coarsening_xy": 2,
     "num_levels": 5,
-    "image_extension": "png"
+    "image_extension": "png",
+    "image_glob_patterns": ["*F001*"]
 }

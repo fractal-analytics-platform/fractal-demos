@@ -1,4 +1,4 @@
-LABEL="20230309_23well_Cardiomyocytes"
+LABEL="202317_23well_Cardiomyocytes_FOV1"
 
 # Get the credentials: If you followed the instructions, they can be copied 
 # from the .fractal.env file in ../00_user_setup. Alternatively, you can write
@@ -47,14 +47,14 @@ echo "PRJ_ID: $PRJ_ID"
 echo "DS_IN_ID: $DS_IN_ID"
 
 # Update dataset name/type, and add a resource
-fractal dataset edit --name "$DS_IN_NAME" -t image --read-only $PRJ_ID $DS_IN_ID
+fractal dataset edit --new-name "$DS_IN_NAME" --new-type image --make-read-only $PRJ_ID $DS_IN_ID
 fractal dataset add-resource $PRJ_ID $DS_IN_ID $INPUT_PATH
 
 # Add output dataset, and add a resource to it
 DS_OUT_ID=`fractal --batch project add-dataset $PRJ_ID "$DS_OUT_NAME"`
 echo "DS_OUT_ID: $DS_OUT_ID"
 
-fractal dataset edit -t zarr --read-write $PRJ_ID $DS_OUT_ID
+fractal dataset edit --new-type zarr --remove-read-only $PRJ_ID $DS_OUT_ID
 fractal dataset add-resource $PRJ_ID $DS_OUT_ID $OUTPUT_PATH
 
 # Create workflow
@@ -74,7 +74,7 @@ fractal workflow add-task $WF_ID "Maximum Intensity Projection" --meta-file Para
 fractal workflow add-task $WF_ID "Cellpose Segmentation" --args-file Parameters/cellpose_segmentation.json #--meta-file Parameters/example_meta.json
 
 # Run a series of napari workflows
-echo "{\"level\": 0, \"ROI_table_name\": \"FOV_ROI_table\", \"workflow_file\": \"$PROJ_DIR/../regionprops_from_existing_labels_feature.yaml\", \"input_specs\": {\"dapi_img\": {\"type\": \"image\", \"wavelength_id\": \"A01_C01\"}, \"lamin_img\": {\"type\": \"image\", \"wavelength_id\": \"A02_C03\"}, \"nanog_img\": {\"type\": \"image\", \"wavelength_id\": \"A01_C02\"}, \"label_img\": {\"type\": \"label\", \"label_name\": \"nuclei\"}}, \"output_specs\": {\"regionprops_DAPI\": {\"type\": \"dataframe\", \"table_name\": \"regionprops_DAPI\"}, \"regionprops_lamin\": {\"type\": \"dataframe\", \"table_name\": \"regionprops_lamin\"}, \"regionprops_nanog\": {\"type\": \"dataframe\", \"table_name\": \"regionprops_nanog\"}}}" > Parameters/measurement.json
+echo "{\"level\": 0, \"input_ROI_table\": \"FOV_ROI_table\", \"workflow_file\": \"$PROJ_DIR/../regionprops_from_existing_labels_feature.yaml\", \"input_specs\": {\"dapi_img\": {\"type\": \"image\", \"wavelength_id\": \"A01_C01\"}, \"lamin_img\": {\"type\": \"image\", \"wavelength_id\": \"A02_C03\"}, \"nanog_img\": {\"type\": \"image\", \"wavelength_id\": \"A01_C02\"}, \"label_img\": {\"type\": \"label\", \"label_name\": \"nuclei\"}}, \"output_specs\": {\"regionprops_DAPI\": {\"type\": \"dataframe\", \"table_name\": \"regionprops_DAPI\"}, \"regionprops_lamin\": {\"type\": \"dataframe\", \"table_name\": \"regionprops_lamin\"}, \"regionprops_nanog\": {\"type\": \"dataframe\", \"table_name\": \"regionprops_nanog\"}}}" > Parameters/measurement.json
 fractal workflow add-task $WF_ID "Napari workflows wrapper" --args-file Parameters/measurement.json
 
 # Look at the current workflows
