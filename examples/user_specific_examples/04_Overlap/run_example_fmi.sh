@@ -1,10 +1,17 @@
 LABEL="overlap-test-v3"
 
+# Get the credentials: If you followed the instructions, they can be copied 
+# from the .fractal.env file in ../00_user_setup. Alternatively, you can write
+# a .fractal.env file yourself or add --user & --password entries to all fractal
+# commands below
+cp ../../00_user_setup/.fractal.env .fractal.env
+
 WORKER_INIT="\
-export CELLPOSE_LOCAL_MODELS_PATH=${HOME}/.cache/CELLPOSE_LOCAL_MODELS_PATH
-export NUMBA_CACHE_DIR=${HOME}/.cache/NUMBA_CACHE_DIR
-export NAPARI_CONFIG=${HOME}/.cache/NAPARI_CACHE_DIR
-export XDG_CONFIG_HOME=${HOME}/.cache/XDG
+export CELLPOSE_LOCAL_MODELS_PATH=$BASE_CACHE_DIR/CELLPOSE_LOCAL_MODELS_PATH
+export NUMBA_CACHE_DIR=$BASE_CACHE_DIR/NUMBA_CACHE_DIR
+export NAPARI_CONFIG=$BASE_CACHE_DIR/napari_config.json
+export XDG_CONFIG_HOME=$BASE_CACHE_DIR/XDG_CONFIG
+export XDG_CACHE_HOME=$BASE_CACHE_DIR/XDG
 "
 
 # Set useful variables
