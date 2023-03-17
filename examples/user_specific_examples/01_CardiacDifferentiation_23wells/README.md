@@ -2,7 +2,7 @@
 This example contains a workflow to create a 3D & 2D OME-Zarr dataset of a single well with 4 field of views. It creates 2D & 3D segmentation with 2D & 3D measurements. It's output is close to https://zenodo.org/record/7144919 (the Zenodo data is not fully up to data and has been processed with an older Fractal version with a similar workflow). It's still a small-ish dataset that can be processed in 30 minutes. It uses all current core Fractal tasks and runs segmentation both on CPU (the 2D one) and GPU (the 3D one).
 
 ## Client setup (from `00_user_setup` folder)
-TBD
+This only needs to be done once (unless the server is restarted again). Follow the instructions in the `00_user_setup` folder.
 
 ## Running an example through Fractal
 This needs to be done in each example folder you're running

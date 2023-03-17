@@ -1,12 +1,19 @@
-LABEL="CV8K-test"
+LABEL="CV8K-1"
+
+# Get the credentials: If you followed the instructions, they can be copied 
+# from the .fractal.env file in ../00_user_setup. Alternatively, you can write
+# a .fractal.env file yourself or add --user & --password entries to all fractal
+# commands below
+cp ../../00_user_setup/.fractal.env .fractal.env
 
 # Initialization for some environment variables for the worker
 # Needed on clusters where users don't have write access to the conda env
 WORKER_INIT="\
-export CELLPOSE_LOCAL_MODELS_PATH=${HOME}/.cache/CELLPOSE_LOCAL_MODELS_PATH
-export NUMBA_CACHE_DIR=${HOME}/.cache/NUMBA_CACHE_DIR
-export NAPARI_CONFIG=${HOME}/.cache/NAPARI_CACHE_DIR
-export XDG_CONFIG_HOME=${HOME}/.cache/XDG
+export CELLPOSE_LOCAL_MODELS_PATH=$BASE_CACHE_DIR/CELLPOSE_LOCAL_MODELS_PATH
+export NUMBA_CACHE_DIR=$BASE_CACHE_DIR/NUMBA_CACHE_DIR
+export NAPARI_CONFIG=$BASE_CACHE_DIR/napari_config.json
+export XDG_CONFIG_HOME=$BASE_CACHE_DIR/XDG_CONFIG
+export XDG_CACHE_HOME=$BASE_CACHE_DIR/XDG
 "
 
 # Set useful variables
@@ -38,15 +45,15 @@ echo "PRJ_ID: $PRJ_ID"
 echo "DS_IN_ID: $DS_IN_ID"
 
 # Update dataset name/type, and add a resource
-fractal dataset edit --name "$DS_IN_NAME" -t image --read-only $PRJ_ID $DS_IN_ID
-fractal dataset add-resource -g "*.tif" $PRJ_ID $DS_IN_ID $INPUT_PATH
+fractal dataset edit --new-name "$DS_IN_NAME" --new-type image --make-read-only $PRJ_ID $DS_IN_ID
+fractal dataset add-resource $PRJ_ID $DS_IN_ID $INPUT_PATH
 
 # Add output dataset, and add a resource to it
 DS_OUT_ID=`fractal --batch project add-dataset $PRJ_ID "$DS_OUT_NAME"`
 echo "DS_OUT_ID: $DS_OUT_ID"
 
-fractal dataset edit -t zarr --read-write $PRJ_ID $DS_OUT_ID
-fractal dataset add-resource -g "*.zarr" $PRJ_ID $DS_OUT_ID $OUTPUT_PATH
+fractal dataset edit --new-type zarr --remove-read-only $PRJ_ID $DS_OUT_ID
+fractal dataset add-resource $PRJ_ID $DS_OUT_ID $OUTPUT_PATH
 
 # Create workflow
 WF_ID=`fractal --batch workflow new "$WF_NAME" $PRJ_ID`
@@ -60,7 +67,7 @@ fractal workflow add-task $WF_ID "Maximum Intensity Projection"
 fractal workflow add-task $WF_ID "Cellpose Segmentation" --args-file Parameters/cellpose_segmentation.json
 
 # TODO: Change executor
-echo "{\"level\": 0, \"ROI_table_name\": \"well_ROI_table\", \"workflow_file\": \"$PROJ_DIR/../regionprops_from_existing_labels_feature.yaml\", \"input_specs\": {\"dapi_img\": {\"type\": \"image\", \"wavelength_id\": \"A01_C01\"},\"label_img\": {\"type\": \"label\", \"label_name\": \"organoids\"}}, \"output_specs\": {\"regionprops_DAPI\": {\"type\": \"dataframe\",\"table_name\": \"organoids\"}}}" > Parameters/measurement.json
+echo "{\"level\": 0, \"input_ROI_table\": \"well_ROI_table\", \"workflow_file\": \"$PROJ_DIR/../regionprops_from_existing_labels_feature.yaml\", \"input_specs\": {\"dapi_img\": {\"type\": \"image\", \"wavelength_id\": \"A01_C01\"},\"label_img\": {\"type\": \"label\", \"label_name\": \"organoids\"}}, \"output_specs\": {\"regionprops_DAPI\": {\"type\": \"dataframe\",\"table_name\": \"organoids\"}}}" > Parameters/measurement.json
 fractal workflow add-task $WF_ID "Napari workflows wrapper" --args-file Parameters/measurement.json --meta-file Parameters/executor_measurement.json
 
 # Look at the current workflows
