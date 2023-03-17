@@ -1,7 +1,7 @@
 {
     "level": 3, 
     "wavelength_id": "A01_C01",
-    "ROI_table_name": "well_ROI_table",
+    "input_ROI_table": "well_ROI_table",
     "output_label_name": "zebrafish_embryos",
     "diameter_level0": "1000"
 }
