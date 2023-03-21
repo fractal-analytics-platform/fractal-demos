@@ -1,0 +1,3 @@
+measurement*.json
+illumination_correction.json
+cellpose_segmentation.json
