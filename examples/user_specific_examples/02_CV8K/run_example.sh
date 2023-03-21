@@ -7,7 +7,9 @@ LABEL="CV8K-1"
 cp ../../00_user_setup/.fractal.env .fractal.env
 
 # Initialization for some environment variables for the worker
-# Needed on clusters where users don't have write access to the conda env
+# Needed on clusters where users don't have write access to the conda env and 
+# fractal user cache directories
+BASE_CACHE_DIR=${HOME}/.cache
 WORKER_INIT="\
 export CELLPOSE_LOCAL_MODELS_PATH=$BASE_CACHE_DIR/CELLPOSE_LOCAL_MODELS_PATH
 export NUMBA_CACHE_DIR=$BASE_CACHE_DIR/NUMBA_CACHE_DIR
