@@ -1,4 +1,4 @@
-LABEL="overlap-test-v3"
+LABEL="overlap-test-1"
 
 # Get the credentials: If you followed the instructions, they can be copied 
 # from the .fractal.env file in ../00_user_setup. Alternatively, you can write
@@ -6,6 +6,10 @@ LABEL="overlap-test-v3"
 # commands below
 cp ../../00_user_setup/.fractal.env .fractal.env
 
+# Initialization for some environment variables for the worker
+# Needed on clusters where users don't have write access to the conda env and 
+# fractal user cache directories
+BASE_CACHE_DIR=${HOME}/.cache
 WORKER_INIT="\
 export CELLPOSE_LOCAL_MODELS_PATH=$BASE_CACHE_DIR/CELLPOSE_LOCAL_MODELS_PATH
 export NUMBA_CACHE_DIR=$BASE_CACHE_DIR/NUMBA_CACHE_DIR
@@ -32,9 +36,9 @@ mkdir $PROJ_DIR
 ###############################################################################
 # THINGS TO BE CHANGED BY THE USER
 # Adapt to settings to where you run the example
-BASE_FOLDER_EXAMPLE=`pwd`/..
+BASE_PATH=TBD
 
-INPUT_PATH=$BASE_FOLDER_EXAMPLE/../../../test_datasets/FMI/grided_overlap_184planes_100FOVs/221007CB_nucShape
+INPUT_PATH=$BASE_PATH/Fractal_Dev/test_datasets/FMI/grided_overlap_184planes_100FOVs/221007CB_nucShape
 OUTPUT_PATH=${PROJ_DIR}/output
 ###############################################################################
 
@@ -46,15 +50,15 @@ echo "PRJ_ID: $PRJ_ID"
 echo "DS_IN_ID: $DS_IN_ID"
 
 # Update dataset name/type, and add a resource
-fractal dataset edit --name "$DS_IN_NAME" -t image --read-only $PRJ_ID $DS_IN_ID
-fractal dataset add-resource -g "*.tif" $PRJ_ID $DS_IN_ID $INPUT_PATH
+fractal dataset edit --new-name "$DS_IN_NAME" --new-type image --make-read-only $PRJ_ID $DS_IN_ID
+fractal dataset add-resource $PRJ_ID $DS_IN_ID $INPUT_PATH
 
 # Add output dataset, and add a resource to it
 DS_OUT_ID=`fractal --batch project add-dataset $PRJ_ID "$DS_OUT_NAME"`
 echo "DS_OUT_ID: $DS_OUT_ID"
 
-fractal dataset edit -t zarr --read-write $PRJ_ID $DS_OUT_ID
-fractal dataset add-resource -g "*.zarr" $PRJ_ID $DS_OUT_ID $OUTPUT_PATH
+fractal dataset edit --new-type zarr --remove-read-only $PRJ_ID $DS_OUT_ID
+fractal dataset add-resource $PRJ_ID $DS_OUT_ID $OUTPUT_PATH
 
 # Create workflow
 WF_ID=`fractal --batch workflow new "$WF_NAME" $PRJ_ID`
@@ -65,8 +69,6 @@ fractal workflow add-task $WF_ID "Create OME-Zarr structure" --args-file Paramet
 fractal workflow add-task $WF_ID "Convert Yokogawa to OME-Zarr"
 fractal workflow add-task $WF_ID "Copy OME-Zarr structure"
 fractal workflow add-task $WF_ID "Maximum Intensity Projection"
-#fractal workflow add-task $WF_ID "Cellpose Segmentation" --args-file Parameters/args_cellpose_segmentation.json --meta-file Parameters/example_meta.json
-#fractal workflow add-task $WF_ID "Napari workflows wrapper" --args-file Parameters/args_measurement.json --meta-file Parameters/example_meta.json
 
 # Look at the current workflows
 fractal workflow show $WF_ID
