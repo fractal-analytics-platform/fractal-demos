@@ -2,6 +2,7 @@ This example also contains a notebook that allows a user to look for unexpected 
 
 An executor with more memory than 1 GB is required for the napari workflow task, then the example runs. Also, Max's example needs higher memory executors for the `Convert Yokogawa to OME-Zarr` task.
 
+The data was acquired by [@MaksHess](https://github.com/MaksHess).
 
 It ran in:   
 * `fractal-server==1.1.0, fractal-client==1.1.0, fracal-tasks-core==0.9.0`
