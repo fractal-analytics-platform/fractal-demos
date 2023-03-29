@@ -1,4 +1,4 @@
-VERSION="1.1.0"
+VERSION="new-slurm"
 
 ENVNAME=fractal-server-$VERSION
 conda deactivate
@@ -7,4 +7,4 @@ conda create --name $ENVNAME python==3.9 -y
 conda activate $ENVNAME
 conda update pip -y
 
-pip install "fractal-server[slurm]"==$VERSION
+pip install git+https://github.com/fractal-analytics-platform/fractal-server.git@new-slurm
