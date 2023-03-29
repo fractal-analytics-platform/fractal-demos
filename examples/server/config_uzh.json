@@ -1,8 +1,8 @@
 {
   "partition": "main",
   "cpus_per_task": 1,
-  "mem_per_task_MB": 5000,
-  "if_needs_gpu": {},
+  "mem": "5G",
+  "if_needs_gpu": {"partition": "gpu"},
   "cpus_per_job": {"target": 4, "max": 16},
   "mem_per_job": {"target": 20000, "max": 60000},
   "number_of_jobs": {"target": 2, "max": 100}
