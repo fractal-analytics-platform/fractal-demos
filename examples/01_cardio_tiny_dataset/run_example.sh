@@ -1,4 +1,4 @@
-LABEL="cardiac-tiny"
+LABEL="cardiac-tiny-${1}"
 
 # Get the credentials: If you followed the instructions, they can be copied 
 # from the .fractal.env file in ../00_user_setup. Alternatively, you can write
@@ -68,7 +68,7 @@ fractal workflow add-task $WF_ID "Copy OME-Zarr structure"
 fractal workflow add-task $WF_ID "Maximum Intensity Projection"
 fractal workflow add-task $WF_ID "Cellpose Segmentation" --args-file Parameters/args_cellpose_segmentation.json --meta-file Parameters/example_meta.json
 echo "{\"level\": 0, \"input_ROI_table\": \"well_ROI_table\", \"workflow_file\": \"`pwd`/regionprops_from_existing_labels_feature.yaml\", \"input_specs\": {\"dapi_img\": {\"type\": \"image\", \"wavelength_id\": \"A01_C01\"}, \"label_img\": {\"type\": \"label\", \"label_name\": \"nuclei\"}}, \"output_specs\": {\"regionprops_DAPI\": {\"type\": \"dataframe\",\"table_name\": \"nuclei\"}}}" > Parameters/args_measurement.json
-fractal workflow add-task $WF_ID "Napari workflows wrapper" --args-file Parameters/args_measurement.json --meta-file Parameters/example_meta.json
+fractal workflow add-task $WF_ID "Napari workflows wrapper" --args-file Parameters/args_measurement.json --meta-file Parameters/example_meta_gpu.json
 
 # Look at the current workflows
 # fractal workflow show $WF_ID
