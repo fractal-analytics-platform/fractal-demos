@@ -6,7 +6,10 @@
     "partition": "gpu",
     "mem": "61G"
   },
-  "cpus_per_job": {"target": 4, "max": 16},
-  "mem_per_job": {"target": 20000, "max": 60000},
-  "number_of_jobs": {"target": 2, "max": 100}
+  "target_cpus_per_job": 4,
+  "max_cpus_per_job": 16,
+  "target_mem_per_job": "20G",
+  "max_mem_per_job": "60G",
+  "target_number_of_jobs": 5,
+  "max_number_of_jobs": 200
 }
