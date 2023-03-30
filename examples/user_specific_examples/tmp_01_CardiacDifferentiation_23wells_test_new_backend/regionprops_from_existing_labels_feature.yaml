@@ -1,0 +1,32 @@
+!!python/object:napari_workflows._workflow.Workflow
+_tasks:
+  regionprops_DAPI: !!python/tuple
+  - !!python/name:napari_skimage_regionprops._regionprops.regionprops_table ''
+  - dapi_img
+  - label_img
+  - true
+  - true
+  - true
+  - false
+  - true
+  - true
+  regionprops_lamin: !!python/tuple
+  - !!python/name:napari_skimage_regionprops._regionprops.regionprops_table ''
+  - lamin_img
+  - label_img
+  - true
+  - true
+  - true
+  - false
+  - true
+  - true
+  regionprops_nanog: !!python/tuple
+  - !!python/name:napari_skimage_regionprops._regionprops.regionprops_table ''
+  - nanog_img
+  - label_img
+  - true
+  - true
+  - true
+  - false
+  - true
+  - true
