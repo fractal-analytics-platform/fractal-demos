@@ -6,10 +6,12 @@
     "partition": "gpu",
     "mem": "61G"
   },
-  "target_cpus_per_job": 4,
-  "max_cpus_per_job": 16,
-  "target_mem_per_job": "20G",
-  "max_mem_per_job": "60G",
-  "target_number_of_jobs": 5,
-  "max_number_of_jobs": 200
+  "fractal_task_batching": {
+    "target_cpus_per_job": 4,
+    "max_cpus_per_job": 16,
+    "target_mem_per_job": "20G",
+    "max_mem_per_job": "60G",
+    "target_num_jobs": 5,
+    "max_num_jobs": 200
+  }
 }
