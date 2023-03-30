@@ -4,13 +4,13 @@
   "mem": "5G",
   "if_needs_gpu": {
     "partition": "gpu",
-    "mem": "61G"
+    "mem": "60G"
   },
   "fractal_task_batching": {
     "target_cpus_per_job": 4,
     "max_cpus_per_job": 16,
     "target_mem_per_job": "20G",
-    "max_mem_per_job": "60G",
+    "max_mem_per_job": "61G",
     "target_num_jobs": 5,
     "max_num_jobs": 200
   }
