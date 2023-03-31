@@ -7,7 +7,7 @@ helper_function = fractal_demos_folder + "nextflow_examples/helper_functions/"
 
 // Data sources
 input_path = fractal_demos_folder + "examples/images/10.5281_zenodo.7057076"
-output_path = fractal_demos_folder + "nextflow_examples/01_example_cardio_tiny/output"
+output_path = fractal_demos_folder + "nextflow_examples/02_cardio_small/output"
 
 process create_ome_zarr {
     tag "${sample}"
@@ -135,12 +135,12 @@ process napari_workflows_wrapper {
 }
 
 workflow {
-    def parameter_folder = fractal_demos_folder + "examples/01_cardio_tiny_dataset/Parameters/"
+    def parameter_folder = fractal_demos_folder + "examples/02_cardio_small/Parameters/"
     // Parameter files as input
-    create_ome_zarr_params = Channel.fromPath(parameter_folder + "args_create_ome_zarr.json")
-    copy_ome_zarr_params = Channel.fromPath(fractal_demos_folder + "nextflow_examples/01_example_cardio_tiny/extra_params/copy_ome_zarr.json")
-    cellpose_params = Channel.fromPath(parameter_folder + "args_cellpose_segmentation.json")
-    measurement_params = Channel.fromPath(fractal_demos_folder + "nextflow_examples/01_example_cardio_tiny/extra_params/args_measurement.json")
+    create_ome_zarr_params = Channel.fromPath(parameter_folder + "create_zarr_structure.json")
+    copy_ome_zarr_params = Channel.fromPath(fractal_demos_folder + "nextflow_examples/02_cardio_small/extra_params/copy_ome_zarr.json")
+    cellpose_params = Channel.fromPath(parameter_folder + "cellpose_segmentation.json")
+    measurement_params = Channel.fromPath(fractal_demos_folder + "nextflow_examples/02_cardio_small/extra_params/args_measurement.json")
     
     metadata_out = create_ome_zarr(create_ome_zarr_params)
     metadata_yoko = yokogawa_to_ome_zarr(metadata_out)
