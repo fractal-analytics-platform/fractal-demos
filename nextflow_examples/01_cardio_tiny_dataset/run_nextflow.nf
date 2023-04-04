@@ -94,9 +94,8 @@ process maximum_intensity_projection {
     """
     component_str=`cat $component`
     python ${helper_function}json_helper.py --save_path task_params.json --input_path ${output_path} --output_path ${output_path} --metadata_path ${metadata_path} --component \${component_str} 
-    touch metadata_out.json
-    #python ${task_root}maximum_intensity_projection.py -j task_params.json --metadata-out metadata_diff.json
-    #python ${helper_function}combine_metadata.py --metadata_old ${metadata_path} --metadata_diff metadata_diff.json --save_path metadata_out.json
+    python ${task_root}maximum_intensity_projection.py -j task_params.json --metadata-out metadata_diff.json
+    python ${helper_function}combine_metadata.py --metadata_old ${metadata_path} --metadata_diff metadata_diff.json --save_path metadata_out.json
     """
 }
 
@@ -113,14 +112,13 @@ process cellpose_segmentation {
     path("metadata_out.json")
 
     script:
-    // Problem with reading the metadata out
     """
     component_str=`cat $component`
     # Create the necessary input json files
     python ${helper_function}json_helper.py --save_path task_params.json --args_path ${input_parameters} --input_path ${output_path} --output_path ${output_path} --metadata_path ${metadata_path}  --component \${component_str} 
-    #python ${task_root}cellpose_segmentation.py -j task_params.json --metadata-out metadata_diff.json
-    touch metadata_out.json
-    #python ${helper_function}combine_metadata.py --metadata_old ${metadata_path} --metadata_diff metadata_diff.json --save_path metadata_out.json
+    python ${task_root}cellpose_segmentation.py -j task_params.json --metadata-out metadata_diff.json
+    #touch metadata_out.json
+    python ${helper_function}combine_metadata.py --metadata_old ${metadata_path} --metadata_diff metadata_diff.json --save_path metadata_out.json
     """
 }
 
@@ -137,7 +135,6 @@ process napari_workflows_wrapper {
     path("metadata_out.json")
 
     script:
-    String component_str = new File(component.toString()).text
     """
     component_str=`cat $component`
     # Create the necessary input json files
@@ -168,5 +165,5 @@ workflow {
     copy_out = copy_ome_zarr(yoko_out, copy_ome_zarr_params)
     mip_out = maximum_intensity_projection(copy_out[0], copy_out[1])
     cellpose_out = cellpose_segmentation(mip_out, copy_out[1], cellpose_params)
-    // metadata_mip = napari_workflows_wrapper(cellpose_out, copy_out[1], measurement_params)
+    metadata_mip = napari_workflows_wrapper(cellpose_out, copy_out[1], measurement_params)
 }
