@@ -62,7 +62,7 @@ WF_ID=`fractal --batch workflow new "$WF_NAME" $PRJ_ID`
 echo "WF_ID: $WF_ID"
 
 # Add tasks to workflow
-fractal workflow add-task $WF_ID "Create OME-Zarr structure" --args-file Parameters/args_create_ome_zarr.json --meta-file Parameters/example_meta_gpu.json
+fractal workflow add-task $WF_ID "Create OME-Zarr structure" --args-file Parameters/args_create_ome_zarr.json --meta-file Parameters/example_meta.json
 fractal workflow add-task $WF_ID "Convert Yokogawa to OME-Zarr"
 fractal workflow add-task $WF_ID "Copy OME-Zarr structure"
 fractal workflow add-task $WF_ID "Maximum Intensity Projection"
