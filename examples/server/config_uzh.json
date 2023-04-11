@@ -8,7 +8,7 @@
     "partition": "gpu",
     "mem": "60G"
   },
-  "fractal_task_batching": {
+  "batching_config": {
     "target_cpus_per_job": 4,
     "max_cpus_per_job": 16,
     "target_mem_per_job": "20G",
