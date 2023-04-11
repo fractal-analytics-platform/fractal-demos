@@ -28,11 +28,6 @@ WF_NAME="Workflow $LABEL"
 export FRACTAL_CACHE_PATH=`pwd`/".cache"
 rm -rv ${FRACTAL_CACHE_PATH} 2> /dev/null
 
-# Define/initialize empty project folder and temporary file
-PROJ_DIR=`pwd`/tmp_${LABEL}
-rm -r $PROJ_DIR 2> /dev/null
-mkdir $PROJ_DIR
-
 ###############################################################################
 # IMPORTANT: This defines the location of input & output data
 INPUT_PATH=/data/active/jluethi/20200810-CardiomyocyteDifferentiation14/Cycle1/images_renamed
@@ -40,7 +35,7 @@ OUTPUT_PATH=/data/active/jluethi/Fractal/$LABEL
 ###############################################################################
 
 # Create project
-OUTPUT=`fractal --batch project new $PRJ_NAME $PROJ_DIR`
+OUTPUT=`fractal --batch project new $PRJ_NAME`
 PRJ_ID=`echo $OUTPUT | cut -d ' ' -f1`
 DS_IN_ID=`echo $OUTPUT | cut -d ' ' -f2`
 echo "PRJ_ID: $PRJ_ID"
@@ -74,7 +69,7 @@ fractal workflow add-task $WF_ID "Maximum Intensity Projection" --meta-file Para
 fractal workflow add-task $WF_ID "Cellpose Segmentation" --args-file Parameters/cellpose_segmentation.json #--meta-file Parameters/example_meta.json
 
 # Run a series of napari workflows
-echo "{\"level\": 0, \"input_ROI_table\": \"FOV_ROI_table\", \"workflow_file\": \"$PROJ_DIR/../regionprops_from_existing_labels_feature.yaml\", \"input_specs\": {\"dapi_img\": {\"type\": \"image\", \"wavelength_id\": \"A01_C01\"}, \"lamin_img\": {\"type\": \"image\", \"wavelength_id\": \"A02_C03\"}, \"nanog_img\": {\"type\": \"image\", \"wavelength_id\": \"A01_C02\"}, \"label_img\": {\"type\": \"label\", \"label_name\": \"nuclei\"}}, \"output_specs\": {\"regionprops_DAPI\": {\"type\": \"dataframe\", \"table_name\": \"regionprops_DAPI\"}, \"regionprops_lamin\": {\"type\": \"dataframe\", \"table_name\": \"regionprops_lamin\"}, \"regionprops_nanog\": {\"type\": \"dataframe\", \"table_name\": \"regionprops_nanog\"}}}" > Parameters/measurement.json
+echo "{\"level\": 0, \"input_ROI_table\": \"FOV_ROI_table\", \"workflow_file\": \"$HERE/regionprops_from_existing_labels_feature.yaml\", \"input_specs\": {\"dapi_img\": {\"type\": \"image\", \"wavelength_id\": \"A01_C01\"}, \"lamin_img\": {\"type\": \"image\", \"wavelength_id\": \"A02_C03\"}, \"nanog_img\": {\"type\": \"image\", \"wavelength_id\": \"A01_C02\"}, \"label_img\": {\"type\": \"label\", \"label_name\": \"nuclei\"}}, \"output_specs\": {\"regionprops_DAPI\": {\"type\": \"dataframe\", \"table_name\": \"regionprops_DAPI\"}, \"regionprops_lamin\": {\"type\": \"dataframe\", \"table_name\": \"regionprops_lamin\"}, \"regionprops_nanog\": {\"type\": \"dataframe\", \"table_name\": \"regionprops_nanog\"}}}" > Parameters/measurement.json
 fractal workflow add-task $WF_ID "Napari workflows wrapper" --args-file Parameters/measurement.json
 
 # Look at the current workflows
