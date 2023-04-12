@@ -17,7 +17,6 @@ def sleep_task(
     component: str,
     # Task-specific arguments
     sleep_time: float = 1.0,
-    memory_MB: Optional
 ) -> Dict[str, Any]:
     """
     :param sleep_time: Number of components to be added to metadata
