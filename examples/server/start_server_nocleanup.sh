@@ -1,6 +1,6 @@
 #!/bin/bash
 # Use this script to restart a server that was previously running
-PORT=8010
+PORT=8013
 
 # Set the db path
 export SQLITE_PATH=db/fractal_server.db
@@ -14,7 +14,7 @@ JWT_SECRET_KEY=secret
 SQLITE_PATH=db/fractal_server.db
 FRACTAL_TASKS_DIR=${FRACTAL_TASKS_DIR}
 FRACTAL_LOGGING_LEVEL=20
-FRACTAL_RUNNER_BACKEND=local
+FRACTAL_RUNNER_BACKEND=slurm
 FRACTAL_RUNNER_WORKING_BASE_DIR=artifacts
 FRACTAL_SLURM_CONFIG_FILE=config_uzh.json
 FRACTAL_ADMIN_DEFAULT_EMAIL=admin@fractal.xy
