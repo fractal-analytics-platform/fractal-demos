@@ -1,0 +1,6 @@
+{
+"cpus_per_task": 1,
+"mem": "100M",
+"tasks_per_job": 1,
+"parallel_tasks_per_job": 1
+}

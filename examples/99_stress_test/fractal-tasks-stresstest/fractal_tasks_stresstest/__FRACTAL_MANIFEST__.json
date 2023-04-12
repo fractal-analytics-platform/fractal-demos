@@ -1,0 +1,29 @@
+{
+  "manifest_version": 1,
+  "task_list": [
+    {
+      "name": "prepare_metadata",
+      "executable": "prepare_metadata.py",
+      "input_type": "Any",
+      "output_type": "Any",
+      "default_args": {"num_components": 20}
+    },
+    {
+      "name": "sleep_task",
+      "executable": "sleep_task.py",
+      "input_type": "Any",
+      "output_type": "Any",
+      "default_args": {"sleep_time": 5.0},
+      "meta": {"parallelization_level": "component"}
+    },
+    {
+      "name": "memory_task",
+      "executable": "memory_task.py",
+      "input_type": "Any",
+      "output_type": "Any",
+      "default_args": {"sleep_time": 5.0},
+      "meta": {"parallelization_level": "component"}
+    }
+
+  ]
+}
