@@ -13,8 +13,17 @@
       "executable": "sleep_task.py",
       "input_type": "Any",
       "output_type": "Any",
-      "default_args": {"sleep_time": 20.0},
+      "default_args": {"sleep_time": 5.0},
+      "meta": {"parallelization_level": "component"}
+    },
+    {
+      "name": "memory_task",
+      "executable": "memory_task.py",
+      "input_type": "Any",
+      "output_type": "Any",
+      "default_args": {"sleep_time": 5.0},
       "meta": {"parallelization_level": "component"}
     }
+
   ]
 }

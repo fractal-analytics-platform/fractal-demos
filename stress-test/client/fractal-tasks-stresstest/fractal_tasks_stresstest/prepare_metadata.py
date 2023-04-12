@@ -1,5 +1,4 @@
 import logging
-from pathlib import Path
 from typing import Any
 from typing import Dict
 from typing import Optional
@@ -11,11 +10,11 @@ logger = logging.getLogger(__name__)
 
 def prepare_metadata(
     *,
-    input_paths: Sequence[Path],
-    output_path: Path,
+    input_paths: Sequence[str],
+    output_path: str,
     metadata: Dict[str, Any],
     # Task-specific arguments
-    num_components: Optional[int] = 10,
+    num_components: int = 10,
 ) -> Dict[str, Any]:
 
     logger.info("ENTERING prepare_metadata task")
@@ -30,8 +29,8 @@ if __name__ == "__main__":
     from fractal_tasks_stresstest._utils import run_fractal_task
 
     class TaskArguments(BaseModel):
-        input_paths: Sequence[Path]
-        output_path: Path
+        input_paths: Sequence[str]
+        output_path: str
         metadata: Dict[str, Any]
         num_components: Optional[int]
 
