@@ -1,7 +1,5 @@
 #!/bin/bash
 
-
-
 echo -e "\
 DEPLOYMENT_TYPE=testing
 JWT_SECRET_KEY=secret
@@ -15,8 +13,6 @@ FRACTAL_ADMIN_DEFAULT_PASSWORD=1234
 JWT_EXPIRE_SECONDS=84600
 " > .fractal_server.env
 
-
-
 rm test.db
 rm -r /tmp/FRACTAL_TASKS_DIR
 
@@ -24,4 +20,4 @@ rm -r /tmp/FRACTAL_TASKS_DIR
 fractalctl set-db
 
 # Start the server
-fractalctl start --port 8000
+fractalctl start --port 8021

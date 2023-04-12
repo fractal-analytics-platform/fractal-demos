@@ -14,15 +14,11 @@ DS_IN_NAME="input-ds-$LABEL"
 DS_OUT_NAME="output-ds-$LABEL"
 WF_NAME="Workflow $LABEL"
 
-# Define/initialize empty project folder and temporary file
-PROJ_DIR=`pwd`/tmp/${LABEL}
-rm -r $PROJ_DIR
-mkdir -p $PROJ_DIR
-
 ###############################################################################
 # IMPORTANT: modify the following lines so that they point to absolute paths
-INPUT_PATH=/tmp/
-OUTPUT_PATH=${PROJ_DIR}/output
+INPUT_PATH=/tmp
+OUTPUT_PATH=`pwd`/output-${LABEL}
+mkdir -p $OUTPUT_PATH
 ###############################################################################
 
 # Create project
