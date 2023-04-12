@@ -1,19 +1,15 @@
-conda activate fractal-client-v1
-rm .cache -r
+conda activate fractal-client-stress-test
+
+CACHE_DIR=`pwd`/cache
+
+rm -r $CACHE_DIR
 rm -r tmp
 
-# Register user
-PORT=8010
-USERNAME="$(whoami)"
-echo -e "\
-FRACTAL_USER=${USERNAME}@me.com
-FRACTAL_PASSWORD=${USERNAME}
-SLURM_USER=${USERNAME}
-FRACTAL_SERVER=http://localhost:$PORT\
-" > .fractal.env
-fractal register -p $USERNAME ${USERNAME}@me.com $USERNAME
+USER_ID=`fractal --batch user whoami`
+fractal user edit $USER_ID --new-cache-dir $CACHE_DIR
 
-VERSION="0.1.0"
+
+VERSION="1.0.0"
 
 fractal task collect `pwd`/fractal-tasks-stresstest/dist/fractal_tasks_stresstest-${VERSION}-py3-none-any.whl
 

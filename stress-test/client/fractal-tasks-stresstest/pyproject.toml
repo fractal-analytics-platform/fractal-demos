@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "fractal-tasks-stresstest"
-version = "0.1.0"
+version = "1.0.0"
 description = ""
 authors = ["Tommaso Comparin <tommaso.comparin@exact-lab.it>"]
 packages = [{include = "fractal_tasks_stresstest"}]

@@ -14,15 +14,11 @@ DS_IN_NAME="input-ds-$LABEL"
 DS_OUT_NAME="output-ds-$LABEL"
 WF_NAME="Workflow $LABEL"
 
-# Define/initialize empty project folder and temporary file
-PROJ_DIR=`pwd`/tmp/${LABEL}
-rm -r $PROJ_DIR
-mkdir -p $PROJ_DIR
-
 ###############################################################################
 # IMPORTANT: modify the following lines so that they point to absolute paths
-INPUT_PATH=/tmp/
-OUTPUT_PATH=${PROJ_DIR}/output
+INPUT_PATH=/tmp
+OUTPUT_PATH=`pwd`/output-${LABEL}
+mkdir -p $OUTPUT_PATH
 ###############################################################################
 
 # Create project
@@ -31,14 +27,13 @@ PRJ_ID=`echo $OUTPUT | cut -d ' ' -f1`
 DS_IN_ID=`echo $OUTPUT | cut -d ' ' -f2`
 
 # Update dataset name/type, and add a resource
-# fractal dataset edit --name "$DS_IN_NAME" -t image --read-only $PRJ_ID $DS_IN_ID
-fractal --batch dataset add-resource -g "*.json" $PRJ_ID $DS_IN_ID $INPUT_PATH
+fractal --batch dataset add-resource $PRJ_ID $DS_IN_ID $INPUT_PATH
 
 # Add output dataset, and add a resource to it
 DS_OUT_ID=`fractal --batch project add-dataset $PRJ_ID "$DS_OUT_NAME"`
 
 # fractal dataset edit -t zarr --read-write $PRJ_ID $DS_OUT_ID
-fractal --batch dataset add-resource -g "*.json" $PRJ_ID $DS_OUT_ID $OUTPUT_PATH
+fractal --batch dataset add-resource $PRJ_ID $DS_OUT_ID $OUTPUT_PATH
 
 # Create workflow
 WF_ID=`fractal --batch workflow new "$WF_NAME" $PRJ_ID`

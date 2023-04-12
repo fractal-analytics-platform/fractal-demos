@@ -1,5 +1,20 @@
+"""
+Copyright 2022 (C)
+    Friedrich Miescher Institute for Biomedical Research and
+    University of Zurich
+
+    Original authors:
+    Tommaso Comparin <tommaso.comparin@exact-lab.it>
+
+    This file is part of Fractal and was originally developed by eXact lab
+    S.r.l.  <exact-lab.it> under contract with Liberali Lab from the Friedrich
+    Miescher Institute for Biomedical Research and Pelkmans Lab from the
+    University of Zurich.
+
+Standard input/output interface for tasks
+"""
 # Starting from Python 3.9 (see PEP 585) we can use type hints like
-# `type[BaseModel`. For versions 3.7 and 3.8, this is available through an
+# `type[BaseModel]`. For versions 3.7 and 3.8, this is available through an
 # additional import
 from __future__ import annotations
 
@@ -9,7 +24,6 @@ from argparse import ArgumentParser
 from json import JSONEncoder
 from pathlib import Path
 from typing import Callable
-from typing import get_type_hints
 
 from pydantic import BaseModel
 
@@ -26,7 +40,10 @@ class TaskParameterEncoder(JSONEncoder):
 
 
 def run_fractal_task(
-    *, task_function: Callable, TaskArgsModel: type[BaseModel] = None
+    *,
+    task_function: Callable,
+    TaskArgsModel: type[BaseModel] = None,
+    logger_name: str = None,
 ):
     """
     Implement standard task interface and call task_function. If TaskArgsModel
@@ -61,23 +78,15 @@ def run_fractal_task(
 
     if TaskArgsModel is None:
         # Run task without validating arguments' types
+        logging.info(f"START {task_function.__name__} task")
         metadata_update = task_function(**pars)
+        logging.info(f"END {task_function.__name__} task")
     else:
-        # Check match of type hints in task_function and TaskArgsModel
-        task_function_type_hints = get_type_hints(task_function)
-        task_function_type_hints.pop("return", None)
-        TaskArgsModel_type_hints = get_type_hints(TaskArgsModel)
-        if task_function_type_hints != TaskArgsModel_type_hints:
-            raise ValueError(
-                "task_function_type_hints differs from "
-                "TaskArgsModel_type_hints. Please check that "
-                "they are up-to-date.\n"
-                f"{sorted(task_function_type_hints.items())}\n"
-                f"{sorted(TaskArgsModel_type_hints.items())}"
-            )
         # Validating arguments' types and run task
         task_args = TaskArgsModel(**pars)
-        metadata_update = task_function(**task_args.dict())
+        logging.info(f"START {task_function.__name__} task")
+        metadata_update = task_function(**task_args.dict(exclude_unset=True))
+        logging.info(f"END {task_function.__name__} task")
 
     # Write output metadata to file, with custom JSON encoder
     with open(args.metadata_out, "w") as fout:

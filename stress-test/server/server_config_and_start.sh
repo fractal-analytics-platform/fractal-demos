@@ -1,33 +1,23 @@
 #!/bin/bash
 
-PORT=8010
-
-# Create an empty db
-rm -fr db
-mkdir db
-export SQLITE_PATH=db/fractal_server.db
-fractalctl set-db
-
-# Remove old stuff
-rm -fr FRACTAL_TASKS_DIR
-# Move what cannot be removed easily to some trash folder
-TIMESTAMP=$(date +%s)
-mkdir -p OLD
-mv artifacts OLD/artifacts_$TIMESTAMP
-
-# Set environment variables
-FRACTAL_TASKS_DIR=`pwd`/FRACTAL_TASKS_DIR
 echo -e "\
 DEPLOYMENT_TYPE=testing
 JWT_SECRET_KEY=secret
-SQLITE_PATH=db/fractal_server.db
-FRACTAL_TASKS_DIR=${FRACTAL_TASKS_DIR}
-FRACTAL_LOGGING_LEVEL=10
-FRACTAL_RUNNER_BACKEND=process
-FRACTAL_RUNNER_WORKING_BASE_DIR=artifacts
-FRACTAL_SLURM_CONFIG_FILE=config_uzh.json
+SQLITE_PATH=`pwd`/test.db
+FRACTAL_TASKS_DIR=/tmp/FRACTAL_TASKS_DIR
+FRACTAL_LOGGING_LEVEL=20
+FRACTAL_RUNNER_BACKEND=local
+FRACTAL_RUNNER_WORKING_BASE_DIR=`pwd`/artifacts
+FRACTAL_ADMIN_DEFAULT_EMAIL=admin@fractal.xy
+FRACTAL_ADMIN_DEFAULT_PASSWORD=1234
+JWT_EXPIRE_SECONDS=84600
 " > .fractal_server.env
 
+rm test.db
+rm -r /tmp/FRACTAL_TASKS_DIR
+
+# Create an empty db
+fractalctl set-db
 
 # Start the server
-fractalctl start --port $PORT
+fractalctl start --port 8021
