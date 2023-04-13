@@ -13,13 +13,16 @@ Copyright 2022 (C)
 
 Standard input/output interface for tasks
 """
+
+import logging
+logging.info("BEFORE importing, in _utils.py")
+
 # Starting from Python 3.9 (see PEP 585) we can use type hints like
 # `type[BaseModel]`. For versions 3.7 and 3.8, this is available through an
 # additional import
 from __future__ import annotations
 
 import json
-import logging
 from argparse import ArgumentParser
 from json import JSONEncoder
 from pathlib import Path
@@ -80,13 +83,13 @@ def run_fractal_task(
         # Run task without validating arguments' types
         logging.info(f"START {task_function.__name__} task")
         metadata_update = task_function(**pars)
-        logging.info(f"END {task_function.__name__} task")
+        logging.info(f"END   {task_function.__name__} task")
     else:
         # Validating arguments' types and run task
         task_args = TaskArgsModel(**pars)
         logging.info(f"START {task_function.__name__} task")
         metadata_update = task_function(**task_args.dict(exclude_unset=True))
-        logging.info(f"END {task_function.__name__} task")
+        logging.info(f"END   {task_function.__name__} task")
 
     # Write output metadata to file, with custom JSON encoder
     with open(args.metadata_out, "w") as fout:

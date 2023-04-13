@@ -22,7 +22,9 @@ def memory_task(
 ) -> Dict[str, Any]:
     """
     """
-    logger.warning("ENTERING memory_task")
+    logger.info(
+        f"This is a log from memory_task, with {total_time=} and {memory_MB=}"
+    )
     time_start = time.perf_counter()
     first_iteration = True
     while time.perf_counter() - time_start < total_time:

@@ -17,10 +17,9 @@ def prepare_metadata(
     num_components: int = 10,
 ) -> Dict[str, Any]:
 
-    logger.info("ENTERING prepare_metadata task")
     list_components = [f"{ind:04d}" for ind in range(num_components)]
     metadata_update = {"component": list_components}
-    logger.info("EXITING prepare_metadata task")
+    logger.info(f"This is a log from prepare_metadata, with {num_components=}")
     return metadata_update
 
 
