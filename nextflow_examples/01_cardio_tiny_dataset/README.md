@@ -18,11 +18,9 @@ Check the README in the nextflow_examples folder for correct Nextflow setup & ta
 
 
 ### Known limitations
-1. Currently, the components passed to each task are hard-coded for this example
-2. Currently, everything is run for 1 well only (the hard-coded component)
-3. Currently, nextflow & the tasks run in the same environment and all tasks run in the same conda environment. This can be generalized further
-4. Currently, every task is defined as its own process, but the processes are very similar. This could potentially be generalized (but maybe that's also what we'd want to have, makes for an easy overview of the Nextflow workflow)
-5. I haven't figured out where the task logs go so far.
+1. Currently, everything is tested for 1 well only
+2. Currently, nextflow & the tasks run in the same environment and all tasks run in the same conda environment. This can be generalized further
+3. I haven't figured out where the task logs go so far.
 
 
 Tested with fractal-tasks-core 0.9.0

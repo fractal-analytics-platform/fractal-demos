@@ -159,11 +159,13 @@ workflow {
     // copy_ome_zarr_params = Channel.value(fractal_demos_folder + "nextflow_examples/02_cardio_small/extra_params/copy_ome_zarr.json")
     // cellpose_params = Channel.value(parameter_folder + "cellpose_segmentation.json")
     // measurement_params = Channel.value(fractal_demos_folder + "nextflow_examples/02_cardio_small/extra_params/args_measurement.json")
-       
+
+    // Take outputs from one task as input of the next where possible       
     create_ome_zarr_out = create_ome_zarr(create_ome_zarr_params)
     yoko_out = yokogawa_to_ome_zarr(create_ome_zarr_out[0], create_ome_zarr_out[1])
     copy_out = copy_ome_zarr(yoko_out, copy_ome_zarr_params)
     mip_out = maximum_intensity_projection(copy_out[0], copy_out[1])
     cellpose_out = cellpose_segmentation(mip_out, copy_out[1], cellpose_params)
     metadata_mip = napari_workflows_wrapper(cellpose_out, copy_out[1], measurement_params)
+
 }
