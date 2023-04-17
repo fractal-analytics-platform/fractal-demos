@@ -1,5 +1,5 @@
 ## What is in this example?
-This example processes a dataset HCA dataset by Muarice Kahnewald & Koen Oost (only available on FMI servers). 
+This example processes a dataset HCA dataset by Maurice Kahnwald & Koen Oost (only available on FMI servers). 
 
 ## Client setup (from `00_user_setup` folder)
 This only needs to be done once (unless the server is restarted again). Follow the instructions in the `00_user_setup` folder.
