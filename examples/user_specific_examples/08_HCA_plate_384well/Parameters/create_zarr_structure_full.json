@@ -1,0 +1,34 @@
+{
+    "allowed_channels": [
+        {
+            "wavelength_id": "A01_C01",
+            "colormap": "00FFFF",
+            "end": 2000,
+            "label": "Channel 1",
+            "start": 110
+        },
+        {
+            "wavelength_id": "A02_C02",
+            "colormap": "FF00FF",
+            "end": 1500,
+            "label": "Channel 2",
+            "start": 110
+        },
+        {
+            "wavelength_id": "A03_C03",
+            "colormap": "00FF00",
+            "end": 1500,
+            "label": "Channel 3",
+            "start": 110
+        },
+        {
+            "wavelength_id": "A04_C04",
+            "colormap": "FFFF00",
+            "end": 1500,
+            "label": "Channel 4",
+            "start": 110
+        }
+    ],
+    "coarsening_xy": 2,
+    "num_levels": 9
+}
