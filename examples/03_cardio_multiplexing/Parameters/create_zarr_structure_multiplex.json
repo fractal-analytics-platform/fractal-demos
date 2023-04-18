@@ -5,7 +5,7 @@
                 "wavelength_id": "A01_C01",
                 "colormap": "00FFFF",
                 "end": 700,
-                "label": "DAPI",
+                "label": "DAPI-1",
                 "start": 110
             }
         ],
@@ -14,7 +14,7 @@
                 "wavelength_id": "A01_C01",
                 "colormap": "00FFFF",
                 "end": 300,
-                "label": "DAPI",
+                "label": "DAPI-2",
                 "start": 100
             },
             {
@@ -30,7 +30,7 @@
                 "wavelength_id": "A01_C01",
                 "colormap": "00FFFF",
                 "end": 600,
-                "label": "DAPI",
+                "label": "DAPI-3",
                 "start": 110
             },
             {
@@ -50,5 +50,6 @@
         ]
     },
     "coarsening_xy": 2,
-    "num_levels": 5
+    "num_levels": 5,
+    "image_extension": "png"
 }
