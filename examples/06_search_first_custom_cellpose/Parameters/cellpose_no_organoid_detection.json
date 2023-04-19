@@ -1,0 +1,11 @@
+{
+    "wavelength_id": "A01_C01",
+    "level": 2,
+    "input_ROI_table": "well_ROI_table",
+    "diameter_level0": 400,
+    "cellprob_threshold": 10.0,
+    "flow_threshold": 0.4,
+    "model_type": "nuclei",
+    "output_label_name": "organoids",
+    "output_ROI_table": "organoid_ROI_table"
+}

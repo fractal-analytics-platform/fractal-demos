@@ -1,0 +1,14 @@
+{
+    "level": 0,
+    "label_level": 0,
+    "input_ROI_table": "well_ROI_table",
+    "input_channels": {
+        "C01": {"wavelength_id": "A01_C01"},
+        "C02": {"wavelength_id": "A02_C02"},
+        "C03": {"wavelength_id": "A03_C03"},
+        "C04": {"wavelength_id": "A04_C04"}
+    },
+    "label_image": "organoids",
+    "output_table_name": "organoids",
+    "measure_morphology": true
+}
