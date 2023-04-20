@@ -16,9 +16,11 @@ Check the client documentation for details on using the Fractal Client: https://
 
 Successfully run with `fractal-server==1.0.8`, `fractal-client==1.0.5` and `fractal-tasks-core==0.7.4`
 
-## Known issues:
-Task collection on Apple Silicon Macs can fail due to issues with dependencies being install via pip (currently, the imagecodecs dependency of cellpose is not pip installable). We are [evaluating conda packaging](https://github.com/fractal-analytics-platform/fractal-tasks-core/issues/290), but are not releasing those at the moment.
-You can work around this by manually installting the tasks (e.g. install imagecodecs first, then the task package) and the register the tasks one-by-one with the server. I created a `manual_task_collection.sh` script that automates this process. Thus, if the automatic task collection fails, try running `manual_task_collection.sh` (after you have run the `local_user_setup.sh` to register the fractal user).
+## Manual task installation:
+Sometimes, you don't want to use the automatic task collection of Fractal server, but install tasks from an environment you created yourself. Reasons can be:
+1. There is an issue with the package installation. We've had issues with the imagecodecs dependency on Macs in the past, where installation via conda would work, but not via pip.
+2. You are currently developing a new task and want to register that one manually.
+In those cases, you can create your own Python environment, install the tasks and dependencies in there and then manually register each task with the Fractal server, by providing the default arguments and default meta arguments via json files. As an illustration, the `manual_task_collection.sh` script shows how to do this for the fractal-tasks-core package.
 
 
 # Installing Fractal in Windows with Windows Subsystem Linux (WSL)
