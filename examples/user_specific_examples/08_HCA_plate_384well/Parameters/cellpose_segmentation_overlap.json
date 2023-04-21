@@ -1,0 +1,10 @@
+{
+    "wavelength_id": "A01_C01",
+    "level": 2,
+    "input_ROI_table": "well_ROI_table",
+    "diameter_level0": 400,
+    "cellprob_threshold": -3.0,
+    "flow_threshold": 0.4,
+    "pretrained_model": "/tungstenfs/scratch/gliberal/Fractal_Dev/models/Hummingbird.331986",
+    "output_label_name": "organoids"
+}

@@ -2,16 +2,16 @@
 
 # Experimental script to automate task collection on Apple Silicon Macs
 
-# This is to be run in the fractal client environemnt that was just installed
-# One can also run steps 1-3 in a new environment and then run steps 4 and 
-# onwards in the client environment by adapting the paths.
+# One can also run steps 1-3 separately and then run step 4 
+# from the client environment by adapting the paths.
 # Having separate task & client environemnts is cleaner and should certainly 
 # be done in actual deployments. For local testing, installing everything in
 # the client environment works though.
 
-TASK_VERSION="0.9.0"
-# 1. Manually install the dependencies that are creating issues
-conda install imagecodecs -y
+TASK_VERSION="0.9.4"
+# 1. Activate your environment of choice (otherwise, it runs in the currently 
+# active environment). This environment needs to have fractal-client installed.
+# conda activate fractal-client-1.2.0
 
 # 2. Install the tasks package
 pip install fractal-tasks-core==$TASK_VERSION

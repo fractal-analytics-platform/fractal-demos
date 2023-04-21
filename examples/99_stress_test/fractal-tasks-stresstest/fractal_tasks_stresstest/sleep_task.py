@@ -22,9 +22,8 @@ def sleep_task(
     :param sleep_time: Number of components to be added to metadata
     """
 
-    logger.info("ENTERING sleep_task")
+    logger.info(f"This is a log from sleep_task, with {sleep_task=}")
     time.sleep(sleep_time)
-    logger.info("EXITING sleep_task")
 
     return {}
 

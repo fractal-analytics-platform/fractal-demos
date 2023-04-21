@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Set server address
-PORT=8010
+PORT=8020
 echo -e "FRACTAL_SERVER=http://localhost:$PORT" > .fractal.env
 
 # Modify default admin credentials
@@ -24,7 +24,10 @@ echo
 echo "Enter the corresponding slurm user"
 read SLURM_USER
 echo
-fractal --user $NEW_ADMIN_EMAIL --password $NEW_ADMIN_PWD user register $NEW_USER_EMAIL $NEW_USER_PASSWORD --slurm-user $SLURM_USER
+echo "Enter the corresponding cache directory"
+read CACHE_DIR
+echo
+fractal --user $NEW_ADMIN_EMAIL --password $NEW_ADMIN_PWD user register $NEW_USER_EMAIL $NEW_USER_PASSWORD --slurm-user $SLURM_USER --cache-dir $CACHE_DIR
 
 # Write credentials in a .env file (optional) and check new identity
 echo -e "\
@@ -35,4 +38,4 @@ FRACTAL_SERVER=http://localhost:$PORT
 fractal user whoami
 
 # Trigger collection of core tasks
-fractal task collect fractal-tasks-core --package-version 0.9.0
+fractal task collect fractal-tasks-core --package-version 0.9.4

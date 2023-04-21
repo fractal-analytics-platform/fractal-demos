@@ -1,6 +1,12 @@
-LABEL=1
+LABEL=2
 TASK_LABEL=meta-writer
 MY_TASK_NAME="my custom task $TASK_LABEL"
+
+###############################################################################
+# IMPORTANT: This defines the location of input & output data
+INPUT_PATH=`pwd`/../images/10.5281_zenodo.7059515
+OUTPUT_PATH=`pwd`/tmp_$LABEL
+###############################################################################
 
 # Get the credentials: If you followed the instructions, they can be copied 
 # from the .fractal.env file in ../00_user_setup. Alternatively, you can write
@@ -18,19 +24,10 @@ WF_NAME="Workflow $LABEL"
 export FRACTAL_CACHE_PATH=`pwd`/".cache"
 rm -rv ${FRACTAL_CACHE_PATH}  2> /dev/null
 
-# Define/initialize empty project folder and temporary file
-PROJ_DIR=`pwd`/tmp_${LABEL}
-rm -r $PROJ_DIR  2> /dev/null
-mkdir $PROJ_DIR
-
-###############################################################################
-# IMPORTANT: This defines the location of input & output data
-INPUT_PATH=`pwd`/../images/10.5281_zenodo.7059515
-OUTPUT_PATH=${PROJ_DIR}/output
 ###############################################################################
 
 # Create project
-OUTPUT=`fractal --batch project new $PRJ_NAME $PROJ_DIR`
+OUTPUT=`fractal --batch project new $PRJ_NAME`
 PRJ_ID=`echo $OUTPUT | cut -d ' ' -f1`
 DS_IN_ID=`echo $OUTPUT | cut -d ' ' -f2`
 echo "PRJ_ID: $PRJ_ID"
