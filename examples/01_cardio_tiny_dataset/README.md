@@ -14,4 +14,4 @@ This should complete fairly quickly (submitting the script to it being finished 
 Check the client documentation for details on using the Fractal Client: https://fractal-analytics-platform.github.io/fractal/install.html
 Check the Fractal Tasks Core documentation for details on the individual tasks of this example workflow: https://fractal-analytics-platform.github.io/fractal-tasks-core/
 
-Successfully run with `fractal-server==1.1.0a3`, `fractal-client==1.1.0a4` and `fractal-tasks-core==0.9.0`
+Successfully run with `fractal-server==1.2.2`, `fractal-client==1.2.0` and `fractal-tasks-core==0.9.4`
