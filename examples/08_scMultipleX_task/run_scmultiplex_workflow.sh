@@ -1,22 +1,18 @@
 LABEL="scmultiplex-7"
 
+###############################################################################
+# IMPORTANT: modify the following lines so that they point to absolute paths
+INPUT_PATH=/data/active/fractal/Liberali/1_well_15_fields_20_planes_SF_w_errors/D10_R1/220304_172545_220304_175557
+OUTPUT_PATH=/data/active/jluethi/Fractal/20230421_$LABEL
+# INPUT_PATH=/Users/joel/shares/dataShareFractal/fractal/Liberali/1_well_15_fields_20_planes_SF_w_errors/D10_R1/220304_172545_220304_175557
+# OUTPUT_PATH=/Users/joel/Desktop/Zarr_$LABEL
+###############################################################################
+
 # Get the credentials: If you followed the instructions, they can be copied 
 # from the .fractal.env file in ../00_user_setup. Alternatively, you can write
 # a .fractal.env file yourself or add --user & --password entries to all fractal
 # commands below
 cp ../00_user_setup/.fractal.env .fractal.env
-
-# Initialization for some environment variables for the worker
-# Needed on clusters where users don't have write access to the conda env and 
-# fractal user cache directories
-BASE_CACHE_DIR=${HOME}/.cache
-WORKER_INIT="\
-export CELLPOSE_LOCAL_MODELS_PATH=$BASE_CACHE_DIR/CELLPOSE_LOCAL_MODELS_PATH
-export NUMBA_CACHE_DIR=$BASE_CACHE_DIR/NUMBA_CACHE_DIR
-export NAPARI_CONFIG=$BASE_CACHE_DIR/napari_config.json
-export XDG_CONFIG_HOME=$BASE_CACHE_DIR/XDG_CONFIG
-export XDG_CACHE_HOME=$BASE_CACHE_DIR/XDG
-"
 
 # Set useful variables
 PRJ_NAME="proj-$LABEL"
@@ -28,21 +24,10 @@ WF_NAME="Workflow $LABEL"
 export FRACTAL_CACHE_PATH=`pwd`/".cache"
 rm -rv ${FRACTAL_CACHE_PATH} 2> /dev/null
 
-# Define/initialize empty project folder and temporary file
-PROJ_DIR=`pwd`/tmp_${LABEL}
-rm -r $PROJ_DIR 2> /dev/null
-mkdir $PROJ_DIR
-
-###############################################################################
-# IMPORTANT: modify the following lines so that they point to absolute paths
-# INPUT_PATH=/data/active/fractal/Liberali/1_well_15_fields_20_planes_SF_w_errors/D10_R1/220304_172545_220304_175557
-# OUTPUT_PATH=/data/active/jluethi/Fractal/20230316_$LABEL
-INPUT_PATH=/Users/joel/shares/dataShareFractal/fractal/Liberali/1_well_15_fields_20_planes_SF_w_errors/D10_R1/220304_172545_220304_175557
-OUTPUT_PATH=/Users/joel/Desktop/Zarr_$LABEL
 ###############################################################################
 
 # Create project
-OUTPUT=`fractal --batch project new $PRJ_NAME $PROJ_DIR`
+OUTPUT=`fractal --batch project new $PRJ_NAME`
 PRJ_ID=`echo $OUTPUT | cut -d ' ' -f1`
 DS_IN_ID=`echo $OUTPUT | cut -d ' ' -f2`
 echo "PRJ_ID: $PRJ_ID"
@@ -75,9 +60,5 @@ fractal workflow add-task $WF_ID "Cellpose Segmentation" --args-file Parameters/
 
 fractal workflow add-task $WF_ID "ScMultipleX Measurement" --args-file Parameters/scmultiplex.json
 
-# Look at the current workflows
-# fractal workflow show $WF_ID
-# echo
-
 # Apply workflow
-fractal workflow apply -o $DS_OUT_ID -p $PRJ_ID $WF_ID $DS_IN_ID --worker-init "$WORKER_INIT"
+fractal workflow apply -o $DS_OUT_ID -p $PRJ_ID $WF_ID $DS_IN_ID
