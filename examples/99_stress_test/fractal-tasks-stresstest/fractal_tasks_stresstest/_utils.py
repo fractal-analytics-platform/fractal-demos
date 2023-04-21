@@ -15,20 +15,12 @@ Standard input/output interface for tasks
 """
 
 import logging
-logging.info("BEFORE importing, in _utils.py")
-
-# Starting from Python 3.9 (see PEP 585) we can use type hints like
-# `type[BaseModel]`. For versions 3.7 and 3.8, this is available through an
-# additional import
-from __future__ import annotations
 
 import json
 from argparse import ArgumentParser
 from json import JSONEncoder
 from pathlib import Path
 from typing import Callable
-
-from pydantic import BaseModel
 
 
 class TaskParameterEncoder(JSONEncoder):
@@ -45,7 +37,7 @@ class TaskParameterEncoder(JSONEncoder):
 def run_fractal_task(
     *,
     task_function: Callable,
-    TaskArgsModel: type[BaseModel] = None,
+    TaskArgsModel=None,
     logger_name: str = None,
 ):
     """
