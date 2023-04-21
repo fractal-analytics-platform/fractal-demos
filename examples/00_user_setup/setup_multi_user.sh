@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Set server address
-PORT=8010
+PORT=8020
 echo -e "FRACTAL_SERVER=http://localhost:$PORT" > .fractal.env
 
 # Modify default admin credentials
