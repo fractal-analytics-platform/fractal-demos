@@ -6,18 +6,6 @@ LABEL="cardiac-tiny"
 # commands below
 cp ../00_user_setup/.fractal.env .fractal.env
 
-# Initialization for some environment variables for the worker
-# Needed on clusters where users don't have write access to the conda env and 
-# fractal user cache directories
-BASE_CACHE_DIR=${HOME}/.cache
-WORKER_INIT="\
-export CELLPOSE_LOCAL_MODELS_PATH=$BASE_CACHE_DIR/CELLPOSE_LOCAL_MODELS_PATH
-export NUMBA_CACHE_DIR=$BASE_CACHE_DIR/NUMBA_CACHE_DIR
-export NAPARI_CONFIG=$BASE_CACHE_DIR/napari_config.json
-export XDG_CONFIG_HOME=$BASE_CACHE_DIR/XDG_CONFIG
-export XDG_CACHE_HOME=$BASE_CACHE_DIR/XDG
-"
-
 # Set useful variables
 PRJ_NAME="proj-$LABEL"
 DS_IN_NAME="input-ds-$LABEL"
@@ -57,17 +45,13 @@ WF_ID=`fractal --batch workflow new "$WF_NAME" $PRJ_ID`
 echo "WF_ID: $WF_ID"
 
 # Add tasks to workflow
-fractal workflow add-task $WF_ID "Create OME-Zarr structure" --args-file Parameters/args_create_ome_zarr.json --meta-file Parameters/example_meta.json
-fractal workflow add-task $WF_ID "Convert Yokogawa to OME-Zarr"
-fractal workflow add-task $WF_ID "Copy OME-Zarr structure"
-fractal workflow add-task $WF_ID "Maximum Intensity Projection"
-fractal workflow add-task $WF_ID "Cellpose Segmentation" --args-file Parameters/args_cellpose_segmentation.json --meta-file Parameters/example_meta.json
+fractal --batch workflow add-task $WF_ID "Create OME-Zarr structure" --args-file Parameters/args_create_ome_zarr.json --meta-file Parameters/example_meta.json
+fractal --batch workflow add-task $WF_ID "Convert Yokogawa to OME-Zarr"
+fractal --batch workflow add-task $WF_ID "Copy OME-Zarr structure"
+fractal --batch workflow add-task $WF_ID "Maximum Intensity Projection"
+fractal --batch workflow add-task $WF_ID "Cellpose Segmentation" --args-file Parameters/args_cellpose_segmentation.json --meta-file Parameters/example_meta.json
 echo "{\"level\": 0, \"input_ROI_table\": \"well_ROI_table\", \"workflow_file\": \"`pwd`/regionprops_from_existing_labels_feature.yaml\", \"input_specs\": {\"dapi_img\": {\"type\": \"image\", \"wavelength_id\": \"A01_C01\"}, \"label_img\": {\"type\": \"label\", \"label_name\": \"nuclei\"}}, \"output_specs\": {\"regionprops_DAPI\": {\"type\": \"dataframe\",\"table_name\": \"nuclei\"}}}" > Parameters/args_measurement.json
-fractal workflow add-task $WF_ID "Napari workflows wrapper" --args-file Parameters/args_measurement.json --meta-file Parameters/example_meta.json
-
-# Look at the current workflows
-# fractal workflow show $WF_ID
-# echo
+fractal --batch workflow add-task $WF_ID "Napari workflows wrapper" --args-file Parameters/args_measurement.json --meta-file Parameters/example_meta.json
 
 # Apply workflow
-fractal workflow apply -o $DS_OUT_ID -p $PRJ_ID $WF_ID $DS_IN_ID --worker-init "$WORKER_INIT"
+fractal workflow apply -o $DS_OUT_ID -p $PRJ_ID $WF_ID $DS_IN_ID
