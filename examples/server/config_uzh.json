@@ -2,11 +2,11 @@
   "default_slurm_config":{
     "partition": "main",
     "cpus_per_task": 1,
-    "mem": "2G"
+    "mem": 2000
   },
   "gpu_slurm_config": {
     "partition": "gpu",
-    "mem": "60G"
+    "mem": 60000
   },
   "batching_config": {
     "target_cpus_per_job": 4,
