@@ -1,26 +1,26 @@
 {
   "default_slurm_config":{
-      "partition": "main",
-      "cpus_per_task": 1,
-      "mem": "2G"
+    "partition": "main",
+    "cpus_per_task": 1,
+    "mem": "2G"
   },
   "gpu_slurm_config": {
-  "partition": "gpu",
-  "mem": "60G"
-},
-"user_local_exports": {
-  "CELLPOSE_LOCAL_MODELS_PATH": "CELLPOSE_LOCAL_MODELS_PATH",
-  "NUMBA_CACHE_DIR": "NUMBA_CACHE_DIR",
-  "NAPARI_CONFIG": "napari_config.json",
-  "XDG_CONFIG_HOME": "XDG_CONFIG",
-  "XDG_CACHE_HOME": "XDG"
-},
-"batching_config": {
-  "target_cpus_per_job": 4,
-  "max_cpus_per_job": 16,
-  "target_mem_per_job": "20G",
-  "max_mem_per_job": "61G",
-  "target_num_jobs": 5,
-  "max_num_jobs": 200
-}
+    "partition": "gpu",
+    "mem": "60G"
+  },
+  "batching_config": {
+    "target_cpus_per_job": 4,
+    "max_cpus_per_job": 16,
+    "target_mem_per_job": "20G",
+    "max_mem_per_job": "61G",
+    "target_num_jobs": 5,
+    "max_num_jobs": 200
+  },
+  "user_local_exports": {
+    "CELLPOSE_LOCAL_MODELS_PATH": "CELLPOSE_LOCAL_MODELS_PATH",
+    "NUMBA_CACHE_DIR": "NUMBA_CACHE_DIR",
+    "NAPARI_CONFIG": "napari_config.json",
+    "XDG_CONFIG_HOME": "XDG_CONFIG",
+    "XDG_CACHE_HOME": "XDG"
+  }
 }

@@ -1,4 +1,4 @@
-LABEL="cardiac-tiny-5"
+LABEL="cardiac-tiny"
 
 ###############################################################################
 # IMPORTANT: This defines the location of input & output data
