@@ -1,4 +1,10 @@
-LABEL="cardiac-tiny"
+LABEL="cardiac-tiny-5"
+
+###############################################################################
+# IMPORTANT: This defines the location of input & output data
+INPUT_PATH=`pwd`/../images/10.5281_zenodo.7059515/
+OUTPUT_PATH=`pwd`/output_${LABEL}
+###############################################################################
 
 # Get the credentials: If you followed the instructions, they can be copied 
 # from the .fractal.env file in ../00_user_setup. Alternatively, you can write
@@ -16,10 +22,6 @@ WF_NAME="Workflow $LABEL"
 export FRACTAL_CACHE_PATH=`pwd`/".cache"
 rm -rv ${FRACTAL_CACHE_PATH}  2> /dev/null
 
-###############################################################################
-# IMPORTANT: This defines the location of input & output data
-INPUT_PATH=`pwd`/../images/10.5281_zenodo.7059515/
-OUTPUT_PATH=`pwd`/output_${LABEL}
 ###############################################################################
 
 # Create project
@@ -43,6 +45,8 @@ fractal dataset add-resource $PRJ_ID $DS_OUT_ID $OUTPUT_PATH
 # Create workflow
 WF_ID=`fractal --batch workflow new "$WF_NAME" $PRJ_ID`
 echo "WF_ID: $WF_ID"
+
+###############################################################################
 
 # Add tasks to workflow
 fractal --batch workflow add-task $WF_ID "Create OME-Zarr structure" --args-file Parameters/args_create_ome_zarr.json --meta-file Parameters/example_meta.json
