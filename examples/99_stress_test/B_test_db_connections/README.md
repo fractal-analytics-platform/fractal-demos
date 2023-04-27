@@ -113,3 +113,24 @@ gunicorn fractal_server.main:app --workers $NUM_WORKERS --worker-class uvicorn.w
 * Once again, even running a single 20+20 test leads to an error (with `NUM_WORKERS=1`).
 * Having `NUM_WORKERS=4` also leads to an error (e.g. when running three 20+20 tests)
 * Setting an even higher number of workers (e.g. `8`) eventually also fails, with a different error (`sqlalchemy.exc.OperationalError: (psycopg2.OperationalError) connection to server at "localhost" (127.0.0.1), port 5432 failed: FATAL:  sorry, too many clients already`).
+
+## Debugging DB connections
+
+Before shutting down the `fractal-server` instance, there appears to be several open connections to the postgres port (5432).
+Starting with a fresh DB+fractal-server, and after running a single 20+20 test, we observe
+```
+$ lsof -i :5432  | wc -l
+62
+```
+where the entries look like
+```
+$ lsof -i :5432 | head
+COMMAND    PID    USER   FD   TYPE  DEVICE SIZE/OFF NODE NAME
+gunicorn 65684 tommaso   13u  IPv4 1997489      0t0  TCP localhost:50706->localhost:postgresql (ESTABLISHED)
+gunicorn 65684 tommaso   15u  IPv4 2006209      0t0  TCP localhost:39948->localhost:postgresql (ESTABLISHED)
+```
+
+After waiting a while (that is, after all workflow executions are complete), there are still 54 open connections listed in `lsof`. Shutting down the fractal-server instance (which happens without any error or warning), correctly leads to 0 open connections.
+
+
+**To be understood**: what are those ~60 connections? Why are they still established?
