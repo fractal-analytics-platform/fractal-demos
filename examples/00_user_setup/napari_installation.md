@@ -12,7 +12,7 @@ Make sure you have conda installed. In this tutorial, we will install python via
 ## Standard installation napari environment
 Use the terminal on Mac & Linux or the Anaconda Prompt on Windows.
 ```
-conda create -y --name napari python=3.8
+conda create -y --name napari python=3.9
 conda activate napari
 pip install napari
 pip install napari-ome-zarr
@@ -86,7 +86,4 @@ Check whether you have specified proxy variables. For windows, they are set [her
 2. (Error appears to be solved, I don't run into it anymore) Can't install PyQt5 on M1 macs. `AttributeError: module 'sipbuild.api' has no attribute 'prepare_metadata_for_build_wheel'`
 The problem: The current version of PyQt5 in pip does not support M1 macs. Install manually via conda before installing napari:
 `conda install pyqt`
-
-3. (You shouldn't need this for today's demo) Installing `imagecodecs` fails on M1 Macs
-Install manually using conda: `conda install imagecodecs`
 
