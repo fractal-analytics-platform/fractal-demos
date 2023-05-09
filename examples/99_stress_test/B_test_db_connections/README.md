@@ -1,4 +1,4 @@
-This test aims to reproduce some DB errors described in https://github.com/fractal-analytics-platform/fractal-server/issues/647.
+This test aims to reproduce some DB errors described in https://github.com/fractal-analytics-platform/fractal-server/issues/647. Note that passing to fractal-server=1.2.3 solved (or at least greatly mitigated) the current issue, but we are leaving the README here for the record.
 
 It is meant to provide a systematic way of stress-testing `fractal-server` in different configurations:
 
@@ -14,7 +14,27 @@ One run of `run_example.sh` corresponds to a 20+20 test (add 20 tasks to a workf
 
 When a certain `fractal-server` configuration leads to an error, the simplest mitigation strategy is to reduce the API call frequency (e.g. by adding a one-second waiting time between subsequent calls), but this is only meant to be used while testing.
 
+# 2023/05/02 tests
+
+(with fractal-server 1.2.4)
+
+## sqlite
+
+Bugged? See https://github.com/fractal-analytics-platform/fractal-server/issues/661
+
+## uvicorn+postgres
+
+* One 20+20 example goes through.
+* Two simultaneous 20+20 examples may still fail with a client-side timeout (but no server-side errors).
+
+## gunicorn+postgres
+
+* With a single worker, two simultaneous 20+20 examples go through. The `lsof -i :5432` command never shows more than three open connections.
+
+
 # 2023/04/27 tests
+
+(with fractal-server 1.2.2)
 
 ## uvicorn+sqlite
 
