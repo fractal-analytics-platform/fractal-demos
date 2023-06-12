@@ -10,7 +10,7 @@ DEFAULT_ADMIN_PW="1234"
 NEW_ADMIN_EMAIL=real-admin@fractal.xy
 NEW_ADMIN_PWD="new_pwd"
 ADMIN_ID=`fractal -u $DEFAULT_ADMIN -p $DEFAULT_ADMIN_PW --batch user whoami`
-fractal  -u $DEFAULT_ADMIN -p $DEFAULT_ADMIN_PW user edit $ADMIN_ID --new-email $NEW_ADMIN_EMAIL --new-password $NEW_ADMIN_PWD --new-slurm-user SONOIO
+fractal  -u $DEFAULT_ADMIN -p $DEFAULT_ADMIN_PW user edit $ADMIN_ID --new-email $NEW_ADMIN_EMAIL --new-password $NEW_ADMIN_PWD
 
 # Write credentials in a .env file (optional) and check new identity
 echo -e "\
