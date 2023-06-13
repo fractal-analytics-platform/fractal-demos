@@ -14,8 +14,8 @@
             "wavelength_id": "A01_C02",
             "label": "nanog",
             "window": {
-                "end": 290,
-                "start": 110
+                "start": 110,
+                "end": 290
             }
         },
         {
