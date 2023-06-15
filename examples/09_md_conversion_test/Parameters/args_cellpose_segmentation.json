@@ -1,0 +1,8 @@
+{
+    "level": 2, 
+    "channel_label": "Maximum-Projection_DAPI",
+    "output_label_name": "organoids", 
+    "input_ROI_table": "well_ROI_table",
+    "model_type": "nuclei",
+    "diameter_level0": 600
+}
