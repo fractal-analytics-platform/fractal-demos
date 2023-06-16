@@ -1,9 +1,9 @@
-LABEL="cardiac-test-3"
+LABEL="MD_Parsing_2D_Test4"
 
 ###############################################################################
 # IMPORTANT: This defines the location of input & output data
-INPUT_PATH=`pwd`/../images/10.5281_zenodo.7059515/
-OUTPUT_PATH=`pwd`/output_${LABEL}
+INPUT_PATH="/Users/joel/Desktop/230219MK004EB-R1Bleach"
+OUTPUT_PATH="/Users/joel/Desktop/MD_Test_$LABEL"
 ###############################################################################
 
 # Get the credentials: If you followed the instructions, they can be copied 
@@ -49,11 +49,12 @@ echo "WF_ID: $WF_ID"
 ###############################################################################
 
 # Add tasks to workflow
-fractal --batch workflow add-task $PRJ_ID $WF_ID --task-name "Create OME-Zarr structure" --args-file Parameters/args_create_ome_zarr.json --meta-file Parameters/example_meta.json
-fractal --batch workflow add-task $PRJ_ID $WF_ID --task-name "Convert Yokogawa to OME-Zarr"
-fractal --batch workflow add-task $PRJ_ID $WF_ID --task-name "Copy OME-Zarr structure"
-fractal --batch workflow add-task $PRJ_ID $WF_ID --task-name "Maximum Intensity Projection"
-fractal --batch workflow add-task $PRJ_ID $WF_ID --task-name "Cellpose Segmentation" --args-file Parameters/args_cellpose_segmentation.json #--meta-file Parameters/cellpose_meta.json
+fractal --batch workflow add-task $PRJ_ID $WF_ID --task-name "Create OME-Zarr MD" --args-file Parameters/args_create_ome_zarr.json
+fractal --batch workflow add-task $PRJ_ID $WF_ID --task-name "Convert MD to OME-Zarr"
+# fractal --batch workflow add-task $PRJ_ID $WF_ID --task-name "Copy OME-Zarr structure"
+# fractal --batch workflow add-task $PRJ_ID $WF_ID --task-name "Maximum Intensity Projection"
+fractal --batch workflow add-task $PRJ_ID $WF_ID --task-name "Cellpose Segmentation" --args-file Parameters/args_cellpose_segmentation.json
+echo "{\"level\": 0, \"expected_dimensions\": 2, \"input_ROI_table\": \"well_ROI_table\", \"workflow_file\": \"`pwd`/regionprops_from_existing_labels_feature.yaml\", \"input_specs\": {\"dapi_img\": {\"type\": \"image\", \"wavelength_id\": \"C01\"}, \"label_img\": {\"type\": \"label\", \"label_name\": \"organoids\"}}, \"output_specs\": {\"regionprops_DAPI\": {\"type\": \"dataframe\",\"table_name\": \"nuclei\"}}}" > Parameters/args_measurement.json
 fractal --batch workflow add-task $PRJ_ID $WF_ID --task-name "Napari workflows wrapper" --args-file Parameters/args_measurement.json --meta-file Parameters/example_meta.json
 
 # Apply workflow
