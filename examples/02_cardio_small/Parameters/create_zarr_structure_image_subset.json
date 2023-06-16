@@ -2,24 +2,30 @@
     "allowed_channels": [
         {
             "wavelength_id": "A01_C01",
-            "colormap": "00FFFF",
-            "end": 700,
+            "color": "00FFFF",
             "label": "DAPI",
-            "start": 0
+            "window":{
+                "start": 0,
+                "end": 700
+            }
         },
         {
             "wavelength_id": "A01_C02",
-            "colormap": "FF00FF",
-            "end": 180,
+            "color": "FF00FF",
             "label": "nanog",
-            "start": 0
+            "window":{
+                "start": 0,
+                "end": 180
+            }
         },
         {
             "wavelength_id": "A02_C03",
-            "colormap": "FFFF00",
-            "end": 1500,
+            "color": "FFFF00",
             "label": "Lamin B1",
-            "start": 0
+            "window":{
+                "start": 0,
+                "end": 1500
+            }
         }
     ],
     "coarsening_xy": 2,
