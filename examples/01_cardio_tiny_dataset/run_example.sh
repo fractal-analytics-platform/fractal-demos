@@ -1,4 +1,4 @@
-LABEL="cardiac-test-3"
+LABEL="cardiac-test-4"
 
 ###############################################################################
 # IMPORTANT: This defines the location of input & output data
@@ -45,6 +45,25 @@ fractal dataset add-resource $PRJ_ID $DS_OUT_ID $OUTPUT_PATH
 # Create workflow
 WF_ID=`fractal --batch workflow new "$WF_NAME" $PRJ_ID`
 echo "WF_ID: $WF_ID"
+
+###############################################################################
+
+# Prepare some JSON files for task arguments (note: this has to happen here,
+# because we need to include the path of the current directory)
+CURRENT_FOLDER=`pwd`
+echo "{
+  \"level\": 0,
+  \"input_ROI_table\": \"well_ROI_table\",
+  \"workflow_file\": \"$CURRENT_FOLDER/regionprops_from_existing_labels_feature.yaml\",
+  \"input_specs\": {
+    \"dapi_img\": { \"type\": \"image\", \"channel\":{ \"wavelength_id\": \"A01_C01\" } },
+    \"label_img\": { \"type\": \"label\", \"label_name\": \"nuclei\" }
+  },
+  \"output_specs\": {
+    \"regionprops_DAPI\": { \"type\": \"dataframe\", \"table_name\": \"nuclei\" }
+  }
+}
+" > Parameters/args_measurement.json
 
 ###############################################################################
 

@@ -3,49 +3,61 @@
         "0": [
             {
                 "wavelength_id": "A01_C01",
-                "colormap": "00FFFF",
-                "end": 600,
+                "color": "00FFFF",
                 "label": "DAPI-1",
-                "start": 110
+                "window": {
+                    "start": 110,
+                    "end": 600
+                }
             },
             {
                 "wavelength_id": "A01_C02",
-                "colormap": "FF00FF",
-                "end": 500,
+                "color": "FF00FF",
                 "label": "HSP60",
-                "start": 110
+                "window": {
+                    "start": 110,
+                    "end": 500
+                }
             },
             {
                 "wavelength_id": "A02_C03",
-                "colormap": "FFFF00",
-                "end": 800,
+                "color": "FFFF00",
                 "label": "Tubulin",
-                "start": 110
+                "window": {
+                    "start": 110,
+                    "end": 800
+                }
             }
         ],
         "1": [
             {
                 "wavelength_id": "A01_C01",
-                "colormap": "00FFFF",
-                "end": 300,
+                "color": "00FFFF",
                 "label": "DAPI-2",
-                "start": 100
+                "window": {
+                    "start": 100,
+                    "end": 300
+                }
             },
             {
                 "wavelength_id": "A02_C03",
-                "colormap": "FFFF00",
-                "end": 1500,
+                "color": "FFFF00",
                 "label": "Na/K ATPase",
-                "start": 110
+                "window": {
+                    "start": 110,
+                    "end": 1500
+                }
             }
         ],
         "2": [
             {
                 "wavelength_id": "A01_C01",
-                "colormap": "00FFFF",
-                "end": 700,
+                "color": "00FFFF",
                 "label": "DAPI-3",
-                "start": 110
+                "window": {
+                    "start": 110,
+                    "end": 700
+                }
             }
         ]
     },

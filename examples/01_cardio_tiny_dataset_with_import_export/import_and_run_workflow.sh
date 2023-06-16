@@ -1,10 +1,4 @@
-LABEL="import-2"
-
-###############################################################################
-# IMPORTANT: This defines the location of input & output data
-INPUT_PATH=`pwd`/../images/10.5281_zenodo.7059515
-OUTPUT_PATH=`pwd`/output
-###############################################################################
+LABEL="import-11"
 
 # Get the credentials: If you followed the instructions, they can be copied 
 # from the .fractal.env file in ../00_user_setup. Alternatively, you can write
@@ -16,6 +10,13 @@ cp ../00_user_setup/.fractal.env .fractal.env
 PRJ_NAME="proj-$LABEL"
 DS_IN_NAME="input-ds-$LABEL"
 DS_OUT_NAME="output-ds-$LABEL"
+
+###############################################################################
+# IMPORTANT: This defines the location of input & output data
+INPUT_PATH=`pwd`/../images/10.5281_zenodo.7059515
+OUTPUT_PATH=`pwd`/$DS_OUT_NAME
+###############################################################################
+
 
 # Set cache path and remove any previous file from there
 export FRACTAL_CACHE_PATH=`pwd`/".cache"
@@ -43,9 +44,5 @@ fractal dataset add-resource $PRJ_ID $DS_OUT_ID $OUTPUT_PATH
 OUTPUT=`fractal --batch workflow import --project-id $PRJ_ID --json-file workflow.json`
 WF_ID=`echo $OUTPUT | cut -d ' ' -f1`
 
-# Look at the current workflow
-fractal workflow show $WF_ID
-echo
-
 # Apply workflow
-fractal workflow apply -o $DS_OUT_ID -p $PRJ_ID $WF_ID $DS_IN_ID
+fractal workflow apply $PRJ_ID $WF_ID $DS_IN_ID $DS_OUT_ID
