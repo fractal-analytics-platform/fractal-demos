@@ -1,6 +1,8 @@
 {
     "level": 0, 
-    "wavelength_id": "A01_C01", 
+    "channel":{
+        "wavelength_id": "A01_C01"
+    }, 
     "output_label_name": "nuclei", 
     "input_ROI_table": "FOV_ROI_table",
     "model_type": "nuclei",
