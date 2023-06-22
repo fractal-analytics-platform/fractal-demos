@@ -1,4 +1,4 @@
-LABEL="with_illum_corr_1"
+LABEL="with_illum_corr_2"
 
 ###############################################################################
 # IMPORTANT: modify the following lines so that they point to absolute paths
@@ -49,7 +49,7 @@ echo "WF_ID: $WF_ID"
 # Add tasks to workflow
 fractal --batch workflow add-task $PRJ_ID $WF_ID --task-name "Create OME-Zarr structure" --args-file Parameters/args_create_ome_zarr_illum_corr.json --meta-file Parameters/example_meta.json
 fractal --batch workflow add-task $PRJ_ID $WF_ID --task-name "Convert Yokogawa to OME-Zarr"
-echo "{\"overwrite\": \"True\", \"dict_corr\": {\"root_path_corr\": \"`pwd`/../illum_corr_images/\", \"A01_C01\": \"20220621_UZH_manual_illumcorr_40x_A01_C01.png\", \"A01_C02\": \"20220621_UZH_manual_illumcorr_40x_A01_C02.png\", \"A02_C03\": \"20220621_UZH_manual_illumcorr_40x_A02_C03.png\"}}" > Parameters/illumination_correction.json
+echo "{\"overwrite\": \"True\", \"illumination_profiles_folder\": \"`pwd`/../illum_corr_images/\", \"dict_corr\": {\"A01_C01\": \"20220621_UZH_manual_illumcorr_40x_A01_C01.png\", \"A01_C02\": \"20220621_UZH_manual_illumcorr_40x_A01_C02.png\", \"A02_C03\": \"20220621_UZH_manual_illumcorr_40x_A02_C03.png\"}}" > Parameters/illumination_correction.json
 fractal --batch workflow add-task $PRJ_ID $WF_ID --task-name "Illumination correction" --args-file Parameters/illumination_correction.json
 fractal --batch workflow add-task $PRJ_ID $WF_ID --task-name "Copy OME-Zarr structure"
 fractal --batch workflow add-task $PRJ_ID $WF_ID --task-name "Maximum Intensity Projection"
