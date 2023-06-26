@@ -1,10 +1,10 @@
 {
     "level": 0,
     "label_level": 0,
-    "input_ROI_table": "well_ROI_table",
     "input_channels": {
         "C01": {"wavelength_id": "A01_C01"}
     },
+    "input_ROI_table": "well_ROI_table",
     "label_image": "nuclei",
     "output_table_name": "nuclei",
     "measure_morphology": true

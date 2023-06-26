@@ -47,12 +47,12 @@ WF_ID=`fractal --batch workflow new "$WF_NAME" $PRJ_ID`
 echo "WF_ID: $WF_ID"
 
 # Add tasks to workflow
-fractal workflow add-task $WF_ID "Create OME-Zarr structure" --args-file Parameters_tiny/args_create_ome_zarr.json --meta-file Parameters_tiny/example_meta.json
-fractal workflow add-task $WF_ID "Convert Yokogawa to OME-Zarr"
-fractal workflow add-task $WF_ID "Copy OME-Zarr structure"
-fractal workflow add-task $WF_ID "Maximum Intensity Projection"
-fractal workflow add-task $WF_ID "Cellpose Segmentation" --args-file Parameters_tiny/args_cellpose_segmentation.json --meta-file Parameters_tiny/cellpose_meta.json
-fractal workflow add-task $WF_ID "ScMultipleX Measurement" --args-file Parameters_tiny/scmultiplex.json
+fractal --batch workflow add-task $PRJ_ID $WF_ID --task-name "Create OME-Zarr structure" --args-file Parameters_tiny/args_create_ome_zarr.json --meta-file Parameters_tiny/example_meta.json
+fractal --batch workflow add-task $PRJ_ID $WF_ID --task-name "Convert Yokogawa to OME-Zarr"
+fractal --batch workflow add-task $PRJ_ID $WF_ID --task-name "Copy OME-Zarr structure"
+fractal --batch workflow add-task $PRJ_ID $WF_ID --task-name "Maximum Intensity Projection"
+fractal --batch workflow add-task $PRJ_ID $WF_ID --task-name "Cellpose Segmentation" --args-file Parameters_tiny/args_cellpose_segmentation.json --meta-file Parameters_tiny/cellpose_meta.json
+fractal --batch workflow add-task $PRJ_ID $WF_ID --task-name "scMultipleX Measurements" --args-file Parameters_tiny/scmultiplex.json
 
 # Apply workflow
-fractal workflow apply -o $DS_OUT_ID -p $PRJ_ID $WF_ID $DS_IN_ID
+fractal workflow apply $PRJ_ID $WF_ID $DS_IN_ID $DS_OUT_ID
