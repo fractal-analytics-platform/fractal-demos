@@ -1,0 +1,6 @@
+{
+    "label_name": "nuclei",
+    "ROI_tables_to_copy": ["nuclei_ROI_table"],
+    "new_label_name": "nuclei_2D",
+    "new_table_names": ["nuclei_2D_ROI_table"]
+}
