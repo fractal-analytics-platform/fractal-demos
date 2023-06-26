@@ -1,4 +1,4 @@
-LABEL="MD_Parsing_2D_Test4"
+LABEL="MD_Parsing_2D_Test6"
 
 ###############################################################################
 # IMPORTANT: This defines the location of input & output data
@@ -48,13 +48,33 @@ echo "WF_ID: $WF_ID"
 
 ###############################################################################
 
+# Prepare some JSON files for task arguments (note: this has to happen here,
+# because we need to include the path of the current directory)
+
+CURRENT_FOLDER=`pwd`
+echo "{
+  \"level\": 0,
+  \"expected_dimensions\": 2,
+  \"input_ROI_table\": \"well_ROI_table\",
+  \"workflow_file\": \"$CURRENT_FOLDER/regionprops_from_existing_labels_feature.yaml\",
+  \"input_specs\": {
+    \"dapi_img\": { \"type\": \"image\", \"channel\":{ \"wavelength_id\": \"C01\" } },
+    \"label_img\": { \"type\": \"label\", \"label_name\": \"organoids\" }
+  },
+  \"output_specs\": {
+    \"regionprops_DAPI\": { \"type\": \"dataframe\", \"table_name\": \"organoids\" }
+  }
+}
+" > Parameters/args_measurement.json
+
+###############################################################################
+
 # Add tasks to workflow
 fractal --batch workflow add-task $PRJ_ID $WF_ID --task-name "Create OME-Zarr MD" --args-file Parameters/args_create_ome_zarr.json
 fractal --batch workflow add-task $PRJ_ID $WF_ID --task-name "Convert MD to OME-Zarr"
 # fractal --batch workflow add-task $PRJ_ID $WF_ID --task-name "Copy OME-Zarr structure"
 # fractal --batch workflow add-task $PRJ_ID $WF_ID --task-name "Maximum Intensity Projection"
 fractal --batch workflow add-task $PRJ_ID $WF_ID --task-name "Cellpose Segmentation" --args-file Parameters/args_cellpose_segmentation.json
-echo "{\"level\": 0, \"expected_dimensions\": 2, \"input_ROI_table\": \"well_ROI_table\", \"workflow_file\": \"`pwd`/regionprops_from_existing_labels_feature.yaml\", \"input_specs\": {\"dapi_img\": {\"type\": \"image\", \"wavelength_id\": \"C01\"}, \"label_img\": {\"type\": \"label\", \"label_name\": \"organoids\"}}, \"output_specs\": {\"regionprops_DAPI\": {\"type\": \"dataframe\",\"table_name\": \"nuclei\"}}}" > Parameters/args_measurement.json
 fractal --batch workflow add-task $PRJ_ID $WF_ID --task-name "Napari workflows wrapper" --args-file Parameters/args_measurement.json --meta-file Parameters/example_meta.json
 
 # Apply workflow
