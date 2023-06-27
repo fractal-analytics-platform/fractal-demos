@@ -1,9 +1,9 @@
-LABEL="MD_Parsing_2D_Test6"
+LABEL="20230627_MD_Parsing_2D_Test6"
 
 ###############################################################################
 # IMPORTANT: This defines the location of input & output data
-INPUT_PATH="/Users/joel/Desktop/230219MK004EB-R1Bleach"
-OUTPUT_PATH="/Users/joel/Desktop/MD_Test_$LABEL"
+INPUT_PATH="/data/active/fractal/MD/230219MK004EB-R1Bleach"
+OUTPUT_PATH="/data/active/jluethi/Fractal/$LABEL"
 ###############################################################################
 
 # Get the credentials: If you followed the instructions, they can be copied 
