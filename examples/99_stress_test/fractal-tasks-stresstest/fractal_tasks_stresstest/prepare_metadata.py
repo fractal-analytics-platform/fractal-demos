@@ -16,6 +16,11 @@ def prepare_metadata(
     # Task-specific arguments
     num_components: int = 10,
 ) -> Dict[str, Any]:
+    """
+    Prepare metadata
+
+    :param num_components: Number of components
+    """
 
     list_components = [f"{ind:04d}" for ind in range(num_components)]
     metadata_update = {"component": list_components}

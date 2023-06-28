@@ -19,7 +19,7 @@ def sleep_task(
     sleep_time: float = 1.0,
 ) -> Dict[str, Any]:
     """
-    :param sleep_time: Number of components to be added to metadata
+    :param sleep_time: How long the task should take
     """
 
     logger.info(f"This is a log from sleep_task, with {sleep_task=}")

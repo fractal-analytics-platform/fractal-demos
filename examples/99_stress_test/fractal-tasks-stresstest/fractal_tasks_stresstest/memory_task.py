@@ -21,6 +21,10 @@ def memory_task(
     memory_MB: int = 100,
 ) -> Dict[str, Any]:
     """
+    Memory-consuming task
+
+    :param total_time: How long the task should run
+    :param memory_task: How much memory the task should use
     """
     logger.info(
         f"This is a log from memory_task, with {total_time=} and {memory_MB=}"
