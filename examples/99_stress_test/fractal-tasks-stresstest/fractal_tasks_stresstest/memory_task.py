@@ -41,17 +41,6 @@ def memory_task(
 
 
 if __name__ == "__main__":
-    from pydantic import BaseModel
-    from fractal_tasks_stresstest._utils import run_fractal_task
+    from fractal_tasks_core.tasks._utils import run_fractal_task
 
-    class TaskArguments(BaseModel):
-        input_paths: Sequence[str]
-        output_path: str
-        metadata: Dict[str, Any]
-        component: str
-        total_time: Optional[float]
-        memory_MB: Optional[int]
-
-    run_fractal_task(
-            task_function=memory_task, TaskArgsModel=TaskArguments
-            )
+    run_fractal_task(task_function=memory_task)

@@ -6,24 +6,161 @@
       "executable": "prepare_metadata.py",
       "input_type": "Any",
       "output_type": "Any",
-      "default_args": {"num_components": 20}
+      "default_args": {
+        "num_components": 20
+      },
+      "args_schema": {
+        "title": "PrepareMetadata",
+        "type": "object",
+        "properties": {
+          "input_paths": {
+            "title": "Input Paths",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Missing description"
+          },
+          "output_path": {
+            "title": "Output Path",
+            "type": "string",
+            "description": "Missing description"
+          },
+          "metadata": {
+            "title": "Metadata",
+            "type": "object",
+            "description": "Missing description"
+          },
+          "num_components": {
+            "title": "Num Components",
+            "default": 10,
+            "type": "integer",
+            "description": "Missing description"
+          }
+        },
+        "required": [
+          "input_paths",
+          "output_path",
+          "metadata"
+        ],
+        "additionalProperties": false
+      }
     },
     {
       "name": "sleep_task",
       "executable": "sleep_task.py",
       "input_type": "Any",
       "output_type": "Any",
-      "default_args": {"sleep_time": 5.0},
-      "meta": {"parallelization_level": "component"}
+      "default_args": {
+        "sleep_time": 5.0
+      },
+      "meta": {
+        "parallelization_level": "component"
+      },
+      "args_schema": {
+        "title": "SleepTask",
+        "type": "object",
+        "properties": {
+          "input_paths": {
+            "title": "Input Paths",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Missing description"
+          },
+          "output_path": {
+            "title": "Output Path",
+            "type": "string",
+            "description": "Missing description"
+          },
+          "metadata": {
+            "title": "Metadata",
+            "type": "object",
+            "description": "Missing description"
+          },
+          "component": {
+            "title": "Component",
+            "type": "string",
+            "description": "Missing description"
+          },
+          "sleep_time": {
+            "title": "Sleep Time",
+            "default": 1.0,
+            "type": "number",
+            "description": "Number of components to be added to metadata"
+          }
+        },
+        "required": [
+          "input_paths",
+          "output_path",
+          "metadata",
+          "component"
+        ],
+        "additionalProperties": false
+      }
     },
     {
       "name": "memory_task",
       "executable": "memory_task.py",
       "input_type": "Any",
       "output_type": "Any",
-      "default_args": {"sleep_time": 5.0},
-      "meta": {"parallelization_level": "component"}
+      "default_args": {
+        "sleep_time": 5.0
+      },
+      "meta": {
+        "parallelization_level": "component"
+      },
+      "args_schema": {
+        "title": "MemoryTask",
+        "type": "object",
+        "properties": {
+          "input_paths": {
+            "title": "Input Paths",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Missing description"
+          },
+          "output_path": {
+            "title": "Output Path",
+            "type": "string",
+            "description": "Missing description"
+          },
+          "metadata": {
+            "title": "Metadata",
+            "type": "object",
+            "description": "Missing description"
+          },
+          "component": {
+            "title": "Component",
+            "type": "string",
+            "description": "Missing description"
+          },
+          "total_time": {
+            "title": "Total Time",
+            "default": 2.0,
+            "type": "number",
+            "description": "Missing description"
+          },
+          "memory_MB": {
+            "title": "Memory Mb",
+            "default": 100,
+            "type": "integer",
+            "description": "Missing description"
+          }
+        },
+        "required": [
+          "input_paths",
+          "output_path",
+          "metadata",
+          "component"
+        ],
+        "additionalProperties": false
+      }
     }
-
-  ]
+  ],
+  "has_args_schemas": true,
+  "args_schema_version": "pydantic_v1"
 }
