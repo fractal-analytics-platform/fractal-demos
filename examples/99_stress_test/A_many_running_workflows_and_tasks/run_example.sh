@@ -30,10 +30,8 @@ fractal --batch dataset add-resource $PRJ_ID $DS_OUT_ID $OUTPUT_PATH
 
 # Create workflow and add tasks
 WF_ID=`fractal --batch workflow new "$WF_NAME" $PRJ_ID`
-fractal --batch workflow add-task $WF_ID "prepare_metadata" --args-file Parameters/prepare_metadata-args.json
-fractal --batch workflow add-task $WF_ID "sleep_task" --args-file Parameters/sleep_task-args.json --meta-file Parameters/sleep_task-meta-A.json
-# fractal --batch workflow add-task $WF_ID "sleep_task" --args-file Parameters/sleep_task-args.json --meta-file Parameters/sleep_task-meta-B.json
-# fractal --batch workflow add-task $WF_ID "sleep_task" --args-file Parameters/sleep_task-args.json --meta-file Parameters/sleep_task-meta-C.json
+fractal --batch workflow add-task $PRJ_ID $WF_ID --task-name "prepare_metadata" --args-file Parameters/prepare_metadata-args.json
+fractal --batch workflow add-task $PRJ_ID $WF_ID --task-name "sleep_task" --args-file Parameters/sleep_task-args.json --meta-file Parameters/sleep_task-meta-A.json
 
 # Apply workflow
-time fractal --batch workflow apply -o $DS_OUT_ID -p $PRJ_ID $WF_ID $DS_IN_ID
+# time fractal --batch workflow apply $PRJ_ID $WF_ID $DS_IN_ID $DS_OUT_ID
