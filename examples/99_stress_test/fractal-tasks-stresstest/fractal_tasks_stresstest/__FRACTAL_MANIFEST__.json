@@ -35,7 +35,7 @@
             "title": "Num Components",
             "default": 10,
             "type": "integer",
-            "description": "Missing description"
+            "description": "Number of components"
           }
         },
         "required": [
@@ -88,7 +88,7 @@
             "title": "Sleep Time",
             "default": 1.0,
             "type": "number",
-            "description": "Number of components to be added to metadata"
+            "description": "How long the task should take"
           }
         },
         "required": [
@@ -142,7 +142,7 @@
             "title": "Total Time",
             "default": 2.0,
             "type": "number",
-            "description": "Missing description"
+            "description": "How long the task should run"
           },
           "memory_MB": {
             "title": "Memory Mb",
