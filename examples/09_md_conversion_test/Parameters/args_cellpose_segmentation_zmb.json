@@ -1,0 +1,10 @@
+{
+    "level": 0, 
+    "channel":{
+        "wavelength_id": "C01"
+    },
+    "output_label_name": "nuclei", 
+    "input_ROI_table": "FOV_ROI_table",
+    "model_type": "nuclei",
+    "diameter_level0": 20
+}
