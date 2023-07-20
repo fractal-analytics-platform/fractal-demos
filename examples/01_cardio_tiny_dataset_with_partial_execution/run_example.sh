@@ -76,4 +76,6 @@ fractal --batch workflow add-task $PRJ_ID $WF_ID --task-name "Cellpose Segmentat
 fractal --batch workflow add-task $PRJ_ID $WF_ID --task-name "Napari workflows wrapper" --args-file Parameters/args_measurement.json --meta-file Parameters/example_meta.json
 
 # Apply workflow
-fractal workflow apply $PRJ_ID $WF_ID $DS_IN_ID $DS_OUT_ID
+fractal workflow apply $PRJ_ID $WF_ID $DS_IN_ID $DS_OUT_ID --end 1
+sleep 90
+fractal workflow apply $PRJ_ID $WF_ID $DS_OUT_ID $DS_OUT_ID --start 2
