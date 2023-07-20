@@ -8,4 +8,4 @@ Follow the "How to Get Started" Section [here](https://fractal-analytics-platfor
 
 ## Contributors
 Fractal was conceived in the Liberali Lab at the Friedrich Miescher Institute for Biomedical Research and in the Pelkmans Lab at the University of Zurich. The project lead is with [@gusqgm](https://github.com/gusqgm) & [@jluethi](https://github.com/jluethi).
-The core Fractal development is done under contract by [@mfranzon](https://github.com/mfranzon), [@tcompa](https://github.com/tcompa), Yuri Chiucconi & [jacopo-exact](https://github.com/jacopo-exact) from eXact lab S.r.l. <exact-lab.it>.
+The core Fractal development is done under contract by [@mfranzon](https://github.com/mfranzon), [@tcompa](https://github.com/tcompa), Yuri Chiucconi & [jacopo-exact](https://github.com/jacopo-exact) from [eXact lab S.r.l.](https://exact-lab.it).
