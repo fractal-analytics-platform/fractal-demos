@@ -10,7 +10,7 @@ This needs to be done in each example folder you're running
 3. Create a project & add a workflow to it that is downloaded by running `prepare_and_export_workflow.sh`
 4. Create a second project, import the workflow and apply it by running `import_and_run_workflow.sh`
 
-This should complete fairly quickly. One can check the status with `fractal job show ID` (where the ID is the job ID of the submitted workflow, 1 for the first workflow submitted. This is shown when submitting the workflow)
+This should complete fairly quickly. One can check the status with `fractal job show ID` (where the ID is the job ID of the submitted workflow: 1 for the first workflow submitted, 2 for the second). This is shown when submitting the workflow)
 
 Check the client documentation for details on using the Fractal Client: https://fractal-analytics-platform.github.io/fractal/install.html
 Check the Fractal Tasks Core documentation for details on the individual tasks of this example workflow: https://fractal-analytics-platform.github.io/fractal-tasks-core/
