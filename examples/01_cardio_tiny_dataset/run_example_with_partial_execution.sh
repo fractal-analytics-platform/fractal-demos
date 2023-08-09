@@ -1,4 +1,4 @@
-LABEL="cardiac-test-4"
+LABEL="cardiac-test-partial-1"
 
 ###############################################################################
 # IMPORTANT: This defines the location of input & output data
