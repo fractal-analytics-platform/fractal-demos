@@ -2,7 +2,7 @@ LABEL="cardiac-test"
 
 ###############################################################################
 # IMPORTANT: This defines the location of input & output data
-INPUT_PATH=`pwd`/../images/10.5281_zenodo.7059515/
+INPUT_PATH=`pwd`/../images/10.5281_zenodo.8287221/
 OUTPUT_PATH=`pwd`/output_${LABEL}
 ###############################################################################
 
