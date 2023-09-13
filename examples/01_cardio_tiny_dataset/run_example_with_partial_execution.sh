@@ -1,8 +1,8 @@
-LABEL="cardiac-test-partial-1"
+LABEL="cardiac-test-partial-2"
 
 ###############################################################################
 # IMPORTANT: This defines the location of input & output data
-INPUT_PATH=`pwd`/../images/10.5281_zenodo.7059515/
+INPUT_PATH=`pwd`/../images/10.5281_zenodo.8287221/
 OUTPUT_PATH=`pwd`/output_${LABEL}
 ###############################################################################
 
@@ -70,7 +70,7 @@ echo "{
 # Add tasks to workflow
 fractal --batch workflow add-task $PRJ_ID $WF_ID --task-name "Create OME-Zarr structure" --args-file Parameters/args_create_ome_zarr.json --meta-file Parameters/example_meta.json
 fractal --batch workflow add-task $PRJ_ID $WF_ID --task-name "Convert Yokogawa to OME-Zarr"
-fractal --batch workflow add-task $PRJ_ID $WF_ID --task-name "Copy OME-Zarr structure"
+fractal --batch workflow add-task $PRJ_ID $WF_ID --task-name "Copy OME-Zarr structure" --args-file Parameters/copy_ome_zarr.json
 fractal --batch workflow add-task $PRJ_ID $WF_ID --task-name "Maximum Intensity Projection"
 fractal --batch workflow add-task $PRJ_ID $WF_ID --task-name "Cellpose Segmentation" --args-file Parameters/args_cellpose_segmentation.json #--meta-file Parameters/cellpose_meta.json
 fractal --batch workflow add-task $PRJ_ID $WF_ID --task-name "Napari workflows wrapper" --args-file Parameters/args_measurement.json --meta-file Parameters/example_meta.json
