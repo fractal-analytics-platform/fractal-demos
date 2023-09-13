@@ -1,10 +1,11 @@
-LABEL="multiplex-3"
+LABEL="multiplex-2"
 
 ###############################################################################
 # IMPORTANT: modify the following lines so that they point to the actual input paths of the data
-INPUT_PATH=/data/active/fractal/3D/PelkmansLab/CardiacMultiplexing/tiny_multiplexing
-INPUT_PATH=`pwd`/tiny_multiplexing
-OUTPUT_PATH=`pwd`/tmp_$LABEL
+#INPUT_PATH=/data/active/fractal/3D/PelkmansLab/CardiacMultiplexing/tiny_multiplexing
+INPUT_PATH=`pwd`/../images/tiny_multiplexing
+OUTPUT_PATH=/Users/joel/Desktop/tmp_$LABEL
+# OUTPUT_PATH=`pwd`/tmp_$LABEL
 #OUTPUT_PATH=/data/active/jluethi/Fractal/20230119_multiplexing_$LABEL
 ###############################################################################
 
@@ -53,8 +54,11 @@ echo "WF_ID: $WF_ID"
 # Add tasks to workflow
 fractal --batch workflow add-task $PRJ_ID $WF_ID --task-name "Create OME-ZARR structure (multiplexing)" --args-file Parameters/create_zarr_structure_multiplex.json --meta-file Parameters/example_meta.json
 fractal --batch workflow add-task $PRJ_ID $WF_ID --task-name "Convert Yokogawa to OME-Zarr"
-fractal --batch workflow add-task $PRJ_ID $WF_ID --task-name "Copy OME-Zarr structure"
+fractal --batch workflow add-task $PRJ_ID $WF_ID --task-name "Copy OME-Zarr structure" --args-file Parameters/copy_ome_zarr.json
 fractal --batch workflow add-task $PRJ_ID $WF_ID --task-name "Maximum Intensity Projection"
+fractal --batch workflow add-task $PRJ_ID $WF_ID --task-name "Calculate registration (image-based)" --args-file Parameters/calculate_registration.json
+fractal --batch workflow add-task $PRJ_ID $WF_ID --task-name "Apply Registration to ROI Tables"
+fractal --batch workflow add-task $PRJ_ID $WF_ID --task-name "Apply Registration to Image" --args-file Parameters/apply_registration_to_image.json
 
 # Apply workflow
 fractal workflow apply $PRJ_ID $WF_ID $DS_IN_ID $DS_OUT_ID
