@@ -4,8 +4,8 @@ LABEL="multiplex-2"
 # IMPORTANT: modify the following lines so that they point to the actual input paths of the data
 #INPUT_PATH=/data/active/fractal/3D/PelkmansLab/CardiacMultiplexing/tiny_multiplexing
 INPUT_PATH=`pwd`/../images/tiny_multiplexing
-OUTPUT_PATH=/Users/joel/Desktop/tmp_$LABEL
-# OUTPUT_PATH=`pwd`/tmp_$LABEL
+# OUTPUT_PATH=/Users/joel/Desktop/tmp_$LABEL
+OUTPUT_PATH=`pwd`/tmp_$LABEL
 #OUTPUT_PATH=/data/active/jluethi/Fractal/20230119_multiplexing_$LABEL
 ###############################################################################
 
