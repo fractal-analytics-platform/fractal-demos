@@ -2,7 +2,7 @@
 
 PORT_WEB=5173
 PORT_API=8010
-RELEASE="0.5.1"
+RELEASE="0.5.6"
 
 echo "*** Fetch a clean copy of fractal-web ${RELEASE} **"
 rm -fr fractal-web-${RELEASE} 
