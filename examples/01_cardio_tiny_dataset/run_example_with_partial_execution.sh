@@ -1,12 +1,9 @@
-LABEL="multiplex-2"
+LABEL="cardiac-test-partial-2"
 
 ###############################################################################
-# IMPORTANT: modify the following lines so that they point to the actual input paths of the data
-#INPUT_PATH=/data/active/fractal/3D/PelkmansLab/CardiacMultiplexing/tiny_multiplexing
-INPUT_PATH=`pwd`/../images/tiny_multiplexing
-# OUTPUT_PATH=/Users/joel/Desktop/tmp_$LABEL
-OUTPUT_PATH=`pwd`/tmp_$LABEL
-#OUTPUT_PATH=/data/active/jluethi/Fractal/20230119_multiplexing_$LABEL
+# IMPORTANT: This defines the location of input & output data
+INPUT_PATH=`pwd`/../images/10.5281_zenodo.8287221/
+OUTPUT_PATH=`pwd`/output_${LABEL}
 ###############################################################################
 
 # Get the credentials: If you followed the instructions, they can be copied 
@@ -23,7 +20,7 @@ WF_NAME="Workflow $LABEL"
 
 # Set cache path and remove any previous file from there
 export FRACTAL_CACHE_PATH=`pwd`/".cache"
-rm -rv ${FRACTAL_CACHE_PATH} 2> /dev/null
+rm -rv ${FRACTAL_CACHE_PATH}  2> /dev/null
 
 ###############################################################################
 
@@ -36,9 +33,7 @@ echo "DS_IN_ID: $DS_IN_ID"
 
 # Update dataset name/type, and add a resource
 fractal dataset edit --new-name "$DS_IN_NAME" --new-type image --make-read-only $PRJ_ID $DS_IN_ID
-fractal dataset add-resource $PRJ_ID $DS_IN_ID $INPUT_PATH/cycle1
-fractal dataset add-resource $PRJ_ID $DS_IN_ID $INPUT_PATH/cycle2
-fractal dataset add-resource $PRJ_ID $DS_IN_ID $INPUT_PATH/cycle3
+fractal dataset add-resource $PRJ_ID $DS_IN_ID $INPUT_PATH
 
 # Add output dataset, and add a resource to it
 DS_OUT_ID=`fractal --batch project add-dataset $PRJ_ID "$DS_OUT_NAME"`
@@ -51,14 +46,36 @@ fractal dataset add-resource $PRJ_ID $DS_OUT_ID $OUTPUT_PATH
 WF_ID=`fractal --batch workflow new "$WF_NAME" $PRJ_ID`
 echo "WF_ID: $WF_ID"
 
+###############################################################################
+
+# Prepare some JSON files for task arguments (note: this has to happen here,
+# because we need to include the path of the current directory)
+CURRENT_FOLDER=`pwd`
+echo "{
+  \"level\": 0,
+  \"input_ROI_table\": \"well_ROI_table\",
+  \"workflow_file\": \"$CURRENT_FOLDER/regionprops_from_existing_labels_feature.yaml\",
+  \"input_specs\": {
+    \"dapi_img\": { \"type\": \"image\", \"channel\":{ \"wavelength_id\": \"A01_C01\" } },
+    \"label_img\": { \"type\": \"label\", \"label_name\": \"nuclei\" }
+  },
+  \"output_specs\": {
+    \"regionprops_DAPI\": { \"type\": \"dataframe\", \"table_name\": \"nuclei\" }
+  }
+}
+" > Parameters/args_measurement.json
+
+###############################################################################
+
 # Add tasks to workflow
-fractal --batch workflow add-task $PRJ_ID $WF_ID --task-name "Create OME-ZARR structure (multiplexing)" --args-file Parameters/create_zarr_structure_multiplex.json --meta-file Parameters/example_meta.json
+fractal --batch workflow add-task $PRJ_ID $WF_ID --task-name "Create OME-Zarr structure" --args-file Parameters/args_create_ome_zarr.json --meta-file Parameters/example_meta.json
 fractal --batch workflow add-task $PRJ_ID $WF_ID --task-name "Convert Yokogawa to OME-Zarr"
 fractal --batch workflow add-task $PRJ_ID $WF_ID --task-name "Copy OME-Zarr structure" --args-file Parameters/copy_ome_zarr.json
 fractal --batch workflow add-task $PRJ_ID $WF_ID --task-name "Maximum Intensity Projection"
-fractal --batch workflow add-task $PRJ_ID $WF_ID --task-name "Calculate registration (image-based)" --args-file Parameters/calculate_registration.json
-fractal --batch workflow add-task $PRJ_ID $WF_ID --task-name "Apply Registration to ROI Tables"
-fractal --batch workflow add-task $PRJ_ID $WF_ID --task-name "Apply Registration to Image" --args-file Parameters/apply_registration_to_image.json
+fractal --batch workflow add-task $PRJ_ID $WF_ID --task-name "Cellpose Segmentation" --args-file Parameters/args_cellpose_segmentation.json #--meta-file Parameters/cellpose_meta.json
+fractal --batch workflow add-task $PRJ_ID $WF_ID --task-name "Napari workflows wrapper" --args-file Parameters/args_measurement.json --meta-file Parameters/example_meta.json
 
 # Apply workflow
-fractal workflow apply $PRJ_ID $WF_ID $DS_IN_ID $DS_OUT_ID
+fractal workflow apply $PRJ_ID $WF_ID $DS_IN_ID $DS_OUT_ID --end 1
+sleep 90
+fractal workflow apply $PRJ_ID $WF_ID $DS_OUT_ID $DS_OUT_ID --start 2

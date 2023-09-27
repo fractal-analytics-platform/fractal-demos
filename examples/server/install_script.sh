@@ -8,3 +8,4 @@ conda activate $ENVNAME
 conda update pip -y
 
 pip install "fractal-server[slurm,gunicorn,postgres]"==$VERSION
+# pip install fractal-server==$VERSION
