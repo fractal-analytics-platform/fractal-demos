@@ -1,4 +1,4 @@
-VERSION="1.3.8a0"
+VERSION="1.3.8a3"
 
 ENVNAME=fractal-server-$VERSION
 conda deactivate
