@@ -1,8 +1,8 @@
-LABEL="cardiac-tiny-scmultiplex1"
+LABEL="cardiac-tiny-scmultiplex2"
 
 ###############################################################################
 # IMPORTANT: This defines the location of input & output data
-INPUT_PATH=`pwd`/../images/10.5281_zenodo.7059515/
+INPUT_PATH=`pwd`/../images/10.5281_zenodo.8287221/
 OUTPUT_PATH=`pwd`/tmp_$LABEL
 ###############################################################################
 
@@ -49,7 +49,7 @@ echo "WF_ID: $WF_ID"
 # Add tasks to workflow
 fractal --batch workflow add-task $PRJ_ID $WF_ID --task-name "Create OME-Zarr structure" --args-file Parameters_tiny/args_create_ome_zarr.json --meta-file Parameters_tiny/example_meta.json
 fractal --batch workflow add-task $PRJ_ID $WF_ID --task-name "Convert Yokogawa to OME-Zarr"
-fractal --batch workflow add-task $PRJ_ID $WF_ID --task-name "Copy OME-Zarr structure"
+fractal --batch workflow add-task $PRJ_ID $WF_ID --task-name "Copy OME-Zarr structure" --args-file Parameters_tiny/copy_ome_zarr.json
 fractal --batch workflow add-task $PRJ_ID $WF_ID --task-name "Maximum Intensity Projection"
 fractal --batch workflow add-task $PRJ_ID $WF_ID --task-name "Cellpose Segmentation" --args-file Parameters_tiny/args_cellpose_segmentation.json --meta-file Parameters_tiny/cellpose_meta.json
 fractal --batch workflow add-task $PRJ_ID $WF_ID --task-name "scMultipleX Measurements" --args-file Parameters_tiny/scmultiplex.json
