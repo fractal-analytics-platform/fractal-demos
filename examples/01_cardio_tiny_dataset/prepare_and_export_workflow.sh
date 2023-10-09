@@ -8,13 +8,12 @@ cp ../00_user_setup/.fractal.env .fractal.env
 
 # Create dummy project (note: this is only because a new workflow must be
 # associated to a project)
-OUTPUT=`fractal --batch project new $LABEL`
-PRJ_ID=`echo $OUTPUT | cut -d ' ' -f1`
-echo "PRJ_ID: $PRJ_ID"
+PROJECT_ID=`fractal --batch project new $LABEL`
+echo "PROJECT_ID: $PROJECT_ID"
 
 # Create workflow
 WF_NAME="My Workflow"
-WF_ID=`fractal --batch workflow new "$WF_NAME" $PRJ_ID`
+WF_ID=`fractal --batch workflow new "$WF_NAME" $PROJECT_ID`
 echo "WF_ID: $WF_ID"
 
 # Prepare some JSON files for task arguments (note: this has to happen here,
@@ -35,10 +34,10 @@ echo "{
 " > Parameters/args_measurement.json
 
 # Add tasks to workflow
-fractal --batch workflow add-task $PRJ_ID $WF_ID --task-name "Create OME-Zarr structure" --args-file Parameters/args_create_ome_zarr.json --meta-file Parameters/example_meta.json
-fractal --batch workflow add-task $PRJ_ID $WF_ID --task-name "Convert Yokogawa to OME-Zarr"
-fractal --batch workflow add-task $PRJ_ID $WF_ID --task-name "Copy OME-Zarr structure"
-fractal --batch workflow add-task $PRJ_ID $WF_ID --task-name "Maximum Intensity Projection"
-fractal --batch workflow add-task $PRJ_ID $WF_ID --task-name "Cellpose Segmentation" --args-file Parameters/args_cellpose_segmentation.json --meta-file Parameters/example_meta.json
-fractal --batch workflow add-task $PRJ_ID $WF_ID --task-name "Napari workflows wrapper" --args-file Parameters/args_measurement.json --meta-file Parameters/example_meta.json
-fractal --batch workflow export $PRJ_ID $WF_ID --json-file workflow.json
+fractal --batch workflow add-task $PROJECT_ID $WF_ID --task-name "Create OME-Zarr structure" --args-file Parameters/args_create_ome_zarr.json --meta-file Parameters/example_meta.json
+fractal --batch workflow add-task $PROJECT_ID $WF_ID --task-name "Convert Yokogawa to OME-Zarr"
+fractal --batch workflow add-task $PROJECT_ID $WF_ID --task-name "Copy OME-Zarr structure"
+fractal --batch workflow add-task $PROJECT_ID $WF_ID --task-name "Maximum Intensity Projection"
+fractal --batch workflow add-task $PROJECT_ID $WF_ID --task-name "Cellpose Segmentation" --args-file Parameters/args_cellpose_segmentation.json --meta-file Parameters/example_meta.json
+fractal --batch workflow add-task $PROJECT_ID $WF_ID --task-name "Napari workflows wrapper" --args-file Parameters/args_measurement.json --meta-file Parameters/example_meta.json
+fractal --batch workflow export $PROJECT_ID $WF_ID --json-file workflow.json

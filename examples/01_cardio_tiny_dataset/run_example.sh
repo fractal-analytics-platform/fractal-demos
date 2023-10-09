@@ -25,14 +25,12 @@ rm -rv ${FRACTAL_CACHE_PATH}  2> /dev/null
 ###############################################################################
 
 # Create project
-OUTPUT=`fractal --batch project new $PROJECT_NAME`
-PROJECT_ID=`echo $OUTPUT | cut -d ' ' -f1`
-DS_IN_ID=`echo $OUTPUT | cut -d ' ' -f2`
+PROJECT_ID=`fractal --batch project new $PROJECT_NAME`
 echo "PROJECT_ID=$PROJECT_ID"  # Do not remove this line, it's used in fractal-containers
-echo "DS_IN_ID=$DS_IN_ID"
 
-# Update dataset name/type, and add a resource
-fractal dataset edit --new-name "$DS_IN_NAME" --new-type image --make-read-only $PROJECT_ID $DS_IN_ID
+# Add dataset to project and add resource to dataset
+DS_IN_ID=`fractal --batch project add-dataset $PROJECT_ID "$DS_IN_NAME" --type image --make-read-only`
+echo "DS_IN_ID: $DS_IN_ID"
 fractal dataset add-resource $PROJECT_ID $DS_IN_ID $INPUT_PATH
 
 # Add output dataset, and add a resource to it
