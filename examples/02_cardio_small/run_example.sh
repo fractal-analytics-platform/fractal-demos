@@ -27,21 +27,21 @@ rm -rv ${FRACTAL_CACHE_PATH} 2> /dev/null
 
 # Create project
 PROJECT_ID=`fractal --batch project new $PROJECT_NAME`
-echo "PROJECT_ID: $PROJECT_ID" 
+echo "PROJECT_ID=$PROJECT_ID" 
 
 # Add input dataset, and add a resource to it
 DS_IN_ID=`fractal --batch project add-dataset $PROJECT_ID "$DS_IN_NAME" --type image --make-read-only`
-echo "DS_IN_ID: $DS_IN_ID" 
+echo "DS_IN_ID=$DS_IN_ID" 
 fractal dataset add-resource $PROJECT_ID $DS_IN_ID $INPUT_PATH
 
 # Add output dataset, and add a resource to it
 DS_OUT_ID=`fractal --batch project add-dataset $PROJECT_ID "$DS_OUT_NAME" --type zarr`
-echo "DS_OUT_ID: $DS_OUT_ID"
+echo "DS_OUT_ID=$DS_OUT_ID"
 fractal dataset add-resource $PROJECT_ID $DS_OUT_ID $OUTPUT_PATH
 
 # Create workflow
 WF_ID=`fractal --batch workflow new "$WF_NAME" $PROJECT_ID`
-echo "WF_ID: $WF_ID"
+echo "WF_ID=$WF_ID"
 
 # Add tasks to workflow
 fractal --batch workflow add-task $PROJECT_ID $WF_ID --task-name "Create OME-Zarr structure" --args-file Parameters/create_zarr_structure.json --meta-file Parameters/example_meta.json
@@ -78,4 +78,5 @@ echo "{\"level\": 0, \"input_ROI_table\": \"well_ROI_table\", \"workflow_file\":
 fractal --batch workflow add-task $PROJECT_ID $WF_ID --task-name "Napari workflows wrapper" --args-file Parameters/measurement4.json
 
 # Apply workflow
-fractal --batch workflow apply $PROJECT_ID $WF_ID $DS_IN_ID $DS_OUT_ID
+JOB_ID=`fractal --batch workflow apply $PROJECT_ID $WORKFLOW_ID $DS_IN_ID $DS_OUT_ID`
+echo "JOB_ID=$JOB_ID"
