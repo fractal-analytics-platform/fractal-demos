@@ -28,19 +28,18 @@ rm -rv ${FRACTAL_CACHE_PATH}  2> /dev/null
 PROJECT_ID=`fractal --batch project new $PROJECT_NAME`
 echo "PROJECT_ID: $PROJECT_ID"
 
-# Update dataset name/type, and add a resource
-fractal dataset edit --new-name "$DS_IN_NAME" --new-type image --make-read-only $PRJ_ID $DS_IN_ID
-fractal dataset add-resource $PRJ_ID $DS_IN_ID $INPUT_PATH
+# Add input dataset, and add a resource to it
+DS_IN_ID=`fractal --batch project add-dataset $PROJECT_ID "$DS_IN_NAME" --type image --make-read-only`
+echo "DS_IN_ID: $DS_IN_ID"
+fractal dataset add-resource $PROJECT_ID $DS_IN_ID $INPUT_PATH
 
 # Add output dataset, and add a resource to it
-DS_OUT_ID=`fractal --batch project add-dataset $PRJ_ID "$DS_OUT_NAME"`
+DS_OUT_ID=`fractal --batch project add-dataset $PROJECT_ID "$DS_OUT_NAME" --type zarr`
 echo "DS_OUT_ID: $DS_OUT_ID"
-
-fractal dataset edit --new-type zarr --remove-read-only $PRJ_ID $DS_OUT_ID
-fractal dataset add-resource $PRJ_ID $DS_OUT_ID $OUTPUT_PATH
+fractal dataset add-resource $PROJECT_ID $DS_OUT_ID $OUTPUT_PATH
 
 # Create workflow
-WF_ID=`fractal --batch workflow new "$WF_NAME" $PRJ_ID`
+WF_ID=`fractal --batch workflow new "$WF_NAME" $PROJECT_ID`
 echo "WF_ID: $WF_ID"
 
 ###############################################################################
@@ -67,12 +66,12 @@ echo "{
 ###############################################################################
 
 # Add tasks to workflow
-fractal --batch workflow add-task $PRJ_ID $WF_ID --task-name "Create OME-Zarr MD" --args-file Parameters/args_create_ome_zarr_zmb.json
-fractal --batch workflow add-task $PRJ_ID $WF_ID --task-name "Convert MD to OME-Zarr"
-# fractal --batch workflow add-task $PRJ_ID $WF_ID --task-name "Copy OME-Zarr structure"
-# fractal --batch workflow add-task $PRJ_ID $WF_ID --task-name "Maximum Intensity Projection"
-fractal --batch workflow add-task $PRJ_ID $WF_ID --task-name "Cellpose Segmentation" --args-file Parameters/args_cellpose_segmentation_zmb.json
-fractal --batch workflow add-task $PRJ_ID $WF_ID --task-name "Napari workflows wrapper" --args-file Parameters/args_measurement.json --meta-file Parameters/example_meta.json
+fractal --batch workflow add-task $PROJECT_ID $WF_ID --task-name "Create OME-Zarr MD" --args-file Parameters/args_create_ome_zarr_zmb.json
+fractal --batch workflow add-task $PROJECT_ID $WF_ID --task-name "Convert MD to OME-Zarr"
+# fractal --batch workflow add-task $PROJECT_ID $WF_ID --task-name "Copy OME-Zarr structure"
+# fractal --batch workflow add-task $PROJECT_ID $WF_ID --task-name "Maximum Intensity Projection"
+fractal --batch workflow add-task $PROJECT_ID $WF_ID --task-name "Cellpose Segmentation" --args-file Parameters/args_cellpose_segmentation_zmb.json
+fractal --batch workflow add-task $PROJECT_ID $WF_ID --task-name "Napari workflows wrapper" --args-file Parameters/args_measurement.json --meta-file Parameters/example_meta.json
 
 # Apply workflow
-fractal workflow apply $PRJ_ID $WF_ID $DS_IN_ID $DS_OUT_ID
+fractal workflow apply $PROJECT_ID $WF_ID $DS_IN_ID $DS_OUT_ID
