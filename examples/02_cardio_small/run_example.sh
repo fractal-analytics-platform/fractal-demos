@@ -29,7 +29,7 @@ rm -rv ${FRACTAL_CACHE_PATH} 2> /dev/null
 PROJECT_ID=`fractal --batch project new $PROJECT_NAME`
 echo "PROJECT_ID: $PROJECT_ID" 
 
-# Add dataset to project and add resource to dataset
+# Add input dataset, and add a resource to it
 DS_IN_ID=`fractal --batch project add-dataset $PROJECT_ID "$DS_IN_NAME" --type image --make-read-only`
 echo "DS_IN_ID: $DS_IN_ID" 
 fractal dataset add-resource $PROJECT_ID $DS_IN_ID $INPUT_PATH
