@@ -13,7 +13,7 @@ OUTPUT_PATH=/data/active/jluethi/Fractal/20230421_$LABEL
 cp ../00_user_setup/.fractal.env .fractal.env
 
 # Set useful variables
-PRJ_NAME="proj-$LABEL"
+PROJECT_NAME="proj-$LABEL"
 DS_IN_NAME="input-ds-$LABEL"
 DS_OUT_NAME="output-ds-$LABEL"
 WF_NAME="Workflow $LABEL"
@@ -25,25 +25,22 @@ rm -rv ${FRACTAL_CACHE_PATH} 2> /dev/null
 ###############################################################################
 
 # Create project
-OUTPUT=`fractal --batch project new $PRJ_NAME`
-PRJ_ID=`echo $OUTPUT | cut -d ' ' -f1`
-DS_IN_ID=`echo $OUTPUT | cut -d ' ' -f2`
-echo "PRJ_ID: $PRJ_ID"
-echo "DS_IN_ID: $DS_IN_ID"
+PROJECT_ID=`fractal --batch project new $PROJECT_NAME`
+echo "PROJECT_ID: $PROJECT_ID"
 
-# Update dataset name/type, and add a resource
-fractal dataset edit --new-name "$DS_IN_NAME" --new-type image --make-read-only $PRJ_ID $DS_IN_ID
-fractal dataset add-resource $PRJ_ID $DS_IN_ID $INPUT_PATH
+
+# Add input dataset, and add a resource to it
+DS_IN_ID=`fractal --batch project add-dataset $PROJECT_ID "$DS_IN_NAME" --type image --make-read-only`
+echo "DS_IN_ID: $DS_IN_ID"
+fractal dataset add-resource $PROJECT_ID $DS_IN_ID $INPUT_PATH
 
 # Add output dataset, and add a resource to it
-DS_OUT_ID=`fractal --batch project add-dataset $PRJ_ID "$DS_OUT_NAME"`
+DS_OUT_ID=`fractal --batch project add-dataset $PROJECT_ID "$DS_OUT_NAME" --type zarr`
 echo "DS_OUT_ID: $DS_OUT_ID"
-
-fractal dataset edit --new-type zarr --remove-read-only $PRJ_ID $DS_OUT_ID
-fractal dataset add-resource $PRJ_ID $DS_OUT_ID $OUTPUT_PATH
+fractal dataset add-resource $PROJECT_ID $DS_OUT_ID $OUTPUT_PATH
 
 # Create workflow
-WF_ID=`fractal --batch workflow new "$WF_NAME" $PRJ_ID`
+WF_ID=`fractal --batch workflow new "$WF_NAME" $PROJECT_ID`
 echo "WF_ID: $WF_ID"
 
 # Add tasks to workflow
@@ -63,4 +60,4 @@ fractal --batch workflow add-task $WF_ID "Napari workflows wrapper" --args-file 
 fractal --batch workflow add-task $WF_ID "Cellpose Segmentation" --args-file Parameters/cellpose_segmentation_nuclei.json --meta-file Parameters/cellpose_meta.json
 
 # Apply workflow
-fractal workflow apply -o $DS_OUT_ID -p $PRJ_ID $WF_ID $DS_IN_ID
+fractal workflow apply -o $DS_OUT_ID -p $PROJECT_ID $WF_ID $DS_IN_ID
