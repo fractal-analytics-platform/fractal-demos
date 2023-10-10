@@ -39,14 +39,14 @@ fractal dataset add-resource $PROJECT_ID $DS_IN_ID $INPUT_PATH/cycle2
 fractal dataset add-resource $PROJECT_ID $DS_IN_ID $INPUT_PATH/cycle3
 
 # Add output dataset, and add a resource to it
-DS_OUT_ID=`fractal --batch project add-dataset $PRJ_ID "$DS_OUT_NAME"`
+DS_OUT_ID=`fractal --batch project add-dataset $PROJECT_ID "$DS_OUT_NAME"`
 echo "DS_OUT_ID: $DS_OUT_ID"
 
-fractal dataset edit --new-type zarr --remove-read-only $PRJ_ID $DS_OUT_ID
+fractal dataset edit --new-type zarr --remove-read-only $PROJECT_ID $DS_OUT_ID
 fractal dataset add-resource $PROJECT_ID $DS_OUT_ID $OUTPUT_PATH
 
 # Create workflow
-WF_ID=`fractal --batch workflow new "$WF_NAME" $PRJ_ID`
+WF_ID=`fractal --batch workflow new "$WF_NAME" $PROJECT_ID`
 echo "WF_ID: $WF_ID"
 
 # Add tasks to workflow
