@@ -13,7 +13,7 @@ OUTPUT_PATH="/Users/joel/Desktop/MD_Test_$LABEL"
 cp ../00_user_setup/.fractal.env .fractal.env
 
 # Set useful variables
-PRJ_NAME="proj-$LABEL"
+PROJECT_NAME="proj-$LABEL"
 DS_IN_NAME="input-ds-$LABEL"
 DS_OUT_NAME="output-ds-$LABEL"
 WF_NAME="Workflow $LABEL"
@@ -25,11 +25,8 @@ rm -rv ${FRACTAL_CACHE_PATH}  2> /dev/null
 ###############################################################################
 
 # Create project
-OUTPUT=`fractal --batch project new $PRJ_NAME`
-PRJ_ID=`echo $OUTPUT | cut -d ' ' -f1`
-DS_IN_ID=`echo $OUTPUT | cut -d ' ' -f2`
-echo "PRJ_ID: $PRJ_ID"
-echo "DS_IN_ID: $DS_IN_ID"
+PROJECT_ID=`fractal --batch project new $PROJECT_NAME`
+echo "PROJECT_ID: $PROJECT_ID"
 
 # Update dataset name/type, and add a resource
 fractal dataset edit --new-name "$DS_IN_NAME" --new-type image --make-read-only $PRJ_ID $DS_IN_ID
