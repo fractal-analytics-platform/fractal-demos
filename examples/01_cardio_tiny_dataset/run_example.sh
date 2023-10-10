@@ -34,10 +34,8 @@ echo "DS_IN_ID: $DS_IN_ID"
 fractal dataset add-resource $PROJECT_ID $DS_IN_ID $INPUT_PATH
 
 # Add output dataset, and add a resource to it
-DS_OUT_ID=`fractal --batch project add-dataset $PROJECT_ID "$DS_OUT_NAME"`
+DS_OUT_ID=`fractal --batch project add-dataset $PROJECT_ID "$DS_OUT_NAME" --type zarr`
 echo "DS_OUT_ID=$DS_OUT_ID"
-
-fractal dataset edit --new-type zarr --remove-read-only $PROJECT_ID $DS_OUT_ID
 fractal dataset add-resource $PROJECT_ID $DS_OUT_ID $OUTPUT_PATH
 
 # Create workflow
