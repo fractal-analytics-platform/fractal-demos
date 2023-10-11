@@ -44,40 +44,40 @@ WF_ID=`fractal --batch workflow new "$WF_NAME" $PROJECT_ID`
 echo "WF_ID=$WF_ID"
 
 # Add tasks to workflow
-fractal --batch workflow add-task $PROJECT_ID $WF_ID --task-name "Create OME-Zarr structure" --args-file Parameters/create_zarr_structure_image_subset.json --meta-file Parameters/example_meta.json
-fractal --batch workflow add-task $PROJECT_ID $WF_ID --task-name "Convert Yokogawa to OME-Zarr"
+fractal --batch workflow add-task --task-name "Create OME-Zarr structure" --args-file Parameters/create_zarr_structure_image_subset.json --meta-file Parameters/example_meta.json $PROJECT_ID $WF_ID
+fractal --batch workflow add-task --task-name "Convert Yokogawa to OME-Zarr" $PROJECT_ID $WF_ID
 
 echo "{\"overwrite_input\": \"True\", \"illumination_profiles_folder\": \"`pwd`/../illum_corr_images/\", \"dict_corr\": {\"A01_C01\": \"20220621_UZH_manual_illumcorr_40x_A01_C01.png\", \"A01_C02\": \"20220621_UZH_manual_illumcorr_40x_A01_C02.png\", \"A02_C03\": \"20220621_UZH_manual_illumcorr_40x_A02_C03.png\"}}" > Parameters/illumination_correction.json
-fractal --batch workflow add-task $PROJECT_ID $WF_ID --task-name "Illumination correction" --args-file Parameters/illumination_correction.json
+fractal --batch workflow add-task --task-name "Illumination correction" --args-file Parameters/illumination_correction.json $PROJECT_ID $WF_ID
 
 # 3D Segmentation & measurements
-fractal --batch workflow add-task $PROJECT_ID $WF_ID --task-name "Cellpose Segmentation" --args-file Parameters/cellpose_segmentation_3D.json --meta-file Parameters/meta_cellpose.json
+fractal --batch workflow add-task --task-name "Cellpose Segmentation" --args-file Parameters/cellpose_segmentation_3D.json --meta-file Parameters/meta_cellpose.json $PROJECT_ID $WF_ID
 echo "{\"level\": 0, \"input_ROI_table\": \"FOV_ROI_table\", \"workflow_file\": \"${HERE}/regionprops_from_existing_labels_feature.yaml\", \"input_specs\": {\"dapi_img\": {\"type\": \"image\", \"channel\":{\"wavelength_id\": \"A01_C01\"}}, \"label_img\": {\"type\": \"label\", \"label_name\": \"nuclei\"}}, \"output_specs\": {\"regionprops_DAPI\": {\"type\": \"dataframe\", \"table_name\": \"regionprops_DAPI\"}}}" > Parameters/measurements_3D.json
-fractal --batch workflow add-task $PROJECT_ID $WF_ID --task-name "Napari workflows wrapper" --args-file Parameters/measurements_3D.json
+fractal --batch workflow add-task --task-name "Napari workflows wrapper" --args-file Parameters/measurements_3D.json $PROJECT_ID $WF_ID
 
 
 # Maximum intensity projection
-fractal --batch workflow add-task $PROJECT_ID $WF_ID --task-name "Copy OME-Zarr structure" --args-file Parameters/copy_ome_zarr.json
-fractal --batch workflow add-task $PROJECT_ID $WF_ID --task-name "Maximum Intensity Projection"
-fractal --batch workflow add-task $PROJECT_ID $WF_ID --task-name "Cellpose Segmentation" --args-file Parameters/cellpose_segmentation.json --meta-file Parameters/meta_cellpose.json
+fractal --batch workflow add-task --task-name "Copy OME-Zarr structure" --args-file Parameters/copy_ome_zarr.json $PROJECT_ID $WF_ID
+fractal --batch workflow add-task --task-name "Maximum Intensity Projection" $PROJECT_ID $WF_ID
+fractal --batch workflow add-task --task-name "Cellpose Segmentation" --args-file Parameters/cellpose_segmentation.json --meta-file Parameters/meta_cellpose.json $PROJECT_ID $WF_ID
 
 # Run a series of napari workflows
 echo "{\"level\": 0, \"input_ROI_table\": \"well_ROI_table\", \"workflow_file\": \"${HERE}/regionprops_from_existing_labels_feature.yaml\", \"input_specs\": {\"dapi_img\": {\"type\": \"image\", \"channel\":{\"wavelength_id\": \"A01_C01\"}}, \"label_img\": {\"type\": \"label\", \"label_name\": \"nuclei\"}}, \"output_specs\": {\"regionprops_DAPI\": {\"type\": \"dataframe\", \"table_name\": \"regionprops_DAPI\"}}}" > Parameters/measurement.json
-fractal --batch workflow add-task $PROJECT_ID $WF_ID --task-name "Napari workflows wrapper" --args-file Parameters/measurement.json
+fractal --batch workflow add-task --task-name "Napari workflows wrapper" --args-file Parameters/measurement.json $PROJECT_ID $WF_ID
 
 # # Workflow 2: 
 echo "{\"level\": 0, \"input_ROI_table\": \"well_ROI_table\", \"workflow_file\": \"${HERE}/np_wf_2_label.yaml\", \"input_specs\": {\"slice_img\": {\"type\": \"image\", \"channel\":{\"wavelength_id\": \"A01_C01\"}}, \"slice_img_c2\": {\"type\": \"image\", \"channel\":{\"wavelength_id\": \"A02_C03\"}}}, \"output_specs\": {\"Result of Expand labels (scikit-image, nsbatwm)\": {\"type\": \"label\", \"label_name\": \"wf_2_labels\"}}}" > Parameters/measurement2.json
-fractal --batch workflow add-task $PROJECT_ID $WF_ID --task-name "Napari workflows wrapper" --args-file Parameters/measurement2.json
+fractal --batch workflow add-task --task-name "Napari workflows wrapper" --args-file Parameters/measurement2.json $PROJECT_ID $WF_ID
 
 # Workflow 3: 
 echo "{\"level\": 0, \"input_ROI_table\": \"well_ROI_table\", \"workflow_file\": \"${HERE}/np_wf_3_label_df.yaml\", \"input_specs\": {\"slice_img\": {\"type\": \"image\", \"channel\":{\"wavelength_id\": \"A01_C01\"}}, \"slice_img_c2\": {\"type\": \"image\", \"channel\":{ \"wavelength_id\": \"A02_C03\"}}}, \"output_specs\": {\"Result of Expand labels (scikit-image, nsbatwm)\": {\"type\": \"label\", \"label_name\": \"wf_3_labels\"}, \"regionprops_DAPI\": {\"type\": \"dataframe\", \"table_name\": \"nuclei_measurements_wf3\"}}}" > Parameters/measurement3.json
-fractal --batch workflow add-task $PROJECT_ID $WF_ID --task-name "Napari workflows wrapper" --args-file Parameters/measurement3.json
+fractal --batch workflow add-task --task-name "Napari workflows wrapper" --args-file Parameters/measurement3.json $PROJECT_ID $WF_ID
 
 # Workflow 4: 
 echo "{\"level\": 0, \"input_ROI_table\": \"well_ROI_table\", \"workflow_file\": \"${HERE}/np_wf_4_label_multi_df.yaml\", \"input_specs\": {\"slice_img\": {\"type\": \"image\", \"channel\":{\"wavelength_id\": \"A01_C01\"}}, \"slice_img_c2\": {\"type\": \"image\", \"channel\":{\"wavelength_id\": \"A02_C03\"}}}, \"output_specs\": {\"Result of Expand labels (scikit-image, nsbatwm)\": {\"type\": \"label\", \"label_name\": \"wf_4_labels\"}, \"regionprops_DAPI\": {\"type\": \"dataframe\", \"table_name\": \"nuclei_measurements_wf4\"}, \"regionprops_Lamin\": {\"type\": \"dataframe\",\"table_name\": \"nuclei_lamin_measurements_wf4\"}}}" > Parameters/measurement4.json
-fractal --batch workflow add-task $PROJECT_ID $WF_ID --task-name "Napari workflows wrapper" --args-file Parameters/measurement4.json
+fractal --batch workflow add-task --task-name "Napari workflows wrapper" --args-file Parameters/measurement4.json $PROJECT_ID $WF_ID
 
 # Apply workflow
-JOB_ID=`fractal --batch workflow apply $PROJECT_ID $WORKFLOW_ID $DS_IN_ID $DS_OUT_ID`
-echo "Test branch 🐲"
+JOB_ID=`fractal --batch workflow apply $PROJECT_ID $WF_ID $DS_IN_ID $DS_OUT_ID`
+echo "new version 🦄"
 echo "JOB_ID=$JOB_ID"  # Do not remove this line, it's used in fractal-containers
