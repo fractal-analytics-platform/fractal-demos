@@ -30,12 +30,12 @@ PROJECT_ID=`fractal --batch project new $PROJECT_NAME`
 echo "PROJECT_ID=$PROJECT_ID"
 
 # Add input dataset, and add a resource to it
-DS_IN_ID=`fractal --batch project add-dataset $PROJECT_ID "$DS_IN_NAME" --type image --make-read-only`
+DS_IN_ID=`fractal --batch project add-dataset --type image --make-read-only $PROJECT_ID $DS_IN_NAME`
 echo "DS_IN_ID=$DS_IN_ID"
 fractal dataset add-resource $PROJECT_ID $DS_IN_ID $INPUT_PATH
 
 # Add output dataset, and add a resource to it
-DS_OUT_ID=`fractal --batch project add-dataset $PROJECT_ID "$DS_OUT_NAME" --type zarr`
+DS_OUT_ID=`fractal --batch project add-dataset --type zarr $PROJECT_ID $DS_OUT_NAME`
 echo "DS_OUT_ID=$DS_OUT_ID"
 fractal dataset add-resource $PROJECT_ID $DS_OUT_ID $OUTPUT_PATH
 
@@ -79,4 +79,5 @@ fractal --batch workflow add-task $PROJECT_ID $WF_ID --task-name "Napari workflo
 
 # Apply workflow
 JOB_ID=`fractal --batch workflow apply $PROJECT_ID $WORKFLOW_ID $DS_IN_ID $DS_OUT_ID`
+echo "Test branch 🐲"
 echo "JOB_ID=$JOB_ID"  # Do not remove this line, it's used in fractal-containers
