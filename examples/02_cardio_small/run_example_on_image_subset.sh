@@ -79,5 +79,4 @@ fractal --batch workflow add-task --task-name "Napari workflows wrapper" --args-
 
 # Apply workflow
 JOB_ID=`fractal --batch workflow apply $PROJECT_ID $WF_ID $DS_IN_ID $DS_OUT_ID`
-echo "new version 🦄"
 echo "JOB_ID=$JOB_ID"  # Do not remove this line, it's used in fractal-containers
