@@ -25,7 +25,7 @@ rm -rv ${FRACTAL_CACHE_PATH}  2> /dev/null
 ###############################################################################
 
 # Create project
-PROJECT_ID=`fractal --batch project new $PRJ_NAME`
+PROJECT_ID=`fractal --batch project new $PROJECT_NAME`
 echo "PROJECT_ID: $PROJECT_ID"
 
 # Add input dataset, and add a resource to it
