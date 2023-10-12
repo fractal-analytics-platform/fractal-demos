@@ -39,7 +39,7 @@ echo "DS_OUT_ID=$DS_OUT_ID"
 fractal dataset add-resource $PROJECT_ID $DS_OUT_ID $OUTPUT_PATH
 
 # Create workflow
-WORKFLOW_ID=`fractal --batch workflow new $WORKFLOW_NAME $PROJECT_ID`
+WORKFLOW_ID=`fractal --batch workflow new "$WORKFLOW_NAME" $PROJECT_ID`
 echo "WORKFLOW_ID=$WORKFLOW_ID"
 
 ###############################################################################
