@@ -25,23 +25,23 @@ rm -rv ${FRACTAL_CACHE_PATH}  2> /dev/null
 ###############################################################################
 
 # Create project
-PROJECT_ID=`fractal --batch project new $PROJECT_NAME`
+PROJECT_ID=`fractal --batch project new "$PROJECT_NAME"`
 DS_IN_ID=`echo $OUTPUT | cut -d ' ' -f2`
-echo "PROJECT_ID: $PROJECT_ID"
+echo "PROJECT_ID=$PROJECT_ID"
 
 # Add input dataset, and add resource to it
-DS_IN_ID=`fractal --batch project add-dataset --type image --make-read-only $PROJECT_ID $DS_IN_NAME`
-echo "DS_IN_ID: $DS_IN_ID"
+DS_IN_ID=`fractal --batch project add-dataset --type image --make-read-only $PROJECT_ID "$DS_IN_NAME"`
+echo "DS_IN_ID=$DS_IN_ID"
 fractal dataset add-resource $PROJECT_ID $DS_IN_ID $INPUT_PATH
 
 # Add output dataset, and add a resource to it
-DS_OUT_ID=`fractal --batch project add-dataset  --type zarr $PROJECT_ID $DS_OUT_NAME`
-echo "DS_OUT_ID: $DS_OUT_ID"
+DS_OUT_ID=`fractal --batch project add-dataset  --type zarr $PROJECT_ID "$DS_OUT_NAME"`
+echo "DS_OUT_ID=$DS_OUT_ID"
 fractal dataset add-resource $PROJECT_ID $DS_OUT_ID $OUTPUT_PATH
 
 # Create workflow
-WF_ID=`fractal --batch workflow new $WF_NAME $PROJECT_ID`
-echo "WF_ID: $WF_ID"
+WF_ID=`fractal --batch workflow new "$WF_NAME" $PROJECT_ID`
+echo "WF_ID=$WF_ID"
 
 ###############################################################################
 

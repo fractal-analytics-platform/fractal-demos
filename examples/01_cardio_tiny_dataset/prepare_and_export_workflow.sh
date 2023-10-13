@@ -9,12 +9,12 @@ cp ../00_user_setup/.fractal.env .fractal.env
 # Create dummy project (note: this is only because a new workflow must be
 # associated to a project)
 PROJECT_ID=`fractal --batch project new $LABEL`
-echo "PROJECT_ID: $PROJECT_ID"
+echo "PROJECT_ID=$PROJECT_ID"
 
 # Create workflow
 WF_NAME="My Workflow"
-WF_ID=`fractal --batch workflow new $WF_NAME $PROJECT_ID`
-echo "WF_ID: $WF_ID"
+WF_ID=`fractal --batch workflow new "$WF_NAME" $PROJECT_ID`
+echo "WF_ID=$WF_ID"
 
 # Prepare some JSON files for task arguments (note: this has to happen here,
 # because we need to include the path of the current directory)

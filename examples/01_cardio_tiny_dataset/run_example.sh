@@ -30,7 +30,7 @@ echo "PROJECT_ID=$PROJECT_ID"  # Do not remove this line, it's used in fractal-c
 
 # Add input dataset, and add a resource to it
 DS_IN_ID=`fractal --batch project add-dataset  --type image --make-read-only $PROJECT_ID "$DS_IN_NAME"`
-echo "DS_IN_ID: $DS_IN_ID"
+echo "DS_IN_ID=$DS_IN_ID"
 fractal dataset add-resource $PROJECT_ID $DS_IN_ID $INPUT_PATH
 
 # Add output dataset, and add a resource to it

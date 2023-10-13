@@ -23,17 +23,17 @@ export FRACTAL_CACHE_PATH=`pwd`/".cache"
 rm -rv ${FRACTAL_CACHE_PATH}  2> /dev/null
 
 # Create project
-PROJECT_ID=`fractal --batch project new $PROJECT_NAME`
-echo "PROJECT_ID=$PROJECT_ID" 
+PROJECT_ID=`fractal --batch project new "$PROJECT_NAME"`
+echo "PROJECT_ID=$PROJECT_ID"
 
 # Add input dataset, and add resource to it
 DS_IN_ID=`fractal --batch project add-dataset $PROJECT_ID "$DS_IN_NAME" --type image --make-read-only`
-echo "DS_IN_ID: $DS_IN_ID"
+echo "DS_IN_ID=$DS_IN_ID"
 fractal dataset add-resource $PROJECT_ID $DS_IN_ID $INPUT_PATH
 
 # Add output dataset, and add a resource to it
 DS_OUT_ID=`fractal --batch project add-dataset $PROJECT_ID "$DS_OUT_NAME" --type zarr`
-echo "DS_OUT_ID: $DS_OUT_ID"
+echo "DS_OUT_ID=$DS_OUT_ID"
 fractal dataset add-resource $PROJECT_ID $DS_OUT_ID $OUTPUT_PATH
 
 # Import workflow
