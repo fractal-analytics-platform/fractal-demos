@@ -34,10 +34,10 @@ echo "{
 " > Parameters/args_measurement.json
 
 # Add tasks to workflow
-fractal --batch workflow add-task --task-name "Create OME-Zarr structure" --args-file Parameters/args_create_ome_zarr.json --meta-file Parameters/example_meta.json $PROJECT_ID $WF_ID
-fractal --batch workflow add-task --task-name "Convert Yokogawa to OME-Zarr" $PROJECT_ID $WF_ID
-fractal --batch workflow add-task --task-name "Copy OME-Zarr structure" $PROJECT_ID $WF_ID
-fractal --batch workflow add-task --task-name "Maximum Intensity Projection" $PROJECT_ID $WF_ID
-fractal --batch workflow add-task --task-name "Cellpose Segmentation" --args-file Parameters/args_cellpose_segmentation.json --meta-file Parameters/example_meta.json $PROJECT_ID $WF_ID
-fractal --batch workflow add-task --task-name "Napari workflows wrapper" --args-file Parameters/args_measurement.json --meta-file Parameters/example_meta.json $PROJECT_ID $WF_ID
-fractal --batch workflow export --json-file workflow.json $PROJECT_ID $WF_ID
+fractal --batch workflow add-task $PRJ_ID $WF_ID --task-name "Create OME-Zarr structure" --args-file Parameters/args_create_ome_zarr.json --meta-file Parameters/example_meta.json
+fractal --batch workflow add-task $PRJ_ID $WF_ID --task-name "Convert Yokogawa to OME-Zarr"
+fractal --batch workflow add-task $PRJ_ID $WF_ID --task-name "Copy OME-Zarr structure"
+fractal --batch workflow add-task $PRJ_ID $WF_ID --task-name "Maximum Intensity Projection"
+fractal --batch workflow add-task $PRJ_ID $WF_ID --task-name "Cellpose Segmentation" --args-file Parameters/args_cellpose_segmentation.json --meta-file Parameters/example_meta.json
+fractal --batch workflow add-task $PRJ_ID $WF_ID --task-name "Napari workflows wrapper" --args-file Parameters/args_measurement.json --meta-file Parameters/example_meta.json
+fractal --batch workflow export $PRJ_ID $WF_ID --json-file workflow.json
