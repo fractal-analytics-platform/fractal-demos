@@ -53,7 +53,7 @@ fractal --batch workflow add-task $PROJECT_ID $WF_ID --task-name "Illumination c
 # 3D Segmentation & measurements
 fractal --batch workflow add-task $PROJECT_ID $WF_ID --task-name "Cellpose Segmentation" --args-file Parameters/cellpose_segmentation_3D.json --meta-file Parameters/meta_cellpose.json
 echo "{\"level\": 0, \"input_ROI_table\": \"FOV_ROI_table\", \"workflow_file\": \"${HERE}/regionprops_from_existing_labels_feature.yaml\", \"input_specs\": {\"dapi_img\": {\"type\": \"image\", \"channel\":{\"wavelength_id\": \"A01_C01\"}}, \"label_img\": {\"type\": \"label\", \"label_name\": \"nuclei\"}}, \"output_specs\": {\"regionprops_DAPI\": {\"type\": \"dataframe\", \"table_name\": \"regionprops_DAPI\"}}}" > Parameters/measurements_3D.json
-fractal --batch workflow add-task --task-name "Napari workflows wrapper" --args-file Parameters/measurements_3D.json $PROJECT_ID $WF_ID
+fractal --batch workflow add-task $PROJECT_ID $WF_ID --task-name "Napari workflows wrapper" --args-file Parameters/measurements_3D.json
 
 
 # Maximum intensity projection
