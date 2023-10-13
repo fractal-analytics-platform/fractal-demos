@@ -78,5 +78,5 @@ echo "{\"level\": 0, \"input_ROI_table\": \"well_ROI_table\", \"workflow_file\":
 fractal --batch workflow add-task $PROJECT_ID $WF_ID --task-name "Napari workflows wrapper" --args-file Parameters/measurement4.json
 
 # Apply workflow
-JOB_ID=`fractal --batch workflow apply $PROJECT_ID $WORKFLOW_ID $DS_IN_ID $DS_OUT_ID`
+JOB_ID=`fractal --batch workflow apply $PROJECT_ID $WF_ID $DS_IN_ID $DS_OUT_ID`
 echo "JOB_ID=$JOB_ID"
