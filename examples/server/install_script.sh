@@ -1,4 +1,4 @@
-VERSION="1.3.12"
+VERSION="1.4.0a8"
 
 
 ENVNAME=fractal-server-$VERSION
@@ -8,5 +8,5 @@ conda create --name $ENVNAME python==3.10 -y
 conda activate $ENVNAME
 conda update pip -y
 
-pip install "fractal-server[slurm,gunicorn,postgres]"==$VERSION
-# pip install fractal-server==$VERSION
+# pip install "fractal-server[slurm,gunicorn,postgres]"==$VERSION
+pip install fractal-server==$VERSION
