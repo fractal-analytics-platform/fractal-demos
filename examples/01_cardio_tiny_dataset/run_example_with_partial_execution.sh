@@ -57,7 +57,7 @@ echo "{
     \"label_img\": { \"type\": \"label\", \"label_name\": \"nuclei\" }
   },
   \"output_specs\": {
-    \"regionprops_DAPI\": { \"type\": \"dataframe\", \"table_name\": \"nuclei\" }
+    \"regionprops_DAPI\": { \"type\": \"dataframe\", \"table_name\": \"nuclei\", \"label_name\": \"nuclei\"}
   }
 }
 " > Parameters/args_measurement.json
