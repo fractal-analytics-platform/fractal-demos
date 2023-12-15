@@ -30,9 +30,10 @@ For a faster setup, check out [mamba](https://mamba.readthedocs.io/en/latest/use
 
 3. Activate your environment
 
-   	```
-    	conda activate napari
-    	```
+```
+conda activate napari
+```
+
 
 ## Installing napari & plugins
 1. Clone the napari repository
