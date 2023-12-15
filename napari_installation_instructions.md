@@ -28,6 +28,12 @@ For a faster setup, check out [mamba](https://mamba.readthedocs.io/en/latest/use
 	conda create -n napari python=3.10 -y
 	```
 
+3. Activate your environment
+
+   	```
+    	conda activate napari
+    	```
+
 ## Installing napari & plugins
 1. Clone the napari repository
 
