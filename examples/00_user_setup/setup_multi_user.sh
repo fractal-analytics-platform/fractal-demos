@@ -11,7 +11,7 @@ echo "Set a new admin password"
 read -s NEW_ADMIN_PWD
 echo
 ADMIN_ID=`fractal --user $DEFAULT_ADMIN --password $DEFAULT_ADMIN_PW --batch user whoami`
-fractal ---user $DEFAULT_ADMIN --password $DEFAULT_ADMIN_PW user edit $ADMIN_ID --new-email $NEW_ADMIN_EMAIL --new-password $NEW_ADMIN_PWD
+fractal --user $DEFAULT_ADMIN --password $DEFAULT_ADMIN_PW user edit $ADMIN_ID --new-email $NEW_ADMIN_EMAIL --new-password $NEW_ADMIN_PWD
 
 # Register new user
 echo "Enter the user email"
@@ -37,7 +37,7 @@ FRACTAL_SERVER=http://localhost:$PORT
 fractal user whoami
 
 # Trigger collection of core tasks
-fractal task collect fractal-tasks-core --package-version 0.12.0 --package-extras fractal-tasks
+fractal task collect fractal-tasks-core --package-version 0.14.0 --package-extras fractal-tasks
 
 # Example with pinned torch version:
 # fractal task collect fractal-tasks-core --package-version 0.12.0 --package-extras fractal-tasks --pinned-dependency torch=1.12
