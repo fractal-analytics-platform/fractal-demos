@@ -11,7 +11,7 @@ echo "Set a new admin password"
 read -s NEW_ADMIN_PWD
 echo
 ADMIN_ID=`fractal --user $DEFAULT_ADMIN --password $DEFAULT_ADMIN_PW --batch user whoami`
-fractal --user $DEFAULT_ADMIN --password $DEFAULT_ADMIN_PW user edit $ADMIN_ID --new-email $NEW_ADMIN_EMAIL --new-password $NEW_ADMIN_PWD
+fractal --user $DEFAULT_ADMIN --password $DEFAULT_ADMIN_PW user edit $ADMIN_ID --new-email $NEW_ADMIN_EMAIL --new-password $NEW_ADMIN_PWD --make-verified
 
 # Register new user
 echo "Enter the user email"
