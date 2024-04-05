@@ -1,4 +1,4 @@
-LABEL="cardiac-tiny"
+LABEL="cardiac-tiny-1"
 
 ###############################################################################
 # IMPORTANT: This defines the location of input & output data
@@ -17,6 +17,7 @@ PROJECT_NAME="proj-$LABEL"
 DS_IN_NAME="input-ds-$LABEL"
 DS_OUT_NAME="output-ds-$LABEL"
 WF_NAME="Workflow $LABEL"
+ZARR_DIR="/tmp/zarr_dir/"
 
 # Set cache path and remove any previous file from there
 export FRACTAL_CACHE_PATH=`pwd`/".cache"
@@ -29,14 +30,8 @@ PROJECT_ID=`fractal --batch project new "$PROJECT_NAME"`
 echo "PROJECT_ID=$PROJECT_ID"  # Do not remove this line, it's used in fractal-containers
 
 # Add input dataset, and add a resource to it
-DS_IN_ID=`fractal --batch project add-dataset  --type image --make-read-only $PROJECT_ID "$DS_IN_NAME"`
+DS_IN_ID=`fractal --batch project add-dataset $PROJECT_ID "$DS_IN_NAME" "$ZARR_DIR"`
 echo "DS_IN_ID=$DS_IN_ID"
-fractal dataset add-resource $PROJECT_ID $DS_IN_ID $INPUT_PATH
-
-# Add output dataset, and add a resource to it
-DS_OUT_ID=`fractal --batch project add-dataset  --type zarr $PROJECT_ID "$DS_OUT_NAME"`
-echo "DS_OUT_ID=$DS_OUT_ID"
-fractal dataset add-resource $PROJECT_ID $DS_OUT_ID $OUTPUT_PATH
 
 # Create workflow
 WF_ID=`fractal --batch workflow new "$WF_NAME" $PROJECT_ID`
@@ -44,33 +39,33 @@ echo "WF_ID=$WF_ID"
 
 ###############################################################################
 
-# Prepare some JSON files for task arguments (note: this has to happen here,
-# because we need to include the path of the current directory)
-CURRENT_FOLDER=`pwd`
-echo "{
-  \"level\": 0,
-  \"input_ROI_table\": \"well_ROI_table\",
-  \"workflow_file\": \"$CURRENT_FOLDER/regionprops_from_existing_labels_feature.yaml\",
-  \"input_specs\": {
-    \"dapi_img\": { \"type\": \"image\", \"channel\":{ \"wavelength_id\": \"A01_C01\" } },
-    \"label_img\": { \"type\": \"label\", \"label_name\": \"nuclei\" }
-  },
-  \"output_specs\": {
-    \"regionprops_DAPI\": { \"type\": \"dataframe\", \"table_name\": \"nuclei\", \"label_name\": \"nuclei\"}
-  }
-}
-" > Parameters/args_measurement.json
+# # Prepare some JSON files for task arguments (note: this has to happen here,
+# # because we need to include the path of the current directory)
+# CURRENT_FOLDER=`pwd`
+# echo "{
+#   \"level\": 0,
+#   \"input_ROI_table\": \"well_ROI_table\",
+#   \"workflow_file\": \"$CURRENT_FOLDER/regionprops_from_existing_labels_feature.yaml\",
+#   \
+"input_specs\": {
+#     \"dapi_img\": { \"type\": \"image\", \"channel\":{ \"wavelength_id\": \"A01_C01\" } },
+#     \"label_img\": { \"type\": \"label\", \"label_name\": \"nuclei\" }
+#   },
+#   \"output_specs\": {
+#     \"regionprops_DAPI\": { \"type\": \"dataframe\", \"table_name\": \"nuclei\", \"label_name\": \"nuclei\"}
+#   }
+# }
+# " > Parameters/args_measurement.json
 
-###############################################################################
+# ###############################################################################
 
-# Add tasks to workflow
-fractal --batch workflow add-task $PROJECT_ID $WF_ID --task-name "Create OME-Zarr structure" --args-file Parameters/args_create_ome_zarr.json --meta-file Parameters/example_meta.json
-fractal --batch workflow add-task $PROJECT_ID $WF_ID --task-name "Convert Yokogawa to OME-Zarr"
-fractal --batch workflow add-task $PROJECT_ID $WF_ID --task-name "Copy OME-Zarr structure" --args-file Parameters/copy_ome_zarr.json
-fractal --batch workflow add-task $PROJECT_ID $WF_ID --task-name "Maximum Intensity Projection"
-fractal --batch workflow add-task $PROJECT_ID $WF_ID --task-name "Cellpose Segmentation" --args-file Parameters/args_cellpose_segmentation.json #--meta-file Parameters/cellpose_meta.json
-fractal --batch workflow add-task $PROJECT_ID $WF_ID --task-name "Napari workflows wrapper" --args-file Parameters/args_measurement.json --meta-file Parameters/example_meta.json
+# # Add tasks to workflow
+fractal --batch workflow add-task $PROJECT_ID $WF_ID --task-name "create_ome_zarr_compound" --args-non-parallel Parameters/args_create_ome_zarr_compound_mock.json # --meta-non-parallel Parameters/example_meta.json
+# fractal --batch workflow add-task $PROJECT_ID $WF_ID --task-name "Copy OME-Zarr structure" --args-file Parameters/copy_ome_zarr.json
+# fractal --batch workflow add-task $PROJECT_ID $WF_ID --task-name "Maximum Intensity Projection"
+# fractal --batch workflow add-task $PROJECT_ID $WF_ID --task-name "Cellpose Segmentation" --args-file Parameters/args_cellpose_segmentation.json #--meta-file Parameters/cellpose_meta.json
+# fractal --batch workflow add-task $PROJECT_ID $WF_ID --task-name "Napari workflows wrapper" --args-file Parameters/args_measurement.json --meta-file Parameters/example_meta.json
 
-# Apply workflow
-JOB_ID=`fractal --batch workflow apply $PROJECT_ID $WF_ID $DS_IN_ID $DS_OUT_ID`
+# # Apply workflow
+JOB_ID=`fractal --batch job submit $PROJECT_ID $WF_ID $DS_IN_ID`
 echo "JOB_ID=$JOB_ID"  # Do not remove this line, it's used in fractal-containers
