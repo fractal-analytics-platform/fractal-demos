@@ -7,5 +7,4 @@ conda create --name $ENVNAME python==3.10 -y
 conda activate $ENVNAME
 conda update pip -y
 
-# pip install fractal-client==$VERSION
-pip install git+https://github.com/fractal-analytics-platform/fractal-client@dev-v2-cli
+pip install fractal-client==$VERSION
