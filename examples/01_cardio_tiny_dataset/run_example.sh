@@ -52,5 +52,5 @@ fractal --batch workflow add-task $PROJECT_ID $WF_ID --task-name "Cellpose Segme
 fractal --batch workflow add-task $PROJECT_ID $WF_ID --task-name "Napari workflows wrapper" --args-parallel Parameters/args_measurement.json --meta-parallel Parameters/example_meta.json
 
 # Apply workflow
-JOB_ID=`fractal --batch job submit $PROJECT_ID $WF_ID $DS_IN_ID`
+JOB_ID=`fractal --batch job submit $PROJECT_ID $WF_ID $DS_ID`
 echo "JOB_ID=$JOB_ID"  # Do not remove this line, it's used in fractal-containers
