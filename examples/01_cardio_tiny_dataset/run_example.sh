@@ -50,7 +50,7 @@ sed "s|__CURRENT_DIRECTORY__|$CURRENT_DIRECTORY|g" Parameters/RAW_args_measureme
 fractal --batch workflow add-task $PROJECT_ID $WF_ID --task-name "Convert Cellvoyager to OME-Zarr" --args-non-parallel Parameters/args_cellvoyager_to_ome_zarr_init.json --meta-non-parallel Parameters/example_meta.json
 fractal --batch workflow add-task $PROJECT_ID $WF_ID --task-name "Maximum Intensity Projection HCS Plate" --args-non-parallel Parameters/copy_ome_zarr.json
 fractal --batch workflow add-task $PROJECT_ID $WF_ID --task-name "Cellpose Segmentation" --args-parallel Parameters/args_cellpose_segmentation.json
-# fractal --batch workflow add-task $PROJECT_ID $WF_ID --task-name "Napari workflows wrapper" --args-file Parameters/args_measurement.json --meta-file Parameters/example_meta.json
+fractal --batch workflow add-task $PROJECT_ID $WF_ID --task-name "Napari workflows wrapper" --args-parallel Parameters/args_measurement.json --meta-parallel Parameters/example_meta.json
 
 # Apply workflow
 JOB_ID=`fractal --batch job submit $PROJECT_ID $WF_ID $DS_IN_ID`
