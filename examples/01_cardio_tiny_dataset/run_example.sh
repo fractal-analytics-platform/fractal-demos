@@ -14,8 +14,7 @@ cp ../00_user_setup/.fractal.env .fractal.env
 
 # Set useful variables
 PROJECT_NAME="proj-$LABEL"
-DS_IN_NAME="input-ds-$LABEL"
-DS_OUT_NAME="output-ds-$LABEL"
+DS_NAME="ds-$LABEL"
 WF_NAME="Workflow $LABEL"
 
 # Set cache path and remove any previous file from there
@@ -29,8 +28,8 @@ PROJECT_ID=`fractal --batch project new "$PROJECT_NAME"`
 echo "PROJECT_ID=$PROJECT_ID"  # Do not remove this line, it's used in fractal-containers
 
 # Add input dataset, and add a resource to it
-DS_IN_ID=`fractal --batch project add-dataset $PROJECT_ID "$DS_IN_NAME" "$ZARR_DIR"`
-echo "DS_IN_ID=$DS_IN_ID"
+DS_ID=`fractal --batch project add-dataset $PROJECT_ID "$DS_NAME" "$ZARR_DIR"`
+echo "DS_IN_ID=$DS_ID"
 
 # Create workflow
 WF_ID=`fractal --batch workflow new "$WF_NAME" $PROJECT_ID`
