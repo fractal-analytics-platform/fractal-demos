@@ -30,7 +30,6 @@ PROJECT_ID=$(fractal --batch project new "$PROJECT_NAME")
 echo "PROJECT_ID=$PROJECT_ID"  # Do not remove this line, it's used in fractal-containers
 
 # Add input dataset, and add a resource to it
-echo DEBUG: fractal --batch project add-dataset "$PROJECT_ID" "$DS_NAME" "$ZARR_DIR"
 DS_ID=$(fractal --batch project add-dataset "$PROJECT_ID" "$DS_NAME" "$ZARR_DIR")
 echo "DS_IN_ID=$DS_ID"
 
