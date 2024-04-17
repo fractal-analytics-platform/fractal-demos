@@ -1,4 +1,4 @@
-VERSION="2.0.0a4"
+VERSION="2.0.0a8"
 
 
 ENVNAME=fractal-server-$VERSION
