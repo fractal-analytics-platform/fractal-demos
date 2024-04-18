@@ -1,0 +1,24 @@
+{
+    "level": 0,
+    "input_ROI_table": "FOV_ROI_table",
+    "workflow_file": "__CURRENT_DIRECTORY__/regionprops_from_existing_labels_feature.yaml",
+    "input_specs": {
+        "dapi_img": {
+            "type": "image",
+            "channel": {
+                "wavelength_id": "A01_C01"
+            }
+        },
+        "label_img": {
+            "type": "label",
+            "label_name": "nuclei"
+        }
+    },
+    "output_specs": {
+        "regionprops_DAPI": {
+            "type": "dataframe",
+            "table_name": "regionprops_DAPI",
+            "label_name": "nuclei"
+        }
+    }
+}

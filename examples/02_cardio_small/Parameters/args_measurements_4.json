@@ -1,0 +1,35 @@
+{
+    "level": 0,
+    "input_ROI_table": "well_ROI_table",
+    "workflow_file": "/home/tommaso/Fractal/fractal-demos/examples/02_cardio_small/np_wf_4_label_multi_df.yaml",
+    "input_specs": {
+        "slice_img": {
+            "type": "image",
+            "channel": {
+                "wavelength_id": "A01_C01"
+            }
+        },
+        "slice_img_c2": {
+            "type": "image",
+            "channel": {
+                "wavelength_id": "A02_C03"
+            }
+        }
+    },
+    "output_specs": {
+        "Result of Expand labels (scikit-image, nsbatwm)": {
+            "type": "label",
+            "label_name": "wf_4_labels"
+        },
+        "regionprops_DAPI": {
+            "type": "dataframe",
+            "table_name": "nuclei_measurements_wf4",
+            "label_name": "wf_4_labels"
+        },
+        "regionprops_Lamin": {
+            "type": "dataframe",
+            "table_name": "nuclei_lamin_measurements_wf4",
+            "label_name": "wf_4_labels"
+        }
+    }
+}
