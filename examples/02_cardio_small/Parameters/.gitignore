@@ -1,2 +1,4 @@
-illumination_correction.json
 measurement*.json
+args_illumination_correction.json
+args_cellvoyager_to_ome_zarr_init.json
+args_cellvoyager_to_ome_zarr_init_subset.json

@@ -9,7 +9,7 @@ logging.basicConfig(
     format="%(asctime)s; %(levelname)s; %(message)s"
 )
 
-outdir = Path("output-cardio-2x2-zenodo-subset-1")
+outdir = Path("output-cardio-2x2-zenodo-subset")
 f1 = outdir / "20200812-CardiomyocyteDifferentiation14-Cycle1.zarr"
 f2 = outdir / "20200812-CardiomyocyteDifferentiation14-Cycle1_mip.zarr"
 
