@@ -28,7 +28,9 @@ WF_NAME="Workflow $LABEL"
 # Set cache path and remove any previous file from there
 FRACTAL_CACHE_PATH=$(pwd)/".cache"
 export FRACTAL_CACHE_PATH="$FRACTAL_CACHE_PATH"
-rm -rv "$FRACTAL_CACHE_PATH" 2> /dev/null
+if [ -d "$FRACTAL_CACHE_PATH" ]; then
+    rm -rv "$FRACTAL_CACHE_PATH"  2> /dev/null
+fi
 
 ###############################################################################
 

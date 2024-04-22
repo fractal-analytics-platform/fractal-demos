@@ -25,13 +25,16 @@ WF_NAME="Workflow $LABEL"
 # Set cache path and remove any previous file from there
 FRACTAL_CACHE_PATH=$(pwd)/".cache"
 export FRACTAL_CACHE_PATH="$FRACTAL_CACHE_PATH"
-rm -rv "$FRACTAL_CACHE_PATH"  2> /dev/null
+if [ -d "$FRACTAL_CACHE_PATH" ]; then
+    rm -rv "$FRACTAL_CACHE_PATH"  2> /dev/null
+fi
 
 ###############################################################################
 
 # Create project
 PROJECT_ID=$(fractal --batch project new "$PROJECT_NAME")
 echo "PROJECT_ID=$PROJECT_ID"  # Do not remove this line, it's used in fractal-containers
+
 
 # Add input dataset, and add a resource to it
 DS_ID=$(fractal --batch project add-dataset "$PROJECT_ID" "$DS_NAME" "$ZARR_DIR")
