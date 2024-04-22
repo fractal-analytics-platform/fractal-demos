@@ -1,9 +1,14 @@
-LABEL="cardiac-test-partial-2"
+#!/bin/bash
+
+# Exit immediately if a command exits with a non-zero status
+set -e
+
+LABEL="cardiac-test-partial"
 
 ###############################################################################
 # IMPORTANT: This defines the location of input & output data
-INPUT_PATH=`pwd`/../images/10.5281_zenodo.8287221/
-OUTPUT_PATH=`pwd`/output_${LABEL}
+INPUT_PATH=$(pwd)/../images/10.5281_zenodo.8287221/
+ZARR_DIR=$(pwd)/output_${LABEL}
 ###############################################################################
 
 # Get the credentials: If you followed the instructions, they can be copied 
@@ -14,65 +19,50 @@ cp ../00_user_setup/.fractal.env .fractal.env
 
 # Set useful variables
 PROJECT_NAME="proj-$LABEL"
-DS_IN_NAME="input-ds-$LABEL"
-DS_OUT_NAME="output-ds-$LABEL"
+DS_NAME="ds-$LABEL"
 WF_NAME="Workflow $LABEL"
 
 # Set cache path and remove any previous file from there
-export FRACTAL_CACHE_PATH=`pwd`/".cache"
-rm -rv ${FRACTAL_CACHE_PATH}  2> /dev/null
+FRACTAL_CACHE_PATH=$(pwd)/".cache"
+export FRACTAL_CACHE_PATH="$FRACTAL_CACHE_PATH"
+if [ -d "$FRACTAL_CACHE_PATH" ]; then
+    rm -rv "$FRACTAL_CACHE_PATH"  2> /dev/null
+fi
 
 ###############################################################################
 
 # Create project
-PROJECT_ID=`fractal --batch project new "$PROJECT_NAME"`
-DS_IN_ID=`echo $OUTPUT | cut -d ' ' -f2`
-echo "PROJECT_ID=$PROJECT_ID"
+PROJECT_ID=$(fractal --batch project new "$PROJECT_NAME")
+echo "PROJECT_ID=$PROJECT_ID"  # Do not remove this line, it's used in fractal-containers
 
-# Add input dataset, and add resource to it
-DS_IN_ID=`fractal --batch project add-dataset --type image --make-read-only $PROJECT_ID "$DS_IN_NAME"`
-echo "DS_IN_ID=$DS_IN_ID"
-fractal dataset add-resource $PROJECT_ID $DS_IN_ID $INPUT_PATH
-
-# Add output dataset, and add a resource to it
-DS_OUT_ID=`fractal --batch project add-dataset  --type zarr $PROJECT_ID "$DS_OUT_NAME"`
-echo "DS_OUT_ID=$DS_OUT_ID"
-fractal dataset add-resource $PROJECT_ID $DS_OUT_ID $OUTPUT_PATH
+# Add input dataset, and add a resource to it
+DS_ID=$(fractal --batch project add-dataset "$PROJECT_ID" "$DS_NAME" "$ZARR_DIR")
+echo "DS_IN_ID=$DS_ID"
 
 # Create workflow
-WF_ID=`fractal --batch workflow new "$WF_NAME" $PROJECT_ID`
+WF_ID=$(fractal --batch workflow new "$WF_NAME" "$PROJECT_ID")
 echo "WF_ID=$WF_ID"
 
 ###############################################################################
 
 # Prepare some JSON files for task arguments (note: this has to happen here,
 # because we need to include the path of the current directory)
-CURRENT_FOLDER=`pwd`
-echo "{
-  \"level\": 0,
-  \"input_ROI_table\": \"well_ROI_table\",
-  \"workflow_file\": \"$CURRENT_FOLDER/regionprops_from_existing_labels_feature.yaml\",
-  \"input_specs\": {
-    \"dapi_img\": { \"type\": \"image\", \"channel\":{ \"wavelength_id\": \"A01_C01\" } },
-    \"label_img\": { \"type\": \"label\", \"label_name\": \"nuclei\" }
-  },
-  \"output_specs\": {
-    \"regionprops_DAPI\": { \"type\": \"dataframe\", \"table_name\": \"nuclei\", \"label_name\": \"nuclei\"}
-  }
-}
-" > Parameters/args_measurement.json
+sed "s|__INPUT_PATH__|$INPUT_PATH|g" Parameters/RAW_args_cellvoyager_to_ome_zarr_init.json > Parameters/args_cellvoyager_to_ome_zarr_init.json
+CURRENT_DIRECTORY=$(pwd)
+sed "s|__CURRENT_DIRECTORY__|$CURRENT_DIRECTORY|g" Parameters/RAW_args_measurement.json > Parameters/args_measurement.json
 
 ###############################################################################
 
 # Add tasks to workflow
-fractal --batch workflow add-task $PROJECT_ID $WF_ID --task-name "Create OME-Zarr structure" --args-file Parameters/args_create_ome_zarr.json --meta-file Parameters/example_meta.json
-fractal --batch workflow add-task $PROJECT_ID $WF_ID --task-name "Convert Yokogawa to OME-Zarr"
-fractal --batch workflow add-task $PROJECT_ID $WF_ID --task-name "Copy OME-Zarr structure" --args-file Parameters/copy_ome_zarr.json
-fractal --batch workflow add-task $PROJECT_ID $WF_ID --task-name "Maximum Intensity Projection"
-fractal --batch workflow add-task $PROJECT_ID $WF_ID --task-name "Cellpose Segmentation" --args-file Parameters/args_cellpose_segmentation.json #--meta-file Parameters/cellpose_meta.json
-fractal --batch workflow add-task $PROJECT_ID $WF_ID --task-name "Napari workflows wrapper" --args-file Parameters/args_measurement.json --meta-file Parameters/example_meta.json
+fractal --batch workflow add-task "$PROJECT_ID" "$WF_ID" --task-name "Convert Cellvoyager to OME-Zarr" --args-non-parallel Parameters/args_cellvoyager_to_ome_zarr_init.json --meta-non-parallel Parameters/example_meta.json
+fractal --batch workflow add-task "$PROJECT_ID" "$WF_ID" --task-name "Maximum Intensity Projection HCS Plate" --args-non-parallel Parameters/copy_ome_zarr.json
+fractal --batch workflow add-task "$PROJECT_ID" "$WF_ID" --task-name "Cellpose Segmentation" --args-parallel Parameters/args_cellpose_segmentation.json
+fractal --batch workflow add-task "$PROJECT_ID" "$WF_ID" --task-name "Napari Workflows Wrapper" --args-parallel Parameters/args_measurement.json --meta-parallel Parameters/example_meta.json
 
 # Apply workflow
-fractal workflow apply $PROJECT_ID $WF_ID $DS_IN_ID $DS_OUT_ID --end 1
-sleep 90
-fractal workflow apply $PROJECT_ID $WF_ID $DS_OUT_ID $DS_OUT_ID --start 2
+JOB_ID=$(fractal --batch job submit "$PROJECT_ID" "$WF_ID" "$DS_ID" --end 1)
+SLEEP_TIME=10
+echo "Job $JOB_ID submitted, now wait $SLEEP_TIME seconds"
+sleep "$SLEEP_TIME"
+JOB_ID=$(fractal --batch job submit "$PROJECT_ID" "$WF_ID" "$DS_ID" --start 2)
+echo "Job $JOB_ID submitted, exit"
