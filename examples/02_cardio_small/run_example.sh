@@ -3,7 +3,7 @@
 # Exit immediately if a command exits with a non-zero status
 set -e
 
-LABEL="cardio-2x2-zenodo"
+LABEL="cardio-2x2-zenodo-3"
 
 ###############################################################################
 # IMPORTANT: This defines the location of input & output data
@@ -51,7 +51,7 @@ echo "WF_ID=$WF_ID"
 # Prepare some JSON files for task arguments. Note that this has to happen a runtime,
 # since the absolute paths are needed and not known in advance)
 
-sed "s|__INPUT_PATH__|$INPUT_PATH|g" Parameters/RAW_args_cellvoyager_to_ome_zarr_init_subset.json > Parameters/args_cellvoyager_to_ome_zarr_init.json
+sed "s|__INPUT_PATH__|$INPUT_PATH|g" Parameters/RAW_args_cellvoyager_to_ome_zarr_init.json > Parameters/args_cellvoyager_to_ome_zarr_init.json
 sed "s|__ILLUMINATION_PROFILES_FOLDER__|$ILLUMINATION_PROFILES_FOLDER|g" Parameters/RAW_args_illumination_correction.json > Parameters/args_illumination_correction.json
 sed "s|__CURRENT_DIRECTORY__|$CURRENT_DIRECTORY|g" Parameters/RAW_args_measurements_3D.json > Parameters/args_measurements_3D.json
 sed "s|__CURRENT_DIRECTORY__|$CURRENT_DIRECTORY|g" Parameters/RAW_args_measurements_1.json > Parameters/args_measurements_1.json
@@ -62,14 +62,14 @@ sed "s|__CURRENT_DIRECTORY__|$CURRENT_DIRECTORY|g" Parameters/RAW_args_measureme
 # ###############################################################################
 
 # Convert to OME-Zarr
-fractal --batch workflow add-task "$PROJECT_ID" "$WF_ID" --task-name "Convert Cellvoyager to OME-Zarr" --args-non-parallel Parameters/args_cellvoyager_to_ome_zarr_init_subset.json --meta-non-parallel Parameters/example_meta.json
+fractal --batch workflow add-task "$PROJECT_ID" "$WF_ID" --task-name "Convert Cellvoyager to OME-Zarr" --args-non-parallel Parameters/args_cellvoyager_to_ome_zarr_init.json --meta-non-parallel Parameters/example_meta.json
 
 # Illumination correction
 fractal --batch workflow add-task "$PROJECT_ID" "$WF_ID" --task-name "Illumination Correction" --args-parallel Parameters/args_illumination_correction.json
 
 # 3D Segmentation & measurements
 fractal --batch workflow add-task "$PROJECT_ID" "$WF_ID" --task-name "Cellpose Segmentation" --args-parallel Parameters/args_cellpose_segmentation_3D.json --meta-parallel Parameters/meta_cellpose.json
-fractal --batch workflow add-task "$PROJECT_ID" "$WF_ID" --task-name "Napari Workflows Wrapper" --args-parallel Parameters/args_measurement_3D.json
+fractal --batch workflow add-task "$PROJECT_ID" "$WF_ID" --task-name "Napari Workflows Wrapper" --args-parallel Parameters/args_measurements_3D.json
 
 # Maximum intensity projection
 fractal --batch workflow add-task "$PROJECT_ID" "$WF_ID" --task-name "Maximum Intensity Projection HCS Plate" --args-non-parallel Parameters/args_mip.json
