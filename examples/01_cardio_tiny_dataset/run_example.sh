@@ -18,8 +18,8 @@ ZARR_DIR=$(pwd)/output_${LABEL}
 cp ../00_user_setup/.fractal.env .fractal.env
 
 # Set useful variables
-PROJECT_NAME="proj-$LABEL"
-DS_NAME="ds-$LABEL"
+PROJECT_NAME="Project $LABEL"
+DS_NAME="Dataset $LABEL"
 WF_NAME="Workflow $LABEL"
 
 # Set cache path and remove any previous file from there
