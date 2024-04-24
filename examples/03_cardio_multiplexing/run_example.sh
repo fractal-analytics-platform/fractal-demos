@@ -1,12 +1,12 @@
-LABEL="multiplex-2"
+#!/bin/bash
+
+LABEL="multiplex"
 
 ###############################################################################
 # IMPORTANT: modify the following lines so that they point to the actual input paths of the data
-#INPUT_PATH=/data/active/fractal/3D/PelkmansLab/CardiacMultiplexing/tiny_multiplexing
 INPUT_PATH=`pwd`/../images/tiny_multiplexing
-# OUTPUT_PATH=/Users/joel/Desktop/tmp_$LABEL
-OUTPUT_PATH=`pwd`/tmp_$LABEL
-#OUTPUT_PATH=/data/active/jluethi/Fractal/20230119_multiplexing_$LABEL
+CURRENT_DIRECTORY=$(pwd)
+ZARR_DIR=$(pwd)/output-${LABEL}
 ###############################################################################
 
 # Get the credentials: If you followed the instructions, they can be copied 
@@ -16,47 +16,48 @@ OUTPUT_PATH=`pwd`/tmp_$LABEL
 cp ../00_user_setup/.fractal.env .fractal.env
 
 # Set useful variables
-PROJECT_NAME="proj-$LABEL"
-DS_IN_NAME="input-ds-$LABEL"
-DS_OUT_NAME="output-ds-$LABEL"
+PROJECT_NAME="Project $LABEL"
+DS_NAME="Dataset $LABEL"
 WF_NAME="Workflow $LABEL"
+# HERE=$(pwd)
 
 # Set cache path and remove any previous file from there
-export FRACTAL_CACHE_PATH=`pwd`/".cache"
-rm -rv ${FRACTAL_CACHE_PATH} 2> /dev/null
+FRACTAL_CACHE_PATH=$(pwd)/".cache"
+export FRACTAL_CACHE_PATH="$FRACTAL_CACHE_PATH"
+if [ -d "$FRACTAL_CACHE_PATH" ]; then
+    rm -rv "$FRACTAL_CACHE_PATH"  2> /dev/null
+fi
 
 ###############################################################################
 
 # Create project
-PROJECT_ID=`fractal --batch project new $PROJECT_NAME`
-echo "PROJECT_ID: $PROJECT_ID"
+PROJECT_ID=$(fractal --batch project new "$PROJECT_NAME")
+echo "PROJECT_ID=$PROJECT_ID"  # Do not remove this line, it's used in fractal-containers
 
-# Add input dataset, and add three resources to it
-DS_IN_ID=`fractal --batch project add-dataset $PROJECT_ID "$DS_IN_NAME" --type image --make-read-only`
-echo "DS_IN_ID: $DS_IN_ID"
-fractal dataset add-resource $PROJECT_ID $DS_IN_ID $INPUT_PATH/cycle1
-fractal dataset add-resource $PROJECT_ID $DS_IN_ID $INPUT_PATH/cycle2
-fractal dataset add-resource $PROJECT_ID $DS_IN_ID $INPUT_PATH/cycle3
-
-# Add output dataset, and add a resource to it
-DS_OUT_ID=`fractal --batch project add-dataset $PROJECT_ID "$DS_OUT_NAME"`
-echo "DS_OUT_ID: $DS_OUT_ID"
-
-fractal dataset edit --new-type zarr --remove-read-only $PROJECT_ID $DS_OUT_ID
-fractal dataset add-resource $PROJECT_ID $DS_OUT_ID $OUTPUT_PATH
+# Add dataset
+DS_ID=$(fractal --batch project add-dataset "$PROJECT_ID" "$DS_NAME" "$ZARR_DIR")
+echo "DS_IN_ID=$DS_ID"
 
 # Create workflow
-WF_ID=`fractal --batch workflow new "$WF_NAME" $PROJECT_ID`
-echo "WF_ID: $WF_ID"
+WF_ID=$(fractal --batch workflow new "$WF_NAME" "$PROJECT_ID")
+echo "WF_ID=$WF_ID"
 
-# Add tasks to workflow
-fractal --batch workflow add-task $PROJECT_ID $WF_ID --task-name "Create OME-ZARR structure (multiplexing)" --args-file Parameters/create_zarr_structure_multiplex.json --meta-file Parameters/example_meta.json
-fractal --batch workflow add-task $PROJECT_ID $WF_ID --task-name "Convert Yokogawa to OME-Zarr"
-fractal --batch workflow add-task $PROJECT_ID $WF_ID --task-name "Copy OME-Zarr structure" --args-file Parameters/copy_ome_zarr.json
-fractal --batch workflow add-task $PROJECT_ID $WF_ID --task-name "Maximum Intensity Projection"
-fractal --batch workflow add-task $PROJECT_ID $WF_ID --task-name "Calculate registration (image-based)" --args-file Parameters/calculate_registration.json
-fractal --batch workflow add-task $PROJECT_ID $WF_ID --task-name "Apply Registration to ROI Tables"
-fractal --batch workflow add-task $PROJECT_ID $WF_ID --task-name "Apply Registration to Image" --args-file Parameters/apply_registration_to_image.json
+###############################################################################
 
-# Apply workflow
-fractal workflow apply $PROJECT_ID $WF_ID $DS_IN_ID $DS_OUT_ID
+# Prepare some JSON files for task arguments. Note that this has to happen a runtime,
+# since the absolute paths are needed and not known in advance)
+
+sed "s|__INPUT_PATH__|$INPUT_PATH|g" Parameters/RAW_args_cellvoyager_to_ome_zarr_init.json > Parameters/args_cellvoyager_to_ome_zarr_init.json
+
+# Convert to OME-Zarr
+fractal --batch workflow add-task "$PROJECT_ID" "$WF_ID" --task-name "Convert Cellvoyager Multiplexing to OME-Zarr" --args-non-parallel Parameters/args_cellvoyager_to_ome_zarr_init.json --meta-non-parallel Parameters/example_meta.json
+# Maximum intensity projection
+fractal --batch workflow add-task "$PROJECT_ID" "$WF_ID" --task-name "Maximum Intensity Projection HCS Plate" --args-non-parallel Parameters/args_mip.json
+
+# Registration
+fractal --batch workflow add-task "$PROJECT_ID" "$WF_ID" --task-name "Calculate Registration (image-based)" --args-non-parallel Parameters/calculate_registration_init.json --args-parallel Parameters/calculate_registration.json
+fractal --batch workflow add-task "$PROJECT_ID" "$WF_ID" --task-name "Find Registration Consensus"
+fractal --batch workflow add-task "$PROJECT_ID" "$WF_ID" --task-name "Apply Registration to Image" --args-parallel Parameters/apply_registration_to_image.json
+
+# Submit workflow for execution
+JOB_ID=$(fractal --batch job submit "$PROJECT_ID" "$WF_ID" "$DS_ID")
