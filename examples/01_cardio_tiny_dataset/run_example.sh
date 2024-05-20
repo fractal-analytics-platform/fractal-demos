@@ -19,11 +19,12 @@ fi
 SUBMISSION_SCRIPT=submissions.sh
 echo > "$SUBMISSION_SCRIPT"
 
-N_INDICES=10
+N_INDICES=24
 
 for INDEX in $(seq 1 $N_INDICES); do
 
-    ZARR_DIR=$(pwd)/output_${LABEL}_${INDEX}
+    ZARR_DIR=/tmp/zarr_dirs/output_${LABEL}_${INDEX}
+    # ZARR_DIR=/home/fractal/output_${LABEL}_${INDEX}
 
     # Set useful variables
     PROJECT_NAME="Project $LABEL / $INDEX"
@@ -40,10 +41,10 @@ for INDEX in $(seq 1 $N_INDICES); do
     echo "WF_ID=$WF_ID"
 
     # Add tasks to workflow
-    fractal --batch workflow add-task "$PROJECT_ID" "$WF_ID" --task-name "create_ome_zarr_compound" --args-non-parallel Parameters/args_create_ome_zarr_compound.json
+    # fractal --batch workflow add-task "$PROJECT_ID" "$WF_ID" --task-name "create_ome_zarr_compound" --args-non-parallel Parameters/args_create_ome_zarr_compound.json
     fractal --batch workflow add-task "$PROJECT_ID" "$WF_ID" --task-name "generic_task" --args-non-parallel Parameters/args_generic_task.json
-    fractal --batch workflow add-task "$PROJECT_ID" "$WF_ID" --task-name "illumination_correction"
-    fractal --batch workflow add-task "$PROJECT_ID" "$WF_ID" --task-name "generic_task" --args-non-parallel Parameters/args_generic_task.json
+    # fractal --batch workflow add-task "$PROJECT_ID" "$WF_ID" --task-name "illumination_correction"
+    # fractal --batch workflow add-task "$PROJECT_ID" "$WF_ID" --task-name "generic_task" --args-non-parallel Parameters/args_generic_task.json
 
     SUBMISSION_LINE="fractal --batch job submit $PROJECT_ID $WF_ID $DS_ID"
     echo "$SUBMISSION_LINE"
