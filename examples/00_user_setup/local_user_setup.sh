@@ -19,6 +19,6 @@ FRACTAL_SERVER=http://localhost:$PORT
 fractal user whoami
 
 # Trigger collection of core tasks
-fractal task collect fractal-tasks-core --package-version 1.0.0a2 --package-extras fractal-tasks
+fractal task collect fractal-tasks-core --package-version 1.0.2 --package-extras fractal-tasks
 # wget https://github.com/fractal-analytics-platform/fractal-server/raw/main/tests/v2/fractal_tasks_mock/dist/fractal_tasks_mock-0.0.1-py3-none-any.whl .
 # fractal task collect $(pwd)/fractal_tasks_mock-0.0.1-py3-none-any.whl
