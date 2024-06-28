@@ -1,5 +1,5 @@
 {
-    "overwrite_input": "True",
+    "overwrite_input": true,
     "illumination_profiles_folder": "__ILLUMINATION_PROFILES_FOLDER__",
     "illumination_profiles": {
         "A01_C01": "20220621_UZH_manual_illumcorr_40x_A01_C01.png",
