@@ -52,7 +52,7 @@ sed "s|__INPUT_PATH__|$INPUT_PATH|g" Parameters/RAW_args_cellvoyager_to_ome_zarr
 # Convert to OME-Zarr
 fractal --batch workflow add-task "$PROJECT_ID" "$WF_ID" --task-name "Convert Cellvoyager Multiplexing to OME-Zarr" --args-non-parallel Parameters/args_cellvoyager_to_ome_zarr_reversed_init.json --meta-non-parallel Parameters/example_meta.json
 # Maximum intensity projection
-fractal --batch workflow add-task "$PROJECT_ID" "$WF_ID" --task-name "Maximum Intensity Projection HCS Plate" --args-non-parallel Parameters/args_mip.json
+fractal --batch workflow add-task "$PROJECT_ID" "$WF_ID" --task-name "Project Image (HCS Plate)" --args-non-parallel Parameters/args_mip.json
 
 # Registration
 fractal --batch workflow add-task "$PROJECT_ID" "$WF_ID" --task-name "Calculate Registration (image-based)" --args-non-parallel Parameters/calculate_registration_init.json --args-parallel Parameters/calculate_registration.json

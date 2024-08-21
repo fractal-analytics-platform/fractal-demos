@@ -31,5 +31,5 @@
     ],
     "coarsening_xy": 2,
     "num_levels": 9,
-    "image_glob_patterns": ["*F016L*"]
+    "include_glob_patterns": ["*F016L*"]
 }
