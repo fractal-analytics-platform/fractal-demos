@@ -72,7 +72,7 @@ fractal --batch workflow add-task "$PROJECT_ID" "$WF_ID" --task-name "Cellpose S
 fractal --batch workflow add-task "$PROJECT_ID" "$WF_ID" --task-name "Napari Workflows Wrapper" --args-parallel Parameters/args_measurements_3D.json
 
 # Maximum intensity projection
-fractal --batch workflow add-task "$PROJECT_ID" "$WF_ID" --task-name "Maximum Intensity Projection HCS Plate" --args-non-parallel Parameters/args_mip.json
+fractal --batch workflow add-task "$PROJECT_ID" "$WF_ID" --task-name "Project Image (HCS Plate)" --args-non-parallel Parameters/args_mip.json
 
 # 2D Segmentation
 fractal --batch workflow add-task "$PROJECT_ID" "$WF_ID" --task-name "Cellpose Segmentation" --args-parallel Parameters/args_cellpose_segmentation.json --meta-parallel Parameters/meta_cellpose.json
