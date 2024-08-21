@@ -8,7 +8,7 @@ This only needs to be done once (unless the server is restarted again). Follow t
 This needs to be done in each example folder you're running
 4. Switch to this example folder and save the user credentials here by running the `prepare_user.sh` script (TO BE UPDATED, user credentials either need to be provided on each fractal client command or present in the `.fractal.env` in the folder you're running the client from)
 5. Get the example data: `pip install zenodo_get`, then run `. ./fetch_test_data_from_zenodo.sh`
-6. Change whether it's run on a subset of the data or the whole dataset (the `"image_glob_patterns": ["*F001*"]` parameter in create_zarr_structure.json limits it to the first field of view for each well, thus running way faster)
+6. Change whether it's run on a subset of the data or the whole dataset (the `"include_glob_patterns": ["*F001*"]` parameter in create_zarr_structure.json limits it to the first field of view for each well, thus running way faster)
 7. One can then either go through the project creation, dataset creation, workflow creation & submission one by one. Or run it all at once by running: `. ./run_example.sh`
 
 
