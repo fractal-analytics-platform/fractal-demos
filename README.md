@@ -1,7 +1,7 @@
 # fractal-demos
 Repository to store demos, notebooks and examples for the [Fractal project](https://fractal-analytics-platform.github.io)
 
-![Fractal_Overview](https://user-images.githubusercontent.com/18033446/190978261-2e7b57e9-72c7-443e-9202-15d233f8416d.jpg)
+![Fractal_overview](https://github.com/user-attachments/assets/fe968521-a372-4f20-af9b-a37fc510100c)
 
 ## Getting Started
 Follow the "How to Get Started" Section [here](https://fractal-analytics-platform.github.io). All the relevant scripts are found in the examples folder. Find the server setup in the `examples/server` folder and follow the README in `examples/01_cardio_tiny_dataset` for a good example to start with where we provide example data.
