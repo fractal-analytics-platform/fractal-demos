@@ -62,7 +62,7 @@ sed "s|__CURRENT_DIRECTORY__|$CURRENT_DIRECTORY|g" Parameters/RAW_args_measureme
 # ###############################################################################
 
 # Define meta arguments for "heavy" tasks
-META_CLI_ARGUMENT="--meta-parallel Parameters/meta.json"
+META_FILE=Parameters/meta.json
 
 # Convert to OME-Zarr
 fractal --batch workflow add-task "$PROJECT_ID" "$WF_ID" --task-name "Convert Cellvoyager to OME-Zarr" --args-non-parallel Parameters/args_cellvoyager_to_ome_zarr_init_subset.json
@@ -71,27 +71,27 @@ fractal --batch workflow add-task "$PROJECT_ID" "$WF_ID" --task-name "Convert Ce
 fractal --batch workflow add-task "$PROJECT_ID" "$WF_ID" --task-name "Illumination Correction" --args-parallel Parameters/args_illumination_correction.json
 
 # 3D Segmentation & measurements
-fractal --batch workflow add-task "$PROJECT_ID" "$WF_ID" --task-name "Cellpose Segmentation" --args-parallel Parameters/args_cellpose_segmentation_3D.json "$META_CLI_ARGUMENT"
-fractal --batch workflow add-task "$PROJECT_ID" "$WF_ID" --task-name "Napari Workflows Wrapper" --args-parallel Parameters/args_measurements_3D.json "$META_CLI_ARGUMENT"
+fractal --batch workflow add-task "$PROJECT_ID" "$WF_ID" --task-name "Cellpose Segmentation" --args-parallel Parameters/args_cellpose_segmentation_3D.json --meta-parallel "$META_FILE"
+fractal --batch workflow add-task "$PROJECT_ID" "$WF_ID" --task-name "Napari Workflows Wrapper" --args-parallel Parameters/args_measurements_3D.json --meta-parallel "$META_FILE"
 
 # Maximum intensity projection
 fractal --batch workflow add-task "$PROJECT_ID" "$WF_ID" --task-name "Project Image (HCS Plate)" --args-non-parallel Parameters/args_mip.json
 
 # 2D Segmentation
-fractal --batch workflow add-task "$PROJECT_ID" "$WF_ID" --task-name "Cellpose Segmentation" --args-parallel Parameters/args_cellpose_segmentation.json "$META_CLI_ARGUMENT"
+fractal --batch workflow add-task "$PROJECT_ID" "$WF_ID" --task-name "Cellpose Segmentation" --args-parallel Parameters/args_cellpose_segmentation.json --meta-parallel "$META_FILE"
 
 ## Run a series of napari workflows
 # Workflow 1
-fractal --batch workflow add-task "$PROJECT_ID" "$WF_ID" --task-name "Napari Workflows Wrapper" --args-parallel Parameters/args_measurements_1.json "$META_CLI_ARGUMENT"
+fractal --batch workflow add-task "$PROJECT_ID" "$WF_ID" --task-name "Napari Workflows Wrapper" --args-parallel Parameters/args_measurements_1.json --meta-parallel "$META_FILE"
 
 # Workflow 2 
-fractal --batch workflow add-task "$PROJECT_ID" "$WF_ID" --task-name "Napari Workflows Wrapper" --args-parallel Parameters/args_measurements_2.json "$META_CLI_ARGUMENT"
+fractal --batch workflow add-task "$PROJECT_ID" "$WF_ID" --task-name "Napari Workflows Wrapper" --args-parallel Parameters/args_measurements_2.json --meta-parallel "$META_FILE"
 
 # Workflow 3
-fractal --batch workflow add-task "$PROJECT_ID" "$WF_ID" --task-name "Napari Workflows Wrapper" --args-parallel Parameters/args_measurements_3.json "$META_CLI_ARGUMENT"
+fractal --batch workflow add-task "$PROJECT_ID" "$WF_ID" --task-name "Napari Workflows Wrapper" --args-parallel Parameters/args_measurements_3.json --meta-parallel "$META_FILE"
 
 # Workflow 4
-fractal --batch workflow add-task "$PROJECT_ID" "$WF_ID" --task-name "Napari Workflows Wrapper" --args-parallel Parameters/args_measurements_4.json "$META_CLI_ARGUMENT"
+fractal --batch workflow add-task "$PROJECT_ID" "$WF_ID" --task-name "Napari Workflows Wrapper" --args-parallel Parameters/args_measurements_4.json --meta-parallel "$META_FILE"
 
 # Submit workflow for execution
 JOB_ID=$(fractal --batch job submit "$PROJECT_ID" "$WF_ID" "$DS_ID")
