@@ -1,4 +1,4 @@
 {
-    "cpus_per_task": 2,
+    "cpus_per_task": 4,
     "mem": 8000
 }

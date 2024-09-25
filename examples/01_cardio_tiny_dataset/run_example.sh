@@ -55,8 +55,8 @@ sed "s|__CURRENT_DIRECTORY__|$CURRENT_DIRECTORY|g" Parameters/RAW_args_measureme
 # ###############################################################################
 
 # Add tasks to workflow
-fractal --batch workflow add-task "$PROJECT_ID" "$WF_ID" --task-name "Convert Cellvoyager to OME-Zarr" --args-non-parallel Parameters/args_cellvoyager_to_ome_zarr_init.json --meta-non-parallel Parameters/meta.json --meta-parallel Parameters/meta.json
-fractal --batch workflow add-task "$PROJECT_ID" "$WF_ID" --task-name "Project Image (HCS Plate)" --args-non-parallel Parameters/copy_ome_zarr.json --meta-non-parallel Parameters/meta.json --meta-parallel Parameters/meta.json
+fractal --batch workflow add-task "$PROJECT_ID" "$WF_ID" --task-name "Convert Cellvoyager to OME-Zarr" --args-non-parallel Parameters/args_cellvoyager_to_ome_zarr_init.json --meta-parallel Parameters/meta.json
+fractal --batch workflow add-task "$PROJECT_ID" "$WF_ID" --task-name "Project Image (HCS Plate)" --args-non-parallel Parameters/copy_ome_zarr.json
 fractal --batch workflow add-task "$PROJECT_ID" "$WF_ID" --task-name "Cellpose Segmentation" --args-parallel Parameters/args_cellpose_segmentation.json --meta-parallel Parameters/meta.json
 fractal --batch workflow add-task "$PROJECT_ID" "$WF_ID" --task-name "Napari Workflows Wrapper" --args-parallel Parameters/args_measurement.json --meta-parallel Parameters/meta.json
 
